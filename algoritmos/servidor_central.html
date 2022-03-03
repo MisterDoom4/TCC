@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" />
+        <meta charset="utf-8"/>
+        <title>Algoritmo do Servidor Central</title>
+        <meta name="author" content="Julio Sandro e Vinícius Barbosa" />
+        <meta name="description" content="Ensinando exclusão mútua de forma simples" />
+        <meta name="keywords"  content="sistemas distribuídos, algoritmos, servidor central" />
+        <meta name="Resource-type" content="Document" />
+
+        <link rel="stylesheet" type="text/css" href="css/fullpageStyle.css"/>       
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/responsive.css"/>
+        <link rel="stylesheet" type="text/css" href="plugins.css"/>
+        <link rel="shortcut icon" type="image/png" href="../img/paper-airplane-icon.png"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    </head>
+    <body>  
+        <button onclick="topFunction()" id="myBtn" title="Go to top" ><i class="fa fa-angle-up icon"></i></button>     
+        <div id="wraper"> 
+            
+
+            <section id="page-title">
+                <div class="container">
+                    <div class="page-title">                      
+                        <a href="../site.html" class="btn btn-outline btn-rounded btn-light">Home</a>
+                        <a href="servidor_central.html" class="active btn btn-rounded btn-light">Servidor Central</a>
+                        <a href="../algoritmos/exclusao_anel.html" class="btn btn-outline btn-rounded btn-light">Anel</a>
+                        <a href="../algoritmos/ricart_agrawala.html" class="btn btn-outline btn-rounded btn-light">Ricart & Agrawala</a>
+                        <a href="../algoritmos/maekawa.html" class="btn btn-outline btn-rounded btn-light">Maekawa</a>
+                    </div>
+                </div>
+            </section>
+   
+            <section>
+                <div class="container">
+                    <h1>Servidor Central </h1>
+                    <p>
+                        Escrever sobre servidor central
+                        <p>Passe o mouse para saber o nome dos processos 
+                        <button onmouseover="showPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">processos</button>
+                        </p>
+                    </p>
+                    <div id="firstsvg"></div>
+                    <input class="slider" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart"></input>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer id="footer" class="footer-dark">
+                        
+                <div class="copyright-content">
+                <div class="container">
+                    <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os direitos reservados. </div>
+                </div>
+                </div>
+            </footer>
+            <!-- end: Footer -->
+        </div>
+        <!-- Go to top button -->
+        <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
+
+        <script type="text/javascript" src="./js/servidor_central.js"></script>
+        <script type="text/javascript" src="../plugin/d3.js"></script>
+
+        
+    </body>
+</html>

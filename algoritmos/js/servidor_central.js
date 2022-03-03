@@ -1,0 +1,118 @@
+// primeiro desenho //
+var first = d3.select("#firstsvg")
+                .append("svg")
+                .attr("width", 500)
+                .attr("height", 300);
+var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1, y1;
+var part;
+var nodesFirst = [];
+var color = "#E0FF33", line = "RoyalBlue";
+var serverColor = "#2892D7";
+var lineC = "#454545", colorC = "#ffffff";
+
+function desenhoinit(){
+    y0 = 20; // posição y, fixa
+    for(i=0;i<n1;i++){
+        if(i<3){
+            x0 = 100;
+        }
+        else{
+            x0 = x0 + 30; // para o servidor central ficar alinhado
+        }
+    }
+    // primeiro circulo, esse é o servidor central //
+    first.append("circle")
+                .attr("cx", x0)
+                .attr("cy", y0)
+                .attr("r", radio)
+                .attr("stroke", line)
+                .attr("stroke-width", 1)
+                .attr("fill", serverColor);          
+    first.append("rect")
+                .attr("x", x0 - 38)
+                .attr("y", y0 + 7)
+                .attr("width", 88)
+                .attr("height", 15)
+                .attr("stroke", lineC)
+                .attr("stroke-width", 1)
+                .attr("fill", colorC);
+    first.append("text")
+                .attr("x", x0 - 38)
+                .attr("y", y0 + 17)
+                .text("Servidor Central")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "12px")
+                .attr("fill", lineC);
+    // função para criar outros processos //
+    for(i=0;i<n1;i++){
+        distx = 40;
+        x1=distx+i*60;
+        y1=150;
+        distx=distx+5;
+        var newNode = {x: x1, y: y1, id: i, distx, part: partic};
+        nodesFirst.push(newNode);
+        first.append("circle")
+                .attr("cx", x1)
+                .attr("cy", y1)
+                .attr("r", radio)
+                .attr("stroke", line)
+                .attr("stroke-width", 1)
+                .attr("fill", color)
+                .append("text")
+                .text("P"+i);
+    }
+}
+// mostrar o nome dos processos //
+function showPart(){
+    for(i=0;i<n1;i++){                
+        first.append("rect")
+                .attr("x", nodesFirst[i].x - 8)
+                .attr("y", nodesFirst[i].y + 7)
+                .attr("width", 16)
+                .attr("height", 15)
+                .attr("stroke", lineC)
+                .attr("stroke-width", 1)
+                .attr("fill", colorC);
+        first.append("text")
+                .attr("x", nodesFirst[i].x -8)
+                .attr("y", nodesFirst[i].y + 17)
+                .text("P"+i)
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "12px")
+                .attr("fill", lineC);
+    }
+}
+// voltar para o estado inicial, sem os nomes dos processos //
+function unshowPart(){
+    d3.select("#firstsvg").selectAll("rect").remove();
+    d3.select("#firstsvg").selectAll("text").remove();
+    desenhoinit();
+}
+// função para utilizar o slide, para mudar o desenho //
+var slider1 = document.getElementById("sliderNodePart");
+    slider1.oninput = function (){
+    n1=this.value;
+    nodesFirst.splice(0,10);
+    d3.select("#firstsvg").selectAll("circle").remove();
+    d3.select("#firstsvg").selectAll("text").remove();
+    d3.select("#firstsvg").selectAll("rect").remove();
+    desenhoinit();
+}
+// inicialização da tela //
+window.onload = desenhoinit();
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
