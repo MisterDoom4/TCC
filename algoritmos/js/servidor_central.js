@@ -3,7 +3,7 @@ var first = d3.select("#firstsvg")
                 .append("svg")
                 .attr("width", 500)
                 .attr("height", 300);
-var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1, y1;
+var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1,y1;
 var part;
 var nodesFirst = [];
 var color = "#E0FF33", line = "RoyalBlue";
@@ -12,14 +12,7 @@ var lineC = "#454545", colorC = "#ffffff";
 
 function desenhoinit(){
     y0 = 20; // posição y, fixa
-    for(i=0;i<n1;i++){
-        if(i<3){
-            x0 = 100;
-        }
-        else{
-            x0 = x0 + 30; // para o servidor central ficar alinhado
-        }
-    }
+    x0 = 250;        
     // primeiro circulo, esse é o servidor central //
     first.append("circle")
                 .attr("cx", x0)
@@ -45,10 +38,25 @@ function desenhoinit(){
                 .attr("fill", lineC);
     // função para criar outros processos //
     for(i=0;i<n1;i++){
-        distx = 40;
-        x1=distx+i*60;
-        y1=150;
-        distx=distx+5;
+        if(n1<4){
+            distx = 190;
+            x1=distx+i*60;
+            y1=150;
+        }
+        else{
+            distx = distx - 30;
+            if(i==0){
+                distx = (n1-1)*30;
+                x1=x0 - distx;
+                y1=150;
+            }
+            else{
+                x1=x1 + 60;
+                y1=150;
+            }
+            
+        }
+       
         var newNode = {x: x1, y: y1, id: i, distx, part: partic};
         nodesFirst.push(newNode);
         first.append("circle")
@@ -86,6 +94,7 @@ function showPart(){
 function unshowPart(){
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("text").remove();
+    nodesFirst.splice(0,10);
     desenhoinit();
 }
 // função para utilizar o slide, para mudar o desenho //
@@ -93,6 +102,7 @@ var slider1 = document.getElementById("sliderNodePart");
     slider1.oninput = function (){
     n1=this.value;
     nodesFirst.splice(0,10);
+    console.log(nodesFirst);
     d3.select("#firstsvg").selectAll("circle").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
