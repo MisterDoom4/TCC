@@ -10,7 +10,7 @@ Desktops (≥1200px)
 
 
 
-@media (min-width: 1240px) {
+@media (min-width: 1200px) {
     body.boxed #wrapper,
     body.boxed-simple #wrapper {
         float: none;
@@ -22,10 +22,16 @@ Desktops (≥1200px)
         margin-bottom: 40px;
         padding: 20px;
     }
+    .page-title{
+        width: 150% !important;
+    }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
     .news-section-wrapper {
         padding: 0 40px
+    }
+    .page-title{
+        width: 200% !important;
     }
 }
 
@@ -38,6 +44,9 @@ Desktops (≥992px)
     #wrapper {
         width: 100%;
         margin: 0;
+    }
+    .page-title{
+        width: 150% !important;
     }
     
         
@@ -452,10 +461,16 @@ Tablets (≥768px)
     .profile-content .profile-bio {
         width: 470px;
     }
+    .page-title{
+        width: 150% !important;
+    }
 }
 @media (min-width: 480px) and (max-width: 767px) {
     .container {
         width: 470px !important;
+    }
+    .page-title{
+        width: 150% !important;
     }
     /*	post columns*/
     .post-2-columns .post-item,
@@ -489,6 +504,9 @@ Tablets (≥768px)
 @media (max-width: 479px) {
     .container {
         width: 100% !important;
+    }
+    .page-title{
+        width: 150% !important;
     }
     /*	Grid post*/
     .grid-articles:not(.post-carousel) .post-entry,
