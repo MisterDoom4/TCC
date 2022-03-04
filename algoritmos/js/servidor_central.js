@@ -13,29 +13,9 @@ var lineC = "#454545", colorC = "#ffffff";
 function desenhoinit(){
     y0 = 20; // posição y, fixa
     x0 = 250;        
-    // primeiro circulo, esse é o servidor central //
-    first.append("circle")
-                .attr("cx", x0)
-                .attr("cy", y0)
-                .attr("r", radio)
-                .attr("stroke", line)
-                .attr("stroke-width", 1)
-                .attr("fill", serverColor);          
-    first.append("rect")
-                .attr("x", x0 - 38)
-                .attr("y", y0 + 7)
-                .attr("width", 88)
-                .attr("height", 15)
-                .attr("stroke", lineC)
-                .attr("stroke-width", 1)
-                .attr("fill", colorC);
-    first.append("text")
-                .attr("x", x0 - 38)
-                .attr("y", y0 + 17)
-                .text("Servidor Central")
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "12px")
-                .attr("fill", lineC);
+    
+              
+    
     // função para criar outros processos //
     for(i=0;i<n1;i++){
         if(n1<4){
@@ -56,19 +36,58 @@ function desenhoinit(){
             }
             
         }
-       
+        
         var newNode = {x: x1, y: y1, id: i, distx, part: partic};
         nodesFirst.push(newNode);
+        first.append("line")
+             .attr("x1",x0)
+             .attr("y1",y0)
+             .attr("x2",x1)
+             .attr("y2",y1)
+             .attr("stroke", lineC)
+             .attr("stroke-width", 5)
+             .attr("fill", colorC);
         first.append("circle")
-                .attr("cx", x1)
-                .attr("cy", y1)
-                .attr("r", radio)
-                .attr("stroke", line)
-                .attr("stroke-width", 1)
-                .attr("fill", color)
-                .append("text")
-                .text("P"+i);
+            .attr("cx", x1)
+            .attr("cy", y1)
+            .attr("r", radio)
+            .attr("stroke", line)
+            .attr("stroke-width", 1)
+            .attr("fill", color)
+            .append("text")
+            .text("P"+i);
     }
+    // primeiro circulo, esse é o servidor central //
+    first.append("circle")
+         .attr("cx", x0)
+         .attr("cy", y0)
+         .attr("r", radio)
+         .attr("stroke", line)
+         .attr("stroke-width", 1)
+        .attr("fill", serverColor);
+    first.append("rect")
+         .attr("x", x0 - 38)
+         .attr("y", y0 + 7)
+         .attr("width", 88)
+         .attr("height", 15)
+         .attr("stroke", lineC)
+         .attr("stroke-width", 1)
+         .attr("fill", colorC);
+    first.append("text")
+         .attr("x", x0 - 38)
+         .attr("y", y0 + 17)
+         .text("Servidor Central")
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "12px")
+         .attr("fill", lineC);
+    first.append("rect")
+         .attr("x", x0 - 5)
+         .attr("y", y0)
+         .attr("width", 10)
+         .attr("height", 10)
+         .attr("stroke", lineC)
+       
+        .attr("fill", colorC);
 }
 // mostrar o nome dos processos //
 function showPart(){
@@ -106,6 +125,7 @@ var slider1 = document.getElementById("sliderNodePart");
     d3.select("#firstsvg").selectAll("circle").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
+    d3.select("#firstsvg").selectAll("line").remove();
     desenhoinit();
 }
 // inicialização da tela //
