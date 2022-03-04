@@ -3,7 +3,7 @@ var first = d3.select("#firstsvg")
                 .append("svg")
                 .attr("width", 500)
                 .attr("height", 300);
-var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1, y1;
+var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1,y1;
 var part;
 var nodesFirst = [];
 var color = "#E0FF33", line = "RoyalBlue";
@@ -99,8 +99,7 @@ function showPart(){
                 .attr("height", 15)
                 .attr("stroke", lineC)
                 .attr("stroke-width", 1)
-                .attr("fill", colorC)
-                .attr("visibility", hidden);
+                .attr("fill", colorC);
         first.append("text")
                 .attr("x", nodesFirst[i].x -8)
                 .attr("y", nodesFirst[i].y + 17)
@@ -114,6 +113,7 @@ function showPart(){
 function unshowPart(){
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("text").remove();
+    nodesFirst.splice(0,10);
     desenhoinit();
 }
 // função para utilizar o slide, para mudar o desenho //
@@ -121,6 +121,7 @@ var slider1 = document.getElementById("sliderNodePart");
     slider1.oninput = function (){
     n1=this.value;
     nodesFirst.splice(0,10);
+    console.log(nodesFirst);
     d3.select("#firstsvg").selectAll("circle").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
