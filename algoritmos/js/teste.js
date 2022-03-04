@@ -1,9 +1,9 @@
 var desenho = d3.select("#testesvg")
                 .append("svg")
-                .attr("width", 500)
+                .attr("width", 540)
                 .attr("height", 300)
                 .style("background","red");
-var n1 = 3,x0 = 200,y0 = 100, rx0 = 15, ry0 = 15, tx = 80, ty = 80;
+var n1 = 3,x0 = 230,y0 = 0, rx0 = 15, ry0 = 15, tx = 80, ty = 80;
                 
 function iniciar(){
     desenho.append("rect")		// pre-defined shape
@@ -15,7 +15,6 @@ function iniciar(){
             .attr("width", tx)				// size of shape
             .attr("height", ty);
 }		
-
 
 var slider1 = document.getElementById("sliderNodePart2");
 slider1.oninput = function (){
@@ -39,7 +38,6 @@ mudar();
     .attr("rx",rx0)
     .attr("ry",ry0);
     }
-    
 }
 
 window.onload = iniciar();

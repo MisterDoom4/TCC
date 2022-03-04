@@ -13,9 +13,6 @@ var lineC = "#454545", colorC = "#ffffff";
 function desenhoinit(){
     y0 = 20; // posição y, fixa
     x0 = 250;        
-    
-              
-    
     // função para criar outros processos //
     for(i=0;i<n1;i++){
         if(n1<4){
@@ -36,7 +33,6 @@ function desenhoinit(){
             }
             
         }
-        
         var newNode = {x: x1, y: y1, id: i, distx, part: partic};
         nodesFirst.push(newNode);
         first.append("line")
