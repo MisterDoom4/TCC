@@ -38,45 +38,53 @@
             
    
             <section>
+            </section>
+            
+            <section id="stickyConfig">
                 <div class="container">
                     <h1>Servidor Central </h1>
-                    <p>
-                        Escrever sobre servidor central
-                        <p>Passe o mouse para saber o nome dos processos 
-                        <button onmouseover="showPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">processos</button>
-                        </p>
-                    </p>
-                    <div id="firstsvg"></div>
-                    <input class="slider" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart"></input>
+                    <div class="gridSet">
+                        <div class="textSection">
+                            Aqui vai os textos
+                            <p>
+                                Escrever sobre servidor central
+                                <p>Passe o mouse para saber o nome dos processos 
+                                    <button onmouseover="showPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">processos</button>
+                                </p>
+                            </p>
+                        </div>
+                        <div id = "testesvg"></div>
+                        <input class="slider2" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart2"></input>  
+                    </div>
+                    <div class="algSection">
+                        Aqui vai as imagens e interações
+                        <div id="firstsvg"></div>
+                        <input class="slider" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart"></input>
+                    </div>
                 </div>
-                <div id = "testesvg"></div>
-                <input class="slider2" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart2"></input>
+                
                 <div>
-
                 </div>
             </section>
-            <div>
-                <p></p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate ratione facilis quae distinctio vitae molestiae! Quo quidem modi laborum. Deserunt molestiae natus magni similique minima non nulla neque, autem nostrum.
-            </div>
-
-            <!-- Footer -->
-            <footer id="footer" class="footer-dark">
-                        
-                <div class="copyright-content">
+            
+            
+        </div>
+        <!-- Footer -->
+        <footer id="footer" class="footer-dark ">
+                
+            <div class="copyright-content">
                 <div class="container">
                     <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os direitos reservados. </div>
                 </div>
-                </div>
-            </footer>
-            <!-- end: Footer -->
-        </div>
+            </div>
+        </footer>
         <!-- Go to top button -->
         <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
-
+        
         <script type="text/javascript" src="./js/servidor_central.js"></script>
         <script type="text/javascript" src="./js/teste.js"></script>
         <script type="text/javascript" src="../plugin/d3.js"></script>
-
+        
         
     </body>
 </html>
