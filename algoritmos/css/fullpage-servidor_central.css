@@ -381,12 +381,47 @@ body.stretched .container-fullwidth {
     text-align: center;
 }
 #testesvg{
-    position: fixed;
+    position: relative;
     left: 30%;
     top: 55%;
 }
 #sliderNodePart2{
-    position: fixed;
+    position: relative;
     left: 30%;
     bottom: 0%;
+}
+
+.gridSet {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.firstLine {
+    background-color: rgb(226, 205, 205);
+    text-align: center;
+    position: relative;
+    min-width:  100%;
+    height: 1500px;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.secondLine{
+    background-color: yellowgreen;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    overflow: hidden;
+}
+
+.sticky {
+    position: sticky;
+    background-color: #2892D7;
+    top: 0;
+    padding: 50px 50px;
+    font-size: 20px;
 }
