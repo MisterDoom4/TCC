@@ -377,16 +377,14 @@ body.stretched .container-fullwidth {
 #background,
 #forthsvg,
 #firstsvg,
-#fourthsvg{
+#fourthsvg,
+#anelsvg
+{
     text-align: center;
 }
-#testesvg{
-    position: fixed;
-    left: 30%;
-    top: 55%;
+#page-title{
+    
+    left: 0%;
+    bottom: 86%;
 }
-#sliderNodePart2{
-    position: fixed;
-    left: 30%;
-    bottom: 0%;
-}
+
