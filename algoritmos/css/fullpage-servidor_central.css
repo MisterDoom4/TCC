@@ -395,10 +395,9 @@ body.stretched .container-fullwidth {
     position: relative;
     display: flex;
     flex-direction: row;
-    overflow: hidden;
 }
 
-.firstLine {
+.textSection {
     background-color: rgb(226, 205, 205);
     text-align: center;
     position: relative;
@@ -406,22 +405,20 @@ body.stretched .container-fullwidth {
     height: 1500px;
     padding-top: 30px;
     padding-left: 30px;
+    overflow: hidden;
 }
 
-.secondLine{
+.algSection{
+    position: sticky;
+    bottom: 0;
     background-color: yellowgreen;
-    position: relative;
     text-align: center;
     width: 100%;
-    height: 300px;
-    overflow: hidden;
-    overflow: hidden;
+    height: 400px;
 }
 
-.sticky {
-    position: sticky;
-    background-color: #2892D7;
-    top: 0;
-    padding: 50px 50px;
-    font-size: 20px;
+
+
+#stickyConfig {
+    overflow: visible;
 }
