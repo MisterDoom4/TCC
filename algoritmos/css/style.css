@@ -42,7 +42,9 @@ section {
     padding-left:80px !important;
     padding-right: 80px !important; 
   }
-
+  .stickyConfig{
+    overflow: visible;
+  }
 /* ----------------------------------------------------------------
 	Typography
 -----------------------------------------------------------------*/
