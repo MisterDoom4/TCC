@@ -378,7 +378,8 @@ body.stretched .container-fullwidth {
 #forthsvg,
 #firstsvg,
 #fourthsvg{
-    width: 500px;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 #testesvg{
@@ -431,7 +432,7 @@ body.stretched .container-fullwidth {
  
 @media only screen and (max-width: 1320px){
     .algContent{
-        padding: 15px 0px 0px 0px;
+        
         grid-template-areas: 'instruction instruction'
         'alg alg'
         'interaction interaction';
@@ -439,6 +440,9 @@ body.stretched .container-fullwidth {
 }
 
 .alg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-area: alg;
 }
 
