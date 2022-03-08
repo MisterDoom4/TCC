@@ -1,9 +1,9 @@
 // primeiro desenho //
 var first = d3.select("#firstsvg")
-    .append("svg")
-    .attr("width", 500)
-    .attr("height", 300);
-var i, radio = 15, distx, n1 = 3, partic = 0, y0, x0, x1, y1;
+                .append("svg")
+                .attr("width", 500)
+                .attr("height", 200);
+var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1,y1;
 var part;
 var nodesFirst = [];
 var color = "#E0FF33", line = "RoyalBlue";
