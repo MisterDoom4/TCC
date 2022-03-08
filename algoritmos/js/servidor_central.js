@@ -1,16 +1,17 @@
 // primeiro desenho //
 var first = d3.select("#firstsvg")
-                .append("svg")
-                .attr("width", 500)
-                .attr("height", 200);
-var i, radio = 15, distx, n1 = 3, partic = 0, x0,y0,x1,y1;
+    .append("svg")
+    .attr("width", 500)
+    .attr("height", 200);
+var i, radio = 15, distx, n1 = 3, partic = 0, x0, y0, x1, y1;
 var part;
 var nodesFirst = [];
 var color = "#E0FF33", line = "RoyalBlue";
 var serverColor = "#2892D7";
 var lineC = "#454545", colorC = "#ffffff";
+var choose = 0;
 
-function desenhoinit() {
+function desenhoInit() {
     y0 = 20; // posição y, fixa
     x0 = 250;
     // função para criar outros processos //
@@ -87,21 +88,13 @@ function desenhoinit() {
         .attr("font-size", "12px")
         .attr("fill", lineC);
 }
-// function algoritmoSC(){
-//     d3.select("#firstsvg").selectAll(".token")
-//         .transition()
-//         .duration(5000)
-//         .attr("cx", x0)
-//         .attr("cy", y0);
-// }
-
 function playAlg() {
     d3.select("#firstsvg").selectAll(".token")
         .transition()
         .duration(5000)
         .attr("cx", x0)
         .attr("cy", y0);
-       
+
 
 
     // d3.select("#buttonsR").append("button")
@@ -148,7 +141,7 @@ function unshowPart() {
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     nodesFirst.splice(0, 10);
-    desenhoinit();
+    desenhoInit();
 }
 // função para utilizar o slide, para mudar o desenho //
 var slider1 = document.getElementById("sliderNodePart");
@@ -159,18 +152,68 @@ slider1.oninput = function () {
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("line").remove();
-    desenhoinit();
+    desenhoInit();
 }
 // inicialização da tela //
-window.onload = desenhoinit();
+window.onload = desenhoInit();
 
 window.onscroll = function () { scrollFunction() };
+
+// segundo desenho
+var x2 = 230, y2 = 0, tx = 100, ty = 60;
+
+function desenhoInit2() {
+    first.append("rect")
+        .attr("style", "fill:black")
+        .attr("x", x2)
+        .attr("y", y2)
+        .attr("width", tx)
+        .attr("height", ty);
+    first.append("text")
+        .attr("x", 230)
+        .attr("y", 22)
+        .text("Processo 1")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "18px")
+        .attr("fill", "#FFFAFA");
+    first.append("rect")
+        .attr("style", "fill:pink")
+        .attr("x", x2)
+        .attr("y", 30)
+        .attr("width", tx)
+        .attr("height", 30);
+    first.append("text")
+        .attr("x", 230)
+        .attr("y", 52)
+        .text("RELEASED")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "18px")
+        .attr("fill", "#000000");
+}
 
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
+
     } else {
         document.getElementById("myBtn").style.display = "none";
+    }
+    // troca de desenho //
+    if (document.documentElement.scrollTop > 591) {
+        d3.select("#firstsvg").selectAll("circle").remove();
+        d3.select("#firstsvg").selectAll("text").remove();
+        d3.select("#firstsvg").selectAll("rect").remove();
+        d3.select("#firstsvg").selectAll("line").remove();
+        document.getElementById("buttonsR").style.display = "none";
+        desenhoInit2();
+    }
+    if (document.documentElement.scrollTop <= 591) {
+        d3.select("#firstsvg").selectAll("circle").remove();
+        d3.select("#firstsvg").selectAll("text").remove();
+        d3.select("#firstsvg").selectAll("rect").remove();
+        d3.select("#firstsvg").selectAll("line").remove();
+        document.getElementById("buttonsR").style.display = "block";
+        desenhoInit();
     }
 }
 
@@ -179,3 +222,4 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+
