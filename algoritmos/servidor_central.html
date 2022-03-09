@@ -38,13 +38,39 @@
             
             <section id="stickyConfig">
                 <div class="container">
-                    <h1>Servidor Central </h1>
                     <div class="gridSet">
                         <div class="textSection">
-                            Aqui vai os textos
-                            <p>
-                                Escrever sobre servidor central
-                            </p>
+                            <h1>Exclusão Mútua</h1>
+                            <div class="text">
+                                <p>
+                                    Sobre Exclusão Mútua, para contextualizar para os algoritmos
+                                </p>
+                            </div>
+                            <h1>Algoritmo do Servidor Central</h1>
+                            <div class="text">
+                                <p>
+                                    Este é o mais simples dos algoritmos para obter exclusão
+                                    mútua em um sistema distríbuido, pois ele utiliza um <button onmouseover="showRing()" onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">servidor central</button> 
+                                    para gerenciar os acessos na seção critica. 
+                                    
+                                    Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos participantes da computação, cada processo
+                                    P<sub>i</sub> que deseja entrar na seção critica deve possuir <button onmouseover="showRing()" onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">token</button> 
+                                    de acesso. O token pode ser obtido através do envio de uma solicitação para o servidor central.
+                                    O servidor por sua vez que as respostas do servidor representam o envio de uma ficha (token), que neste modelo significa permissão para entrar
+                                    na seção crítica.
+                                </p>
+                                <p>
+                                    O gerenciamento de acesso da sessão crítica funciona da seguinte forma:
+                                    <ul>
+                                        <li>Se o servidor estiver com o token, ele responde a primeira solicitação que recebeu,
+                                            enviando o token
+                                        </li>
+                                        <li>Se o servidor não estiver com o token ele não responderá e irá enfileirar as solicitações, em uma fila local. Pois algum processo P<sub>i</sub> está com o token.
+                                        </li>
+                                    </ul>
+                                </p>
+
+                            </div>
                         </div>
                         <div id = "testesvg"></div>
                         <input class="slider2" type="range" min="3" max="8" step="1" value="3"  id="sliderNodePart2"></input>  
@@ -52,7 +78,7 @@
                     <div class="algSection">
                         <div class="algContent">
                             <div class="instruction">
-                                Passe o mouse para saber o nome dos processos 
+                                Passe o mouse para saber o nome dos processos
                                     <button onmouseover="showPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">processos</button>
                                 
                             </div>
