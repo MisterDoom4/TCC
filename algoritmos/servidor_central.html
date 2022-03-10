@@ -51,15 +51,15 @@
                         <div class="text">
                             <p>
                                 Este é o mais simples dos algoritmos para obter exclusão
-                                mútua em um sistema distríbuido, pois ele utiliza um <button onmouseover="showRing()"
-                                    onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">servidor
-                                    central</button>
+                                mútua em um sistema distríbuido, pois ele utiliza um <b>servidor
+                                    central</b>
                                 para gerenciar os acessos na seção critica.
 
-                                Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
+                                Seja P, um conjunto de <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
+                                class="btn btn-light btn-xs">processos</button> P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
                                     processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                    na seção critica deve possuir <button onmouseover="showRing()"
-                                        onmouseout="unshowRing()" type="button"
+                                    na seção critica deve possuir o <button onmouseover="showToken()"
+                                        onmouseout="unshowToken()" type="button"
                                         class="btn btn-light btn-xs">token</button>
                                     de acesso. O token pode ser obtido através do envio de uma solicitação para o
                                     servidor central.
@@ -83,20 +83,14 @@
 
                         </div>
                     </div>
-                    <div id="testesvg"></div>
-                    <input class="slider2" type="range" min="3" max="8" step="1" value="3" id="sliderNodePart2"></input>
-                </div>
+                </div> 
                 <div class="algSection">
                     <div class="algContent">
                         <div class="instruction">
-                            Passe o mouse para saber o nome dos processos
-                            <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
-                                class="btn btn-light btn-xs">processos</button>
-                            <div id="buttonsR">
+                            <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Play</button>
                             </div>
-
                         </div>
                         <div class="alg" id="firstsvg"></div>
                         <div class="interaction">
