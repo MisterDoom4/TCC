@@ -31,56 +31,101 @@
                 </div> -->
                 <div><a href="../site.html" class="btn btn-outline btn-rounded btn-light">Home</a></div>
                 <div><a href="servidor_central.html" class="active btn btn-rounded btn-light">Servidor Central</a></div>
-                <div> <a href="../algoritmos/exclusao_anel.html" class="btn btn-outline btn-rounded btn-light">Anel</a></div>   
-                <div><a href="../algoritmos/ricart_agrawala.html" class="btn btn-outline btn-rounded btn-light">Ricart & Agrawala</a></div>
-                <div><a href="../algoritmos/maekawa.html" class="btn btn-outline btn-rounded btn-light">Maekawa</a></div>
+                <div> <a href="../algoritmos/exclusao_anel.html" class="btn btn-outline btn-rounded btn-light">Anel</a>
+                </div>
+                <div><a href="../algoritmos/ricart_agrawala.html" class="btn btn-outline btn-rounded btn-light">Ricart &
+                        Agrawala</a></div>
+                <div><a href="../algoritmos/maekawa.html" class="btn btn-outline btn-rounded btn-light">Maekawa</a>
+                </div>
             </div>
         </section>
 
         <section id="stickyConfig">
             <div class="container">
+                <div class="text">
+                    <h1>Introdução sobre Servidor Central e sua estrutura</h1>
+                    <p>
+                        Este é o mais simples dos algoritmos para se obter exclusão
+                        mútua em um sistema distríbuido, pois ele utiliza um <button onmouseover="showRing()"
+                            onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">servidor
+                            central</button>
+                        para gerenciar os acessos à seção critica.
+                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um <button
+                            onmouseover="showRing()" onmouseout="unshowRing()" type="button"
+                            class="btn btn-light btn-xs">token</button> ao servidor central. O gerenciamento desse token
+                        é feito pelo servidor central através de troca de mensagens com os processos.
+
+                        A troca de mensagens funciona da seguinte forma:
+
+                        processos enviam mensagens para o servidor central e aguardam a resposta dele.
+
+                        As mensagens tem em sua composição um
+                        identificador do
+                        processo emisor (P<sub>i</sub>) e o conteudo da mensagem, que pode ser: solicitação ou
+                        liberação acesso. Todo processo que receber resposta do servidor central, tem liberação para
+                        acessar a sessão crítica. É necessário uma administração dessas respostas para
+                        garantir a exclusão mútua. Para isso, existe uma fila para armazenar as requisições dos
+                        processos que utiliza a lógica do "Primeiro a Entrar é o Primeiro a Sair" (FIFO - First in
+                        First out).
+
+                    </p>
+
+                    <p id="fourthsvg">
+                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
+                        <b>Aqui vai uma imagem</b>
+                    </p>
+                </div>
+            </div>
+            <div class="container">
                 <div class="gridSet">
                     <div class="textSection">
-                        <h1>Exclusão Mútua</h1>
-                        <div class="text">
-                            <p>
-                                Sobre Exclusão Mútua, para contextualizar para os algoritmos
-                            </p>
-                        </div>
-                        <h1>Algoritmo do Servidor Central</h1>
-                        <div class="text">
-                            <p>
-                                Este é o mais simples dos algoritmos para obter exclusão
-                                mútua em um sistema distríbuido, pois ele utiliza um <button onmouseover="showRing()"
-                                    onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">servidor
-                                    central</button>
-                                para gerenciar os acessos na seção critica.
 
+                        <div class="text">
+                            <h1>*Titulos se necessário*</h1>
+                            <p>
                                 Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
                                     processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                    na seção critica deve possuir <button onmouseover="showRing()"
-                                        onmouseout="unshowRing()" type="button"
-                                        class="btn btn-light btn-xs">token</button>
-                                    de acesso. O token pode ser obtido através do envio de uma solicitação para o
-                                    servidor central.
-                                    O servidor por sua vez que as respostas do servidor representam o envio de uma ficha
-                                    (token), que neste modelo significa permissão para entrar
-                                    na seção crítica.
+                                    na seção critica deve obter um token de acesso. Existe somente um token para ser
+                                    distribuído entre os processos requisitantes.
+                                    <p>
+                                        O gerenciamento de acesso da sessão crítica pelo servidor funciona da seguinte
+                                        forma:
+                                        <ul>
+                                            <li>Se o servidor estiver com o token, ele responde a primeira solicitação
+                                                que
+                                                estiver na sua fila de mensagens.
+                                            </li>
+                                            <li>Se o servidor não estiver com o token ele não responderá e irá
+                                                enfileirar as
+                                                solicitações na fila de mensagem.
+                                            </li>
+                                            <li>
+                                                O servidor recebe a ficha de volta quando um processo envia uma mensagem
+                                                de liberação de
+                                                acesso
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    <p>
+                                        Desta forma este algoritmo satisfaz as propriedades M1, M2 e M3 para a exclusão
+                                        mútua. Um ponto
+                                        negativo desse dele é o atraso na resposta de mensagens, pois cada processo pode
+                                        ficar
+                                        indeterminadamente com o token e assim deixar as requisições muito tempo em
+                                        espera.
+                                    </p>
+                            </p>
+                            <p id="fourthsvg">
+                                <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
+                                <b>Aqui vai uma imagem</b>
                             </p>
                             <p>
-                                O gerenciamento de acesso da sessão crítica funciona da seguinte forma:
-                                <ul>
-                                    <li>Se o servidor estiver com o token, ele responde a primeira solicitação que
-                                        recebeu,
-                                        enviando o token
-                                    </li>
-                                    <li>Se o servidor não estiver com o token ele não responderá e irá enfileirar as
-                                        solicitações, em uma fila local. Pois algum processo P<sub>i</sub> está com o
-                                        token.
-                                    </li>
-                                </ul>
+                                Texto para a ultima imagem
                             </p>
-
+                            <p id="fourthsvg">
+                                <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
+                                <b>Aqui vai uma imagem</b>
+                            </p>
                         </div>
                     </div>
                     <div id="testesvg"></div>
