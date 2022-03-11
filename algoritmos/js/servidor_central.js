@@ -275,13 +275,18 @@ function restart() {
     filaProcessos();
 }
 function reset() {
+    
     d3.select("#firstsvg").selectAll("circle").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("line").remove();
     d3.select("#firstsvg").selectAll(".token").remove();
     d3.select("#buttonsR2").selectAll("button").remove();
-    d3.select("#buttonsR2").append("button")
+    if(document.documentElement.scrollTop <= 100){
+        desenhoInit0();
+    }
+    else{
+        d3.select("#buttonsR2").append("button")
         .attr("onclick", "playAlg()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
         .text("Play");
@@ -301,6 +306,7 @@ function reset() {
     criarFila();
 
     filaProcessos();
+    }
 }
 function criarFila() {
     var f;
@@ -406,6 +412,7 @@ var slider1 = document.getElementById("sliderNodePart");
 slider1.oninput = function () {
     n1 = this.value;
     nodesFirst.splice(0, 10);
+    
     reset();
 }
 // inicialização da tela //
