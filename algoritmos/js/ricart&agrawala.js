@@ -1,0 +1,26 @@
+servidorCentral.append("rect")
+        .attr("style", "fill:black")
+        .attr("x", x2)
+        .attr("y", y2)
+        .attr("width", tx)
+        .attr("height", ty);
+    servidorCentral.append("text")
+        .attr("x", 230)
+        .attr("y", 22)
+        .text("Processo 1")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "18px")
+        .attr("fill", "#FFFAFA");
+    servidorCentral.append("rect")
+        .attr("style", "fill:pink")
+        .attr("x", x2)
+        .attr("y", 30)
+        .attr("width", tx)
+        .attr("height", 30);
+    servidorCentral.append("text")
+        .attr("x", 230)
+        .attr("y", 52)
+        .text("RELEASED")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "18px")
+        .attr("fill", "#000000");
