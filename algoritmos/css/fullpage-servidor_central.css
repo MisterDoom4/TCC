@@ -34,7 +34,7 @@ td {
 
 .slider {
     -webkit-appearance: none;
-    width: 500px;
+    width: 400px;
     height: 15px;
     border-radius: 5px;
     background: #bfbdc1;
@@ -488,7 +488,6 @@ body.stretched .container-fullwidth {
 
 .textSection {
     /* background-color: rgb(226, 205, 205); */
-    text-align: center;
     position: relative;
     min-width: 100%;
     height: 1500px;
@@ -501,8 +500,16 @@ body.stretched .container-fullwidth {
     background-color: yellowgreen;
     text-align: center;
     width: 100%;
-    height: 300px;
+     height: 300px; /*Mudar aqui caso queira aumentar o tamanho da area svg do algoritmo */
 }
+
+@media only screen and (max-width: 1320px) {
+    .algSection {
+        height: 500px;
+    }
+}
+
+
 
 .algContent {
     height: 100%;
@@ -516,8 +523,7 @@ body.stretched .container-fullwidth {
 }
 
 @media only screen and (max-width: 1320px) {
-    .algContent {
-
+    .algContent {        
         grid-template-areas: 'instruction instruction'
             'alg alg'
             'interaction interaction';
@@ -531,12 +537,7 @@ body.stretched .container-fullwidth {
     grid-area: alg;
 }
 
-.interaction {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-area: interaction;
-}
+
 
 .instruction {
     display: flex;
@@ -551,7 +552,7 @@ body.stretched .container-fullwidth {
 }
 
 h1 {
-    padding: 20px 20px;
+    padding: 20px 0px;
 }
 
 .text {
@@ -579,4 +580,47 @@ h1 {
 }
 #buttonsR2{
     display: none;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 400px;
+    grid-area: buttons;
+    padding-top: 20px;
+}
+
+@media only screen and (max-width: 1320px) {
+    .buttons {
+        max-width: 1000px;
+        padding-top: 0;
+    }
+}
+
+.sliderArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
+    grid-area: slider;
+}
+
+.interaction {
+    height: 100%;
+    display: grid;
+    grid-area: interaction;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 'buttons slider'
+        'buttons slider';
+}
+
+@media only screen and (max-width: 1320px) {
+    .interaction {
+        grid-template-areas: 'buttons buttons'
+        'slider slider';
+    }
 }
