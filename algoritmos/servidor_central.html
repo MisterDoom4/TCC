@@ -51,7 +51,7 @@
                             central</button>
                         para gerenciar os acessos à seção critica.
                         Todo processo P que quiser acessar a sessão crítica deverá solicitar um <button
-                            onmouseover="showRing()" onmouseout="unshowRing()" type="button"
+                            onmouseover="showToken()" onmouseout="unshowToken()" type="button"
                             class="btn btn-light btn-xs">token</button> ao servidor central. O gerenciamento desse token
                         é feito pelo servidor central através de troca de mensagens com os processos.
 
@@ -132,6 +132,7 @@
                 <div class="algSection">
                     <div class="algContent">
                         <div class="instruction">
+                            <div id="123456"></div>
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Play</button>
@@ -139,8 +140,38 @@
                         </div>
                         <div class="alg" id="firstsvg"></div>
                         <div class="interaction">
-                            <input class="slider" type="range" min="3" max="8" step="1" value="3"
-                                id="sliderNodePart"></input>
+                            <div class="buttons">
+                                <div class="btn btn-rounded btn-light btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-dribbble btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-dropbox btn-sm">
+                                    Pn
+                                </div>
+
+                                <div class="btn btn-rounded btn-dark btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-shadow btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-twitter btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-warning btn-sm">
+                                    Pn
+                                </div>
+                                <div class="btn btn-rounded btn-shadow btn-sm">
+                                    Pn
+                                </div>
+
+                            </div>
+                            <div class="sliderArea">
+                                <input class="slider" type="range" min="3" max="8" step="1" value="3"
+                                    id="sliderNodePart"></input>
+                            </div>
                         </div>
                     </div>
                 </div>
