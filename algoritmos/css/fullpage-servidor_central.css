@@ -546,7 +546,7 @@ body.stretched .container-fullwidth {
     grid-area: instruction;
 }
 
-#stickyConfig {
+.stickyConfig {
     overflow: visible;
     padding: 80px 0px 0px 0px;
 }
