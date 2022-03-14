@@ -463,6 +463,7 @@ body.stretched .container-fullwidth {
 #background,
 #forthsvg,
 #firstsvg,
+#scsvg,
 #anelsvg {
     text-align: center;
 }
@@ -472,13 +473,6 @@ body.stretched .container-fullwidth {
     justify-content: center;
     align-items: center;
 }
-
-/*#page-title {
-    display: flex;
-    left: 0%;
-    bottom: 100%;
-    width: 100%
-}*/
 
 .gridSet {
     position: relative;
@@ -582,7 +576,7 @@ h1 {
     display: none;
 }
 
-.buttons {
+#buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -594,7 +588,7 @@ h1 {
 }
 
 @media only screen and (max-width: 1320px) {
-    .buttons {
+    #buttons {
         max-width: 1000px;
         padding-top: 0;
     }

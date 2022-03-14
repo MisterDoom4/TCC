@@ -275,37 +275,40 @@ function restart() {
     filaProcessos();
 }
 function reset() {
-    
+
     d3.select("#firstsvg").selectAll("circle").remove();
     d3.select("#firstsvg").selectAll("text").remove();
     d3.select("#firstsvg").selectAll("rect").remove();
     d3.select("#firstsvg").selectAll("line").remove();
     d3.select("#firstsvg").selectAll(".token").remove();
     d3.select("#buttonsR2").selectAll("button").remove();
-    if(document.documentElement.scrollTop <= 100){
+    d3.select("#combobox").selectAll("option").remove();
+    d3.select("#combobox").selectAll("select").remove();
+    if (document.documentElement.scrollTop <= 100) {
         desenhoInit0();
     }
-    else{
+    else {
         d3.select("#buttonsR2").append("button")
-        .attr("onclick", "playAlg()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .text("Play");
-    d3.select("#buttonsR2").append("button")
-        .attr("onclick", "restart()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .attr("id", "restart")
-        .text("Restart");
-    d3.select("#buttonsR2").append("button")
-        .attr("onclick", "reset()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .attr("id", "reset")
-        .text("Reset");
-    chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-    desenhoInit();
-    fila.splice(0, 10);
-    criarFila();
+            .attr("onclick", "playAlg()")
+            .attr("class", "btn btn-rounded btn-light btn-sm")
+            .text("Play");
+        d3.select("#buttonsR2").append("button")
+            .attr("onclick", "restart()")
+            .attr("class", "btn btn-rounded btn-light btn-sm")
+            .attr("id", "restart")
+            .text("Restart");
+        d3.select("#buttonsR2").append("button")
+            .attr("onclick", "reset()")
+            .attr("class", "btn btn-rounded btn-light btn-sm")
+            .attr("id", "reset")
+            .text("Reset");
+        chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
+        desenhoInit();
+        criarComboBox();
+        fila.splice(0, 10);
+        criarFila();
 
-    filaProcessos();
+        filaProcessos();
     }
 }
 function criarFila() {
@@ -405,14 +408,12 @@ function filaProcessos() {
 function unshowPart() {
 
     d3.select("#firstsvg").selectAll(".nome").remove();
-    // desenhoInit();
 }
 // função para utilizar o slide, para mudar o desenho //
 var slider1 = document.getElementById("sliderNodePart");
 slider1.oninput = function () {
-    n1 = this.value;
     nodesFirst.splice(0, 10);
-    
+    n1 = this.value;
     reset();
 }
 // inicialização da tela //
@@ -448,6 +449,7 @@ function scrollFunction() {
         document.getElementById("buttonsR2").style.display = "block";
         fila.splice(0, 10);
         nodesFirst.splice(0, 10);
+
         restart();
         d3.select("#restart").remove();
         d3.select("#buttonsR2").selectAll("button")
@@ -457,9 +459,22 @@ function scrollFunction() {
         desenhoInit();
         criarFila();
         filaProcessos();
+        criarComboBox();
+
     }
 }
+var comboboxOptions = document.getElementById("combobox");
+function criarComboBox() {
 
+
+
+    for (i = 0; i < n1; i++) {
+        comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
+    }
+
+
+
+}
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
     document.body.scrollTop = 0;
