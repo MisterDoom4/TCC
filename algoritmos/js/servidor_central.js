@@ -1,5 +1,5 @@
 // primeiro desenho //
-var servidorCentral = d3.select("#firstsvg")
+var servidorCentral = d3.select("#scsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
@@ -219,14 +219,14 @@ function desenhoInit() {
 }
 // trocar a cor do token //
 function showToken() {
-    d3.select("#firstsvg").selectAll(".token")
+    d3.select("#scsvg").selectAll(".token")
         .transition()
         .duration(2000)
         .attr("fill", colorToken);
 }
 // voltar a cor do token//
 function unshowToken() {
-    d3.select("#firstsvg").selectAll(".token")
+    d3.select("#scsvg").selectAll(".token")
         .transition()
         .duration(2000)
         .attr("fill", colorC);
@@ -235,7 +235,7 @@ function unshowToken() {
 function avancarAlg() {
     if (fila.length != 0) {
         if (choose != 1) {
-            d3.select("#firstsvg").selectAll(".token")
+            d3.select("#scsvg").selectAll(".token")
                 .transition()
                 .duration(5000)
                 .attr("cx", x0)
@@ -243,11 +243,12 @@ function avancarAlg() {
             choose = 1;;
         }
         else {
-            d3.select("#firstsvg").selectAll(".token")
+            d3.select("#scsvg").selectAll(".token")
                 .transition()
                 .duration(5000)
                 .attr("cx", fila[0].x)
                 .attr("cy", fila[0].y);
+            chooseInit = fila[0].id;
             fila.shift();
             filaProcessos();
             choose = 0;
@@ -259,28 +260,35 @@ function avancarAlg() {
 
 
 }
-function restart() {
-    d3.select("#firstsvg").selectAll("circle").remove();
-    d3.select("#firstsvg").selectAll("text").remove();
-    d3.select("#firstsvg").selectAll("rect").remove();
-    d3.select("#firstsvg").selectAll("line").remove();
-    d3.select("#firstsvg").selectAll(".token").remove();
+
+// função para resetar o desenho quando mudar o slider //
+function change() {
+    d3.select("#scsvg").selectAll("circle").remove();
+    d3.select("#scsvg").selectAll("text").remove();
+    d3.select("#scsvg").selectAll("rect").remove();
+    d3.select("#scsvg").selectAll("line").remove();
+    d3.select("#scsvg").selectAll(".token").remove();
     d3.select("#buttonsR2").selectAll("button").remove();
+    d3.select("#combobox").selectAll("option").remove();
+    d3.select("#combobox").selectAll("select").remove();
+    chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
+    desenhoInit();
+    criarComboBox();
+    fila.splice(0, 10);
+    criarFila();
+    filaProcessos();
     d3.select("#buttonsR2").append("button")
         .attr("onclick", "playAlg()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
         .text("Play");
-    document.getElementById("buttonsR2").style.display = "block";
-    desenhoInit();
-    filaProcessos();
 }
 function reset() {
 
-    d3.select("#firstsvg").selectAll("circle").remove();
-    d3.select("#firstsvg").selectAll("text").remove();
-    d3.select("#firstsvg").selectAll("rect").remove();
-    d3.select("#firstsvg").selectAll("line").remove();
-    d3.select("#firstsvg").selectAll(".token").remove();
+    d3.select("#scsvg").selectAll("circle").remove();
+    d3.select("#scsvg").selectAll("text").remove();
+    d3.select("#scsvg").selectAll("rect").remove();
+    d3.select("#scsvg").selectAll("line").remove();
+    d3.select("#scsvg").selectAll(".token").remove();
     d3.select("#buttonsR2").selectAll("button").remove();
     d3.select("#combobox").selectAll("option").remove();
     d3.select("#combobox").selectAll("select").remove();
@@ -293,11 +301,6 @@ function reset() {
             .attr("class", "btn btn-rounded btn-light btn-sm")
             .text("Play");
         d3.select("#buttonsR2").append("button")
-            .attr("onclick", "restart()")
-            .attr("class", "btn btn-rounded btn-light btn-sm")
-            .attr("id", "restart")
-            .text("Restart");
-        d3.select("#buttonsR2").append("button")
             .attr("onclick", "reset()")
             .attr("class", "btn btn-rounded btn-light btn-sm")
             .attr("id", "reset")
@@ -307,10 +310,10 @@ function reset() {
         criarComboBox();
         fila.splice(0, 10);
         criarFila();
-
         filaProcessos();
     }
 }
+// criação da fila aleatoria //
 function criarFila() {
     var f;
     for (i = 0; i < n1; i++) {
@@ -325,18 +328,38 @@ function criarFila() {
             fila.push(nodesFirst[rand]);
         }
     }
+}
+function criarCustomfila() {
+    var g = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (g == chooseInit) {
+        alert("O processo que já está com o token não pode entrar na fila");
+    }
+    else {
+        if (fila != null) {
 
+            if (fila.find(element => element.id == g)) {
+                alert("O processo já está na fila");
+            }
+            else {
+                fila.push(nodesFirst[g]);
+            }
+        }
+        else {
 
+        }
+        filaProcessos();
+    }
 }
 function playAlg() {
 
     d3.select("#buttonsR2").selectAll("button").remove();
-    d3.select("#firstsvg").selectAll(".token")
+    d3.select("#scsvg").selectAll(".token")
         .transition()
         .duration(5000)
         .attr("cx", x0)
         .attr("cy", y0);
     choose = 1;
+    chooseInit = -1;
 
     d3.select("#buttonsR2").append("button")
         .attr("onclick", "avancarAlg()")
@@ -344,11 +367,6 @@ function playAlg() {
         .attr("id", "avancar")
         .text("Avançar");
 
-    d3.select("#buttonsR2").append("button")
-        .attr("onclick", "restart()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .attr("id", "restart")
-        .text("Restart");
     d3.select("#buttonsR2").append("button")
         .attr("onclick", "reset()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
@@ -380,7 +398,7 @@ function showPart() {
 }
 // desenhar processo na fila //
 function filaProcessos() {
-    d3.select("#firstsvg").selectAll(".filaprocesso").remove();
+    d3.select("#scsvg").selectAll(".filaprocesso").remove();
     for (i = 0; i < fila.length; i++) {
         disty = 70 - i * 17;
         servidorCentral.append("rect")
@@ -401,20 +419,18 @@ function filaProcessos() {
             .attr("font-size", "12px")
             .attr("fill", lineC);
     }
-
-
 }
 // voltar para o estado inicial, sem os nomes dos processos //
 function unshowPart() {
 
-    d3.select("#firstsvg").selectAll(".nome").remove();
+    d3.select("#scsvg").selectAll(".nome").remove();
 }
 // função para utilizar o slide, para mudar o desenho //
 var slider1 = document.getElementById("sliderNodePart");
 slider1.oninput = function () {
     nodesFirst.splice(0, 10);
     n1 = this.value;
-    reset();
+    change();
 }
 // inicialização da tela //
 window.onload = desenhoInit();
@@ -429,11 +445,11 @@ function scrollFunction() {
     }
     // troca de desenho //
     if (document.documentElement.scrollTop <= 100) {
-        d3.select("#firstsvg").selectAll("circle").remove();
-        d3.select("#firstsvg").selectAll("text").remove();
-        d3.select("#firstsvg").selectAll("rect").remove();
-        d3.select("#firstsvg").selectAll("line").remove();
-        d3.select("#firstsvg").selectAll(".token").remove();
+        d3.select("#scsvg").selectAll("circle").remove();
+        d3.select("#scsvg").selectAll("text").remove();
+        d3.select("#scsvg").selectAll("rect").remove();
+        d3.select("#scsvg").selectAll("line").remove();
+        d3.select("#scsvg").selectAll(".token").remove();
         document.getElementById("buttonsR2").style.display = "none";
         fila.splice(0, 10);
         nodesFirst.splice(0, 10);
@@ -441,21 +457,20 @@ function scrollFunction() {
         criarFila();
     }
     if (document.documentElement.scrollTop > 800) {
-        d3.select("#firstsvg").selectAll("circle").remove();
-        d3.select("#firstsvg").selectAll("text").remove();
-        d3.select("#firstsvg").selectAll("rect").remove();
-        d3.select("#firstsvg").selectAll("line").remove();
-        d3.select("#firstsvg").selectAll(".token").remove();
-        document.getElementById("buttonsR2").style.display = "block";
-        fila.splice(0, 10);
-        nodesFirst.splice(0, 10);
-
-        restart();
-        d3.select("#restart").remove();
+        d3.select("#scsvg").selectAll("circle").remove();
+        d3.select("#scsvg").selectAll("text").remove();
+        d3.select("#scsvg").selectAll("rect").remove();
+        d3.select("#scsvg").selectAll("line").remove();
+        d3.select("#scsvg").selectAll(".token").remove();
+        d3.select("#combobox").selectAll("option").remove();
+        d3.select("#combobox").selectAll("select").remove();
         d3.select("#buttonsR2").selectAll("button")
             .attr("onclick", "playAlg()")
             .attr("class", "btn btn-rounded btn-light btn-sm")
             .text("Play");
+        document.getElementById("buttonsR2").style.display = "block";
+        fila.splice(0, 10);
+        nodesFirst.splice(0, 10);
         desenhoInit();
         criarFila();
         filaProcessos();
@@ -465,9 +480,6 @@ function scrollFunction() {
 }
 var comboboxOptions = document.getElementById("combobox");
 function criarComboBox() {
-
-
-
     for (i = 0; i < n1; i++) {
         comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
     }
