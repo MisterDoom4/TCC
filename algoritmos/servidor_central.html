@@ -68,7 +68,7 @@
 
                     </p>
 
-                    <p id = "firstsvg">
+                    <p id="firstsvg">
                         <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
                         <b>Aqui vai uma imagem</b>
                     </p>
@@ -130,7 +130,8 @@
                 <div class="algSection">
                     <div class="algContent">
                         <div class="instruction">
-                            <div id="123456"></div>
+                            <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
+                                class="btn btn-rounded btn-light btn-sm">Processos</button>
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Play</button>
@@ -142,6 +143,10 @@
                                 <select id="combobox"></select>
                                 <button onclick="criarCustomfila()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
+                                <button onclick="removerFila()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
+                                <button onclick="addPToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Colocar Token</button>
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"

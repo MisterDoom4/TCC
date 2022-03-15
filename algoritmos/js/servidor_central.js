@@ -231,16 +231,30 @@ function unshowToken() {
         .duration(2000)
         .attr("fill", colorC);
 }
+// bloquear o botão para não ter bugs //
+function bloquearAvancar() {
+    d3.select("#buttonsR2").selectAll("#avancar")
+        .attr("onclick", "");
+    
+}
 // avancar para o destino //
 function avancarAlg() {
+    
+    bloquearAvancar();
+
     if (fila.length != 0) {
+        // quando ele esta em um processo, para ele ir pra o servidor central //
         if (choose != 1) {
             d3.select("#scsvg").selectAll(".token")
                 .transition()
                 .duration(5000)
                 .attr("cx", x0)
                 .attr("cy", y0);
-            choose = 1;;
+            choose = 1;
+            setTimeout(function () {
+                d3.select("#buttonsR2").selectAll("#avancar")
+                    .attr("onclick", "avancarAlg()");
+            }, 5000);
         }
         else {
             d3.select("#scsvg").selectAll(".token")
@@ -248,6 +262,10 @@ function avancarAlg() {
                 .duration(5000)
                 .attr("cx", fila[0].x)
                 .attr("cy", fila[0].y);
+            setTimeout(function () {
+                d3.select("#buttonsR2").selectAll("#avancar")
+                    .attr("onclick", "avancarAlg()");
+            }, 5000);
             chooseInit = fila[0].id;
             fila.shift();
             filaProcessos();
@@ -257,8 +275,6 @@ function avancarAlg() {
     else {
         alert("Nenhum processo está solicitando entrar na seção critica");
     }
-
-
 }
 
 // função para resetar o desenho quando mudar o slider //
@@ -283,7 +299,6 @@ function change() {
         .text("Play");
 }
 function reset() {
-
     d3.select("#scsvg").selectAll("circle").remove();
     d3.select("#scsvg").selectAll("text").remove();
     d3.select("#scsvg").selectAll("rect").remove();
@@ -292,6 +307,7 @@ function reset() {
     d3.select("#buttonsR2").selectAll("button").remove();
     d3.select("#combobox").selectAll("option").remove();
     d3.select("#combobox").selectAll("select").remove();
+    nodesFirst.splice(0, 10);
     if (document.documentElement.scrollTop <= 100) {
         desenhoInit0();
     }
@@ -315,33 +331,32 @@ function reset() {
 }
 // criação da fila aleatoria //
 function criarFila() {
-    var f;
     for (i = 0; i < n1; i++) {
         if (i != chooseInit) {
             rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
             if (fila != null) {
-                f = fila.map(el => el.id);
             }
-            while (rand == chooseInit || f.includes(rand)) {
+            while (rand == chooseInit || fila.find(element => element.id == rand)) {
                 rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
             }
             fila.push(nodesFirst[rand]);
         }
     }
 }
+// fila customizada //
 function criarCustomfila() {
-    var g = comboboxOptions.options[comboboxOptions.selectedIndex].value;
-    if (g == chooseInit) {
+    var optionFila = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (optionFila == chooseInit) {
         alert("O processo que já está com o token não pode entrar na fila");
     }
     else {
         if (fila != null) {
 
-            if (fila.find(element => element.id == g)) {
+            if (fila.find(element => element.id == optionFila)) {
                 alert("O processo já está na fila");
             }
             else {
-                fila.push(nodesFirst[g]);
+                fila.push(nodesFirst[optionFila]);
             }
         }
         else {
@@ -350,6 +365,38 @@ function criarCustomfila() {
         filaProcessos();
     }
 }
+// função para tirar um processo da fila //
+function removerFila(){
+    var optionFila = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    var index ;
+    if (optionFila == chooseInit) {
+        alert("O processo não está na fila");
+    }
+    else{
+        if (fila.find(element => element.id == optionFila)){
+            index = fila.findIndex(function (i){
+                return i.id == optionFila; 
+            })
+            fila.splice(index,1);
+            filaProcessos();
+        }
+    }
+}
+// mudar o token de processo //
+function addPToken(){
+    var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (fila.find(element => element.id == optionToken)){
+        alert("O processo deve ser retirado da fila primeiro");
+    }
+    else{
+        chooseInit = optionToken;
+        d3.select("#scsvg").selectAll(".token")
+                .attr("cx", nodesFirst[chooseInit].x)
+                .attr("cy", nodesFirst[chooseInit].y);
+
+    }
+}
+// pra começar o simulador //
 function playAlg() {
 
     d3.select("#buttonsR2").selectAll("button").remove();
@@ -362,10 +409,13 @@ function playAlg() {
     chooseInit = -1;
 
     d3.select("#buttonsR2").append("button")
-        .attr("onclick", "avancarAlg()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
         .attr("id", "avancar")
         .text("Avançar");
+    setTimeout(function () {
+        d3.select("#buttonsR2").selectAll("#avancar")
+            .attr("onclick", "avancarAlg()");
+    }, 5000)
 
     d3.select("#buttonsR2").append("button")
         .attr("onclick", "reset()")
@@ -396,6 +446,11 @@ function showPart() {
 
     }
 }
+// voltar para o estado inicial, sem os nomes dos processos //
+function unshowPart() {
+
+    d3.select("#scsvg").selectAll(".nome").remove();
+}
 // desenhar processo na fila //
 function filaProcessos() {
     d3.select("#scsvg").selectAll(".filaprocesso").remove();
@@ -419,11 +474,6 @@ function filaProcessos() {
             .attr("font-size", "12px")
             .attr("fill", lineC);
     }
-}
-// voltar para o estado inicial, sem os nomes dos processos //
-function unshowPart() {
-
-    d3.select("#scsvg").selectAll(".nome").remove();
 }
 // função para utilizar o slide, para mudar o desenho //
 var slider1 = document.getElementById("sliderNodePart");
@@ -457,24 +507,9 @@ function scrollFunction() {
         criarFila();
     }
     if (document.documentElement.scrollTop > 800) {
-        d3.select("#scsvg").selectAll("circle").remove();
-        d3.select("#scsvg").selectAll("text").remove();
-        d3.select("#scsvg").selectAll("rect").remove();
-        d3.select("#scsvg").selectAll("line").remove();
-        d3.select("#scsvg").selectAll(".token").remove();
-        d3.select("#combobox").selectAll("option").remove();
-        d3.select("#combobox").selectAll("select").remove();
-        d3.select("#buttonsR2").selectAll("button")
-            .attr("onclick", "playAlg()")
-            .attr("class", "btn btn-rounded btn-light btn-sm")
-            .text("Play");
+
         document.getElementById("buttonsR2").style.display = "block";
-        fila.splice(0, 10);
-        nodesFirst.splice(0, 10);
-        desenhoInit();
-        criarFila();
-        filaProcessos();
-        criarComboBox();
+        reset();
 
     }
 }
