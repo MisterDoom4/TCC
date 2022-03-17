@@ -33,7 +33,6 @@ function desenhoInit() {
                 x1 = x1 + 60;
                 y1 = 150;
             }
-
         }
         var newNode = { x: x1, y: y1, id: i, distx, part: partic };
         nodesFirst.push(newNode);
@@ -55,7 +54,6 @@ function desenhoInit() {
             .attr("fill", color)
             .append("text")
             .text("P" + i);
-
     }
     // desenhar o token //
     servidorCentral.append("circle")
@@ -72,11 +70,7 @@ function desenhoInit() {
         .attr("r", radio)
         .attr("stroke", line)
         .attr("stroke-width", 1)
-        .attr("fill", serverColor)
-
-
-
-
+        .attr("fill", serverColor);
     // fila de processos //
     servidorCentral.append("rect")
         .attr("x", 180)
@@ -190,7 +184,7 @@ function reset() {
     chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
     desenhoInit();
     if (document.documentElement.scrollTop >= 1500) {
-        
+
         criarComboBox();
         fila.splice(0, 10);
         criarFila();
@@ -233,7 +227,7 @@ function criarCustomfila() {
             }
         }
         else {
-
+            alert("Erro na fila");
         }
         filaProcessos();
     }
@@ -255,6 +249,10 @@ function removerFila() {
         }
     }
 }
+function apagarFila() {
+    fila.splice(0, 10);
+    filaProcessos();
+}
 // mudar o token de processo //
 function addPToken() {
     var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
@@ -266,7 +264,6 @@ function addPToken() {
         d3.select("#scsvg").selectAll(".token")
             .attr("cx", nodesFirst[chooseInit].x)
             .attr("cy", nodesFirst[chooseInit].y);
-
     }
 }
 // pra começar o simulador //
@@ -316,7 +313,6 @@ function showPart() {
             .attr("font-family", "sans-serif")
             .attr("font-size", "12px")
             .attr("fill", lineC);
-
     }
 }
 // voltar para o estado inicial, sem os nomes dos processos //
@@ -329,15 +325,6 @@ function filaProcessos() {
     d3.select("#scsvg").selectAll(".filaprocesso").remove();
     for (i = 0; i < fila.length; i++) {
         distx2 = 182 + i * 18;
-        // servidorCentral.append("rect")
-        //     .attr("class", "filaprocesso")
-        //     .attr("x", 55)
-        //     .attr("y", 192)
-        //     .attr("width", 16)
-        //     .attr("height", 15)
-        //     .attr("stroke", lineC)
-        //     .attr("stroke-width", 1)
-        //     .attr("fill", colorC);
         servidorCentral.append("text")
             .attr("class", "filaprocesso")
             .attr("x", distx2)
@@ -356,31 +343,44 @@ slider1.oninput = function () {
     change();
 }
 // inicialização da tela //
-window.onload = desenhoInit();
+window.onload = function () {
+    desenhoInit();
+    criarFila(); 
+    filaProcessos();
+}
 window.onscroll = function () { scrollFunction() };
+const p = document.querySelector("#customIMG");
+// detectar o ultimo desenho //
+function estaVisivel(el) {
+    const posicoes = el.getBoundingClientRect();
+    const inicio = posicoes.top;
+    const fim = posicoes.bottom;
+    let estaVisivel = false
 
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 300)) {
+        estaVisivel = true;
+    }
+    return estaVisivel;
+}
 function scrollFunction() {
     var y = window.scrollY;
     console.log(y);
     
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
-
     } else {
         document.getElementById("myBtn").style.display = "none";
     }
     // troca de desenho //
-    if (document.documentElement.scrollTop >= 800 && document.documentElement.scrollTop < 1500) {
-
+    if (estaVisivel(p) == true) {
+        document.getElementById("buttons").style.display = "flex";
+        d3.select("#combobox").selectAll("option").remove();
+        d3.select("#combobox").selectAll("select").remove();
+        criarComboBox();
+    }
+    else {
         document.getElementById("buttonsR2").style.display = "block";
         document.getElementById("buttons").style.display = "none";
-        reset();
-
-
-    }
-    if (document.documentElement.scrollTop >= 1500) {
-        document.getElementById("buttons").style.display = "flex";
-        reset();
     }
 }
 var comboboxOptions = document.getElementById("combobox");
@@ -388,9 +388,6 @@ function criarComboBox() {
     for (i = 0; i < n1; i++) {
         comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
     }
-
-
-
 }
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
