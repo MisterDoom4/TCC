@@ -481,20 +481,18 @@ body.stretched .container-fullwidth {
 }
 
 .textSection {
-    /* background-color: rgb(226, 205, 205); */
     position: relative;
     min-width: 100%;
-    height: 1500px;
-    overflow: hidden;
+    height: 100%;
 }
 
 .algSection {
     position: sticky;
     bottom: 0;
-    background-color: yellowgreen;
+    background-color: whitesmoke;
     text-align: center;
     width: 100%;
-     height: 300px; /*Mudar aqui caso queira aumentar o tamanho da area svg do algoritmo */
+    height: 300px; /*Mudar aqui caso queira aumentar o tamanho da area svg do algoritmo */
 }
 
 @media only screen and (max-width: 1320px) {
@@ -605,6 +603,7 @@ h1 {
 .interaction {
     height: 100%;
     display: grid;
+    padding: 0px 15px;
     grid-area: interaction;
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
@@ -617,4 +616,29 @@ h1 {
         grid-template-areas: 'buttons buttons'
         'slider slider';
     }
+}
+
+.litletext{
+    font-size: 0.8rem;
+}
+
+#combobox{
+    padding: 10px 10px;
+}
+
+
+/* .fadeEffect {
+    position: sticky;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    height: 600px;
+    background-color:green;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    
+} */
+
+.blankSpace {
+    content: " ";
+    height: 200px;
 }

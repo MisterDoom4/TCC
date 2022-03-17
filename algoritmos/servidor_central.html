@@ -45,49 +45,61 @@
                 <div class="text">
                     <h1>Introdução sobre Servidor Central e sua estrutura</h1>
                     <p>
-                        Este é o mais simples dos algoritmos para se obter exclusão
+                        Em um sistema distríbuido é necessário efetuar a distribuição e coordenação de acesso à sessão
+                        crítica para evitar inconsistência de dados, erros de processamento e bloqueio de recursos
+                        indeterminadamente. Este é o mais simples dos
+                        algoritmos para se obter exclusão
                         mútua em um sistema distríbuido, pois ele utiliza um <b>servidor central</b>
-                        para gerenciar os acessos à seção critica.
-                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um <button
-                            onmouseover="showToken()" onmouseout="unshowToken()" type="button"
-                            class="btn btn-light btn-xs">token</button> ao servidor central. O gerenciamento desse token
+                        para gerenciar e coordenar os acessos à seção critica.
+                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um <b>Token</b> ao servidor
+                        central. O gerenciamento desse token
                         é feito pelo servidor central através de troca de mensagens com os processos.
 
-                        A troca de mensagens funciona da seguinte forma:
 
-                        processos enviam mensagens para o servidor central e aguardam a resposta dele.
+                    </p>
+                    <p>
+                        A troca de mensagens é centralizada no servidor, ou seja, ele rebece e responde
+                        mensagem de todos os processos, enquanto que os processos não se comunicam entre si. A dinâmica
+                        das
+                        mensagens funciona da seguinte forma:
 
-                        As mensagens tem em sua composição um
-                        identificador do
-                        processo emisor (P<sub>i</sub>) e o conteudo da mensagem, que pode ser: solicitação ou
-                        liberação acesso. Todo processo que receber resposta do servidor central, tem liberação para
+                        <ul>
+                            <li>
+                                Processos enviam mensagens para o servidor central e aguardam a resposta dele.
+                            </li>
+                            <li>
+                                As mensagens tem em sua composição um
+                                identificador do processo emisor (P<sub>i</sub>) e o conteudo da mensagem, que pode ser:
+                                solicitação ou liberação da sessão crítica.
+
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        Todo processo que receber resposta do servidor central, tem automaticamente liberação para
                         acessar a sessão crítica. É necessário uma administração dessas respostas para
-                        garantir a exclusão mútua. Para isso, existe uma fila para armazenar as requisições dos
+                        garantir a exclusão mútua. Para isso, o servidor central tem uma fila para armazenar as
+                        requisições dos
                         processos que utiliza a lógica do "Primeiro a Entrar é o Primeiro a Sair" (FIFO - First in
                         First out).
-
+                    </p>
+                    <p>
+                        A estrutura lógica desse modelo é composta pelo servidor central e seus canais de
+                        comunicação com
+                        cada processo. Este modelo não tem uma topologia definida, mas assemelha-se com a topologia em
+                        Estrela.
                     </p>
 
                     <p id="firstsvg">
                         <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <b>Aqui vai uma imagem</b>
-                    </p>
-                </div>
-            </div>
-            <div class="container">
-                <div class="gridSet">
-                    <div class="textSection">
-
-                        <div class="text">
-                            <h1>*Titulos se necessário*</h1>
-                            <p>
-                                Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
-                                    processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                    na seção critica deve obter um token de acesso. Existe somente um token para ser
-                                    distribuído entre os processos requisitantes.
-                                    <p>
-                                        O gerenciamento de acesso da sessão crítica pelo servidor funciona da seguinte
-                                        forma:
+                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
+                        <p>
+                            Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
+                                processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
+                                na seção critica deve obter um token de acesso. Existe somente um token para ser
+                                distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
+                                central funciona da seguinte forma:
+                                <p>
                                     <ul>
                                         <li>Se o servidor estiver com o token, ele responde a primeira solicitação
                                             que
@@ -103,39 +115,82 @@
                                             acesso
                                         </li>
                                     </ul>
-                            </p>
-                            <p>
-                                Desta forma este algoritmo satisfaz as propriedades M1, M2 e M3 para a exclusão
-                                mútua. Um ponto
-                                negativo desse dele é o atraso na resposta de mensagens, pois cada processo pode
-                                ficar
-                                indeterminadamente com o token e assim deixar as requisições muito tempo em
-                                espera.
-                            </p>
+                                </p>
+                                <p>
+                                    Desta forma este algoritmo satisfaz as propriedades para a exclusão
+                                    mútua. Porém, o ponto
+                                    negativo é o atraso na resposta de mensagens, pois cada processo pode
+                                    ficar
+                                    indeterminadamente com o token e assim deixar as requisições muito tempo em
+                                    espera.
+                                </p>
+                        </p>
+                        <p> <b> Sinc para a segunda imagem</b></p>
+                        <p>
+                            Abaixo foi construído um modelo para exemplificar o funcionamento do
+                            algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
+                            participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
+                            aperte AVANÇAR e para reiniciar aperte RESET.
+                        </p>
+                        <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
+                            que pode conter de 1 a 8 processos.</p>
+                    </p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="gridSet">
+                    <div class="textSection">
+
+                        <div class="text">
+                            <div class="blankSpace"></div>
+                            <p id="fourthsvg">
+                                <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
                             </p>
                             <p id="fourthsvg">
                                 <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                                <b>Aqui vai uma imagem</b>
+                                <b>Sinc para a terceira imagem</b>
                             </p>
                             <p>
-                                Texto para a ultima imagem
+                                No modelo seguinte, experimente modificar o algoritmo:
+                                <ul>
+                                    <li>
+                                        Defina o número de processos através da barra horizontal.
+                                    </li>
+                                    <li>
+                                        Apague a fila de processos caso queira fazer uma fila personalizada, senão
+                                        aperte em RESET para gerar uma fila.
+                                    </li>
+                                    <li>
+                                        Selecione o processo no campo de seleção.
+                                    </li>
+                                    <li>
+                                        Adicione ou remova processos selecionados da
+                                        fila.
+                                    </li>
+                                    <li>Altere a posição do token para o processo
+                                        selecionado.
+                                    </li>
+                                </ul>
+
                             </p>
-                            <p id="fourthsvg">
-                                <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                                <b>Aqui vai uma imagem</b>
-                            </p>
+                            <div class="fadeEffect"></div> <!-- Aqui tem o fade effect basta ativar a classe-->
                         </div>
                     </div>
                 </div>
                 <div class="algSection">
                     <div class="algContent">
                         <div class="instruction">
-                            <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
-                                class="btn btn-rounded btn-light btn-sm">Processos</button>
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Play</button>
                             </div>
+                            <div class="buttonsR2">
+
+                                <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Mostrar Processos</button>
+                                <b class="litletext">Passe o mouse sobre o botão</b>
+                            </div>
+
                         </div>
                         <div class="alg" id="scsvg"></div>
                         <div class="interaction">
