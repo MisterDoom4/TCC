@@ -357,7 +357,7 @@ function estaVisivel(el) {
     const fim = posicoes.bottom;
     let estaVisivel = false
 
-    if ((inicio >= 0) && (fim <= (window.innerHeight) - 300)) {
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
         estaVisivel = true;
     }
     return estaVisivel;
