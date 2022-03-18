@@ -44,30 +44,40 @@
         <section class="stickyConfig">
             <div class="container">
                 <div class="text">
-                    <h1>Introdução sobre Algoritmo em Anel e sua estrutura</h1>
+                    <h1>Algoritmo em Anel</h1>
                     <p>
-
+                        Este algoritmo é o mais simples para garantir a exclusão mútua em um sistema distríbuido. Ele
+                        utiliza a topologia em Anel, onde cada processo P participante da computação
+                        precisa somente de um canal de comunicação com o processo seguinte.
+                        Deste modo, os processos formam um "laço" circular de comunicação unidirecional.
                     </p>
-
+                    <p>
+                        Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
+                            participantes da computação, cada processo P<sub>i</sub> que deseja acessar
+                            a seção critica deve obter o token de acesso. Neste modelo o token fica sendo
+                            transmitido infinitamente de um processo para outro no "laço". O processo
+                            pode acessar a sessão crítica quando o token passar por ele. Ao acessar a sessão crítica, a
+                            transmissão do token fica bloqueada no processo, até o mesmo terminar de acessa-la.
+                            Verifique a imagem abaixo onde é exemplificado o funcionamento do
+                            algoritmo
+                    </p>
+                    <p>
+                        Na barra horizontal você pode selecionar de 3 a 8 processos para
+                        participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
+                        aperte AVANÇAR e para reiniciar aperte RESET.
+                    </p>
+                    <p>
+                        Ao clicar em RESET, o algoritmo será reiniciado e será gerado uma fila aleatória,
+                        que pode conter de 3 a 8 processos.
+                    </p>
+                    <p id="firstsvg">
+                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
+                    </p>
 
                     <p id="firstsvg">
                         <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
                         <p>
-                            Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
-                                processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                na seção critica deve obter um token de acesso. Existe somente um token para ser
-                                distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
-                                central funciona da seguinte forma:
-                        </p>
-                        <p>
-                            Abaixo foi construído um modelo para exemplificar o funcionamento do
-                            algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
-                            participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
-                            aperte AVANÇAR e para reiniciar aperte RESET.
-                        </p>
-                        <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
-                            que pode conter de 1 a 8 processos.
+                            <b>Texto para a imagem 2</b>
                         </p>
                 </div>
             </div>
