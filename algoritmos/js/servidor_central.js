@@ -138,6 +138,8 @@ function avancarAlg() {
     }
     else {
         alert("Nenhum processo está solicitando entrar na seção critica");
+        d3.select("#buttonsR2").selectAll("#avancar")
+            .attr("onclick", "avancarAlg()");
     }
 }
 
@@ -345,7 +347,7 @@ slider1.oninput = function () {
 // inicialização da tela //
 window.onload = function () {
     desenhoInit();
-    criarFila(); 
+    criarFila();
     filaProcessos();
 }
 window.onscroll = function () { scrollFunction() };
@@ -364,8 +366,7 @@ function estaVisivel(el) {
 }
 function scrollFunction() {
     var y = window.scrollY;
-    console.log(y);
-    
+
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
     } else {
