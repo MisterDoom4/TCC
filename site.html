@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" />
+        <meta charset="utf-8"/>
+        <title>Explorando Sistemas</title>
+        <meta name="author" content="Gabriele Paloma Vieira Rodrigues & Thays Resende Achucarro" />
+        <meta name="description" content="Ensinando conceitos de Sistemas Distribuídos de forma simples" />
+        <meta name="keywords"  content="sistemas distribuídos, algoritmos, anel, bully" />
+        <meta name="Resource-type" content="Document" />
+
+        <link rel="stylesheet" type="text/css" href="css/fullpage.css" />
+        <link rel="stylesheet" type="text/css" href="css/example.css" />
+        <link rel="shortcut icon" type="image/png" href="img/paper-airplane-icon.png"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    </head>
+    <body>
+        <div id="wrapper">
+            <header id="header">
+                <ul id="menu">
+                    <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
+                    <li data-menuanchor="sections"><a href="#sections">Seções</a></li>
+                    <li data-menuanchor="about"><a href="#about">Sobre</a></li>
+                </ul>
+            </header>
+            <section id="container">
+                <div id="fullpage">
+                    <div class="section" id="section0">
+                        <div class="intro">
+                            <h1>Explorando Sistemas</h1>
+                            <p>Um guia prático para ensinar conceitos de computação distribuída.</p>
+                        </div>
+                    </div>
+                    <div class="section " id="section1">
+                        <div class="slide" id="slide1"><br><br>
+                            <div class="myContent-nav">
+                                <h1>Eleição de Líder</h1>
+                                <div class="col_half"> 
+                                    <p>Um líder é necessário em muitos sistemas distribuídos, porque os algoritmos normalmente
+                                        não são completamente simétricos e algum processo precisa tomar a iniciativa
+                                        de iniciar o algoritmo ou é necessário eleger um único processo para desempenhar 
+                                        uma função específica.
+                                    </p>
+                                    <p> Os algoritmos de eleição de líder são utilizados para auxiliar 
+                                        na escolha desse processo que será considerado o novo líder. 
+                                        É importante lembrar que todos os processos precisam estar em consenso
+                                        sobre a escolha do novo líder.
+                                    </p>   
+                                </div>
+                                <div class="col_half col_last">
+                                        <a href="algoritmos/anel.html">
+                                            <div class="nav-unit sec1">
+                                                <div id="canvasR">   
+                                                    <span> Algoritmo em Anel </span> 
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="algoritmos/bully.html">
+                                            <div class="nav-unit sec2">
+                                                <div id="canvasB">   
+                                                    <span> Algoritmo Bully </span> 
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="slide" id="slide2">
+                            <div class="myContent-nav">
+                                <div class="left">
+                                    <h1>Tempos Lógicos</h1>
+                                    <p>EM DESENVOLVIMENTO.</p>
+                                    
+                                </div>
+                                <div class="right">
+                                        <div>
+                                            <a href="algoritmos/relogio_logico.html">
+                                                <div class="nav-unit sec1">
+                                                    <span class="nav-unit-sect"> Relógio Lógicos </span>
+                                                </div>
+                                            </a>
+                                            <a href="algoritmos/relogio_vetorial.html">
+                                                <div class="nav-unit sec2">
+                                                    <span class="nav-unit-sect"> Relógios Vetoriais </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+                            </div>
+                            <div class="section " id="section1">
+                                <div class="slide" id="slide1"><br><br>
+                                    <div class="myContent-nav">
+                                        <h1>Algoritmos de Exclusão Mútua</h1>
+                                        <div class="col_half"> 
+                                            <p>Breve introdução sobre Exclusão Mútua . . .
+                                            </p>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed ultrices felis. Suspendisse sem purus, ultrices nec viverra id, aliquam ut sem. Maecenas ut pulvinar lectus. Nulla eget ligula lorem. Donec laoreet ex vel molestie commodo. Aliquam semper arcu sed purus dignissim, vel vestibulum odio vehicula. Ut auctor, turpis at auctor congue, lacus dui dictum quam, et feugiat enim nibh a lacus. Quisque consectetur, lorem ac scelerisque vulputate, est nibh placerat ipsum, non suscipit quam massa eget nibh. Praesent lectus magna, consequat eu neque id, maximus convallis velit.
+                                            </p>
+                                        </div>
+                                        <div class="col_half col_last">
+                                            <a href="algoritmos/servidor_central.html">
+                                                <div class="nav-unit sec1">
+                                                    <div id="canvas1">
+                                                        <span> Servidor Central </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="algoritmos/exclusao_anel.html">
+                                                <div class="nav-unit sec2">
+                                                    <div id="canvas2">
+                                                        <span> Anel </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="algoritmos/maekawa.html">
+                                                <div class="nav-unit sec3">
+                                                    <div id="canvas3">
+                                                        <span> Maekawa </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="algoritmos/ricart_agrawala.html">
+                                                <div class="nav-unit sec4">
+                                                    <div id="canvas4">
+                                                        <span> Ricart & Agrawala </span>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="slide" id="slide3">
+                            <div class="myContent-nav">
+                                <div class="left">
+                                    <h1>Protocolos de Checkpointing</h1>
+                                    <p>
+                                        Uma técnica amplamente utilizada na computação distribuída para fornecer tolerância a falhas é o uso de <i>Checkpointing</i>.
+                                        Esta técnica consiste em agrupar estados locais dos processos para formar uma linha de recuperação consistente, 
+                                        a qual pode ser utilizada para recuperar a computação após uma falha.
+                                    </p>
+                                    
+                                </div>
+                                <div class="right">
+                                    <div>
+                                        <a href="algoritmos/chkptalgs.html">
+                                            <div class="nav-unit sec1">
+                                                <span class="nav-unit-sect"> Algoritmos</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section " id="section2">
+                        <div class="sobre">
+                            <h1>Sobre</h1>
+                            <p>
+                                Explorable Explanations (EEs) foram forjadas por um grupo de pessoas com o intuito de reunir textos, 
+                                imagens, simulações, animações, etc., de forma que um aprendiz possa ler um texto e interagir ao mesmo tempo.
+                                Nosso projeto contém um conjunto de EEs abordando conceitos/algoritmos relacionados à disciplinas de Sistemas Distribuídos. 
+                                O projeto ainda está em desenvolvimento mas, atualmente, já conta com a descrição de dois algoritmos distribuídos de "eleição" de líder. 
+                            </p>
+                        </div>
+                        <!-- Footer -->
+                        <footer id="footer" class="footer-light">            
+                            <div class="copyright-content">
+                                <div class="container">
+                                    <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os direitos reservados. </div>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- end: Footer -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script type="text/javascript" src="../plugin/d3.js"></script>
+        <script type="text/javascript" src="js/fullpage.js"></script>
+        <script type="text/javascript" src="js/canvas.js"></script>
+        <script type="text/javascript">
+        var myFullpage = new fullpage('#fullpage', {
+            licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
+            verticalCentered: true,
+            anchors: ['home', 'sections', 'about'],
+            menu: '#menu',
+            //sectionsColor: ['#40B7E3', '#0798ec', '#0487B6', '#0DAFEA']
+            sectionsColor:['#1c1f33',,'#1c1f33']
+        });
+        </script>
+    </body>
+</html>

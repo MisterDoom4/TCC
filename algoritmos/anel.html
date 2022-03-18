@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" />
+        <meta charset="utf-8"/>
+        <title>Eleição de Líder - Anel</title>
+        <meta name="author" content="Gabriele Paloma Vieira Rodrigues & Thays Resende Achucarro" />
+        <meta name="description" content="Ensinando eleição de líder de forma simples" />
+        <meta name="keywords"  content="sistemas distribuídos, algoritmos, anel, bully" />
+        <meta name="Resource-type" content="Document" />
+
+        <link rel="stylesheet" type="text/css" href="css/fullpageStyle.css"/>       
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/responsive.css"/>
+        <link rel="stylesheet" type="text/css" href="plugins.css"/>
+        <link rel="shortcut icon" type="image/png" href="../img/paper-airplane-icon.png"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    </head>
+    <body>  
+        <button onclick="topFunction()" id="myBtn" title="Go to top" ><i class="fa fa-angle-up icon"></i></button>     
+        <div id="wraper"> 
+            <!--<header id="header">
+                <div class="container">
+                <div id="myNav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="../site.html">Home</a>
+                    <button class="dropdown-btn">Seções </button>
+                    <div class="dropdown-container">
+                        <button class="dropdown-btn">Eleição de Líder </button>
+                        <div class="dropdown-container">
+                            <a href="anel.html">Anel</a>
+                            <a href="bully.html">Bully</a>
+                        </div>
+                        <a href="#">Tempos Lógicos</a>
+                    </div>
+                    <a href="../site.html">Sobre</a>
+                </div>
+                <span id="nav-overlay" onclick="openNav()"> &#9776; </span>
+            </div>
+            </header><h1>Eleição de Líder</h1>
+                    </div>
+                    <div>-->
+
+            <section id="page-title">
+                <div class="container">
+                    <div class="page-title">                      
+                        <a href="../site.html" class="btn btn-outline btn-rounded btn-light">Home</a>
+                        <a href="anel.html" class="active btn btn-rounded btn-light">Anel</a>
+                        <a href="bully.html" class="btn btn-outline btn-rounded btn-light">Bully</a>
+                    </div>
+                </div>
+            </section>
+   
+            <section>
+                <div class="container">
+                    <h1>Algoritmo em Anel</h1>
+                    <p>
+                        Na computação distribuída, muitas vezes é necessária a escolha de um processo específico para <strong>coordenar</strong> 
+                        tarefas ou desempenhar alguma função em particular. Os algoritmos usados para escolher um coordenador são conhecidos como 
+                        algoritmos de <font color="blue">eleição de líder</font>. Nesses algoritmos, muitas vezes não importa
+                        qual o processo é escolhido como líder, desde que alguém seja eleito. Contudo, todos os processos participantes
+                        devem concordar com a escolha do novo líder.
+                    </p>
+                    <p> 
+                        Exemplos de aplicações distribuídas que usam eleição de líder:
+                        <ul>
+                            <li>Servidores que usam replicação passiva (<a href="http://www.pmg.csail.mit.edu/papers/harp.pdf">Harp</a>);</li>
+                            <li>Processo sequenciador em algoritmos de comunicação <i>multicast</i> (<a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.35.6888">Amoeba</a>).</li>
+                        </ul> 
+                    </p>
+                    <p>
+                        Algoritmos típicos para eleição de líder consideram uma <button onmouseover="showRing()" onmouseout="unshowRing()" type="button" class="btn btn-light btn-xs">topologia em anel</button>. Seja P, o conjunto
+                        de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos participantes 
+                        da computação, até n eleições podem ser realizadas de forma concorrente, desde que somente um líder seja eleito e cada processo
+                        inicie somente uma eleição por vez. A qualquer 
+                        momento, um determinado processo pode ser considerado um 
+                        <button onmouseover="showPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">participante</button>
+                        ou um 
+                        <button onmouseover="shownoPart()" onmouseout="unshowPart()" type="button" class="btn btn-light btn-xs">não-participante</button>, indicando  se o processo está participando, ou não, de uma execução do 
+                        algoritmo de eleição.                    
+                        Na imagem abaixo, inicialmente todos os processos são <strong>não-participantes</strong>. Ao clicar em um processo, ele passa a ser participante. Para visualizar, passe o <em>mouse</em> em cima das caixas de texto.
+                    </p>
+                    <div id="firstsvg"></div>
+                    <input class="slider" type="range" min="3" max="10" step="1" value="5"  id="sliderNodePart"></input>
+                    <br>
+                    <p> O Algortimo em Anel é um dos algoritmos clássicos para eleição de líder em sistemas distribuídos. Esse algoritmo realiza a eleição 
+                        considerando uma rede de sobreposição em anel, o que significa que os processos se comunicam ao redor de um anel no sentido horário. 
+                        Para esse algoritmo, é considerado que cada processo tenha uma espécie de "força", ou seja, um identificador (ID), 
+                        onde o processo que possui a maior "força" (identificador) dentre todos os processos que não estejam em 
+                        estado de falha pode ser eleito o líder. Para esses casos, será considerado que os processos tenham
+                        "forças" distintas.
+                    </p>
+    
+                    <p>No <strong>algoritmo de eleição de líder em anel</strong>, cada processo mantém comunicação somente 
+                        com seus vizinhos à esquerda e à direita, sendo que os vizinhos de P<sub>k</sub> são, 
+                        respectivamente, P<sub>k-1</sub> e P<sub>k+1</sub>. Como a comunicação se dá no sentido horário, 
+                        P<sub>k</sub> recebe mensagens de P<sub>k-1</sub> e envia mensagens para P<sub>k+1</sub> anexando 
+                        seu ID ("força") à cada mensagem enviada. P<sub>k</sub> anexa à mensagem seu ID<sub>k</sub> e envia 
+                        a mensagem para P<sub>k+1</sub>.
+                    </p>
+    
+                    <div id="background"></div>
+                    <input class="slider" type="range" min="3" max="10" step="1" value="5"  id="sliderNodeArrow">
+                    <br>
+                    <p>Durante a execução do algoritmo baseado em anel, os nós podem estar em uma de três 
+                        possibilidades (um, entre três estados possíveis):
+                        <br>
+                        <ul>
+                            <li>Não-decidido: ainda não se decidiu;</li>
+                            <li>Líder: ele é o líder;</li>
+                            <li>Não-líder: entende que não é o líder. Nesse caso, algum outro processo é o líder.</li>
+                        </ul>
+                    </p>
+                    <p>Inicialmente, todo nó está no estado não-decidido (indeciso). Quando ele decide, seu 
+                        <strong>estado final</strong> será líder ou não-líder, sujeito a restrição que só pode 
+                        existir exatamente um líder. Assumimos que cada nó tem uma "força" única. Isso torna o 
+                        algoritmo trivial, já que é possível eleger um líder, por exemplo, com a maior "força".</p>
+                    
+                    <h5>Algoritmo de eleição de líder usando uma topologia lógica em anel, com a comunicação no sentido 
+                        horário:
+                    </h5>  
+                    <p> 
+                        Apresentamos um algoritmo em anel simples, que é correto, pois elege um líder, 
+                        com tempo <i>O(n)</i> e complexidade de mensagens de <i>O(n<sup>2</sup>)</i>.
+                    </p>
+                    
+                    <p>Cada nó executa:</p>
+    
+                    <div>
+                        <ul >
+                            <li>
+                                Um processo P<sub>i</sub> qualquer inicia o algoritmo enviando uma mensagem <em>send </em>(eleição, 
+                                P<sub>i</sub>. força<sub>i</sub>) para o próximo processo P<sub>j</sub>, onde P<sub>j</sub> é P<sub>(i+1)mod n</sub>.
+                                Nesse momento, ele entende que é líder, pois até o momento só conhece sua "força";
+                            </li>
+                            <li>
+                                 Ao receber uma mensagem (eleição, força<sub>i</sub>), o processo P<sub>j</sub> calcula o valor
+                                máximo entre o força<sub>i</sub> e força<sub>j</sub>, ou seja max(força<sub>i</sub>, força<sub>j</sub>);
+                                <ul>
+                                    <li>
+                                        Se força<sub>i</sub> > força<sub>j</sub>, então P<sub>j</sub> encaminha para seu vizinho
+                                        força<sub>i</sub> e decide que força<sub>i</sub> é a "força" do processo líder e entende que ele
+                                        é Não-Líder;
+                                    </li>
+                                    <li>Se força<sub>i</sub> < força<sub>j</sub>, então P<sub>j</sub> encaminha para seu vizinho
+                                            força<sub>j</sub> e decide que ele é líder;
+                                    </li>
+                                    <li>
+                                            Se P<sub>j</sub> recebe sua própria "força", ele decider por ser o Líder.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                O líder coloca em circulação uma mensagem <em>send</em> (eleito, ID), para que todos fiquem 
+                                sabendo quem é o novo líder e o algoritmo termina quando esta mensagem retorna a ele.                                    
+                            </li>
+                        </ul>            
+                    </div>
+                   <p>
+                        A animação a seguir possui um conjunto de processos com valores de suas forças gerados aleatoriamente. 
+                        Ao iniciar a animação o usuário pode acompanhar, passo a passo, o comportamento da escolha de 
+                        um líder usando este algoritmo. Por conveniência escolheu-se iniciar a simulação do algoritmo sempre a partir de P<sub>0</sub>.
+                        A cada passo, o processo P<sub>i</sub> envia o valor de sua "força" para o vizinho P<sub>(i+1)mod n</sub>.
+                    </p>
+                    <div class="grid-system-demo-live">
+                        <div class="row">
+                            <div class="col_three_fifth"><!--<div class="left" >-->
+                                <div id="thirdsvg"></div>
+                                <br>
+                                <div id="buttonsR">
+                                    <button onclick="playOne()" type="button" class="btn btn-rounded btn-light btn-sm">Play</button>
+                                </div>
+                                <input class="slider" type="range" min="3" max="10" step="1" value="5"  id="sliderNodeThird">
+                            </div>
+                            <div class="col_two_fifth col_last"><!--<div class="right">-->
+                                <table id="table2" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Força</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>    
+                    </div>
+                    <br>
+                    <p>
+                        O usuário pode também interagir com o algoritmo aumentando ou diminuindo o número de processos ou a "força" de 
+                        cada processo. Igualmente a simulação do algoritmo sempre se inicia a partir de P<sub>0</sub>.
+                        A cada passo, o processo P<sub>i</sub> envia o valor de sua "força" para o vizinho P<sub>(i+1)mod n</sub>.
+                    </p>
+    
+                    <div class="grid-system-demo-live">
+                        <div class="row">
+                            <div class="col_three_fifth"><!--<div class="left" >-->
+                                <div id="forthsvg"></div>
+                                <br>
+                                <div id="buttonsS">
+                                    <button onclick="playTwo()" type="button" class="btn btn-rounded btn-light btn-sm">Play</button>
+                                </div>
+                                <input class="slider" type="range" min="3" max="10" step="1" value="5"  id="sliderNodeForth"></input>
+                            </div>
+                            <div class="col_two_fifth col_last"><!--<div class="right">-->
+                                <table id="table" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Força</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer id="footer" class="footer-dark">
+                        
+                <div class="copyright-content">
+                <div class="container">
+                    <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os direitos reservados. </div>
+                </div>
+                </div>
+            </footer>
+            <!-- end: Footer -->
+        </div>
+        <!-- Go to top button -->
+        <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
+
+        <script type="text/javascript" src="./js/anel_versaocomentada.js"></script>
+        <script type="text/javascript" src="../plugin/d3.js"></script>
+
+        
+    </body>
+</html>

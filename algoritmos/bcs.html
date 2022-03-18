@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta charset="utf-8"/>
+    <title>Checkpointing - BCS</title>
+    <meta name="author" content="Letícia Genes Gomes" />
+    <meta name="description" content="Ensinando protocolos quase-síncronos de checkpointing: BCS" />
+    <meta name="keywords"  content="sistemas distribuídos, checkpointing, quase-síncrono, BCS, protocolos, algoritmos" />
+    <meta name="Resource-type" content="Document" />
+
+    <link rel="stylesheet" type="text/css" href="css/fullpageStyle.css"/>       
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bcs.css"/>
+    <link rel="shortcut icon" type="image/png" href="../img/paper-airplane-icon.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+</head>
+<body> 
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-angle-up icon"></i></button>
+
+    <div id="wraper">      
+
+        <section id="page-title">
+            <div class="container">
+                <div class="page-title">
+                    <a href="../site.html" class="btn btn-outline btn-rounded btn-light">Home</a>
+                    <a href="anel.html" class="btn btn-outline btn-rounded btn-light">??</a>
+                    <a href="bully.html" class="active btn  btn-rounded btn-light">??</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Protocolo BCS</h2>
+<!--Fonte: Ulisses-->
+                <p>
+                    A sigla BCS vem do nome de seus autores: Briatico, Ciuffoletti e Simoncini.
+                </p>
+
+                <p>
+                    No BCS, os <button onmouseover="showProcessos()" onmouseout="unshowProcessos()" type="button" 
+                    class="btn btn-light btn-xs">processos</button> são representados por <font color=#4b4b4b>P
+                    <sub>i</sub></font>, onde 0 &le; <font color=#4b4b4b>i</font> < <font color=#4b4b4b>n</font>, 
+                    sendo <font color=#4b4b4b>n</font> o número de processos. Cada processo possui seu 
+                    <button onmouseover="showRelogio()" onmouseout="unshowRelogio()" type="button" 
+                    class="btn btn-light btn-xs">relógio lógico</button>, e quando um processo 
+                    <font color=#4b4b4b>P<sub>i</sub></font> envia uma <button onmouseover="showMensagem()" 
+                    onmouseout="unshowMensagem()" type="button" class="btn btn-light btn-xs">mensagem</button> 
+                    <font color=#4b4b4b>m</font> para outro processo, também anexa na mensagem o valor de seu 
+                    relógio lógico. Abaixo temos um exemplo de como iremos representar o funcionamento do 
+                    algoritmo, usando uma linha do tempo para demonstrar a ordem dos eventos, e setas para 
+                    representar a direção do envio de mensagens. <button onmouseover="showCheckBasico()" 
+                    onmouseout="unshowCheckBasico()" type="button" class="btn btn-light btn-xs">Checkpoints 
+                    básicos</button> serão representados por quadrados preenchidos, enquanto 
+                    <button onmouseover="showCheckForcado()" onmouseout="unshowCheckForcado()" type="button" 
+                    class="btn btn-light btn-xs">checkpoints forçados</button>, por quadrados vazios.
+                </p>
+                <div id="svg_estatico" align="center"></div>
+                <p>O algoritmo BCS funciona da seguinte maneira:</p>
+                FALTA ARRUMAR AQUI
+                <div style="display: flex; flex-flow: row wrap;">
+                    <div style="width: 50%;">
+                        <div style="border: 1px solid black; padding: 20px; margin-right: 100px; margin-left: 100px;">
+                            <b>Variáveis:</b>
+                            <br>&emsp;&emsp;&emsp;lc=-inteiro
+                            <br><b>Início:</b>
+                            <br>&emsp;&emsp;&emsp;lc=0
+                            <br>&emsp;&emsp;&emsp;Armazena o checkpoint inicial
+                            <br><b>Checkpoint básico:</b>
+                            <br>&emsp;&emsp;&emsp;lc = lc + 1
+                            <br>&emsp;&emsp;&emsp;Armazena o checkpoint básico
+                            <br><b>Envio da mensagem (m) para Pk:</b>
+                            <br>&emsp;&emsp;&emsp;se m.lc > lc :
+                                <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Armazena o checkpoint forçado
+                                <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;lc = m.lc
+                            <br>&emsp;&emsp;&emsp;Recebe a mensagem (m)
+                        </div>
+                    </div>
+
+                    <div style="width: 50%;">
+                        <div style="margin-right: 100px;">
+                            <p>
+                                O índice do relógio lógico de um processo é representado pela variável <font color=#4b4b4b>lc</font>, um inteiro
+                                que tem seu valor inicializado em zero.
+                                </p><p> A cada checkpoint básico, o valor de <font color=#4b4b4b>lc</font>
+                                é incrementado em 1. 
+                                </p><p>Quando uma mensagem <font color=#4b4b4b>m</font> é enviada, o <font color=#4b4b4b>lc</font>
+                                do processo é enviado juntamente com ela, sendo 
+                                identificado por <font color=#4b4b4b>m.lc</font> no processo de destino.
+                            </p><p>Quando a mensagem é recebida, <font color=#4b4b4b>m.lc</font> é comparado com o <font color=#4b4b4b>lc</font> 
+                                do processo que a recebeu, e caso o valor de <font color=#4b4b4b>m.lc</font> seja maior, é feito um checkpoint
+                                forçado, onde o índice <font color=#4b4b4b>lc</font> 
+                                do processo atual passa a ser igual ao valor recebido.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="svg_dinamico" align="center"></div>
+                <button onclick="evento(svg2, vet_estatico)" type="button" class="btn btn-rounded btn-light btn-sm">Play</button>
+                
+            </div>
+        </section>
+
+                    <img src="../img/BCS.png" alt="algoritmo BCS" width=600 height=400>
+                
+
+<!--
+                EXISTEM DIVERSAS VARIAÇÕES DO BCS. UMA DELAS, EMPREGA A IDEIA DE TOMAR CHECKPOINTS DE UMA MANEIRA MAIS
+                PREGUIÇOSA, CONHECIDA COMO LAZY. AÍ, EXPLICAR A IDEIA LAZY.
+
+                MOSTRAR ANIMAÇÃO COM A IDEIA LAZY
+
+                MELHORAR O TEXTO E EXPLICAR O ALGORITMO EMPREGANDO A TÉCNICA LAZY.
+                <p>
+                    No Lazy-BCS tem um booleano que faz com que o lc só seja incrementado quando o último checkpoint for um checkpoint básico e não tiver recebido nenhuma mensagem com índice maior ou igual o seu nesse intervalo. (detalhar mais).
+                </p>
+
+                RELÓGIO LÓGICO DE CADA PROCESSO SEMPRE INICIALIZADO COM 0.
+            -->
+
+
+        <!-- Footer -->
+        <footer id="footer" class="footer-dark">            
+            <div class="copyright-content">
+                <div class="container">
+                    <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os direitos reservados. </div>
+                </div>
+            </div>
+            <script src="js/bcs.js"></script>
+        </footer>
+        <!-- end: Footer -->
+    </div>
+
+        <script type="text/javascript" src="./js/bully.js"></script>
+        <script type="text/javascript" src="../plugin/d3.js"></script>
+
+</body>
+</html>

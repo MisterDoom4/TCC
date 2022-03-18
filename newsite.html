@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" />
+        <meta charset="utf-8"/>
+        <title>SDs</title>
+        <meta name="author" content="Gabriele Paloma Vieira Rodrigues & Thays Resende Achucarro" />
+        <meta name="description" content="Ensinando conceitos de Sistemas Distribuídos de forma simples" />
+        <meta name="keywords"  content="sistemas distribuídos, algoritmos, anel, bully" />
+        <meta name="Resource-type" content="Document" />
+
+
+        <link rel="stylesheet" type="text/css" href="css/fullpage.css" />
+        <link rel="stylesheet" type="text/css" href="css/example.css" />
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="js/fullpage.js"></script>
+
+        <link rel="shortcut icon" type="image/png" href="img/paper-airplane-icon.png"/>
+
+        <script type="text/javascript">
+            //using document ready...
+            $(document).ready(function(){
+                //initialising fullpage.js in the jQuery way
+                $('#fullpage').fullpage({
+                    anchors: ['home', 'sections', 'about'],
+                    menu: '#menu',
+                    sectionsColor: ['#40B7E3', '#0798ec', '#0487B6', '#0DAFEA'],
+                    //navigation: true,
+                    //slidesNavigation: true,
+                });
+            });
+        </script>
+
+    </head>
+    <body>
+        <ul id="menu">
+            <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
+            <li data-menuanchor="sections"><a href="#sections">Seções</a></li>
+            <li data-menuanchor="about"><a href="#about">Sobre</a></li>
+        </ul>
+
+        <div id="fullpage">
+            <div class="section">
+                <div class="intro">
+                    <h1>Sistemas Distribuídos</h1>
+                    <p>Um guia prático para ensinar conceitos de computação distribuída.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="slide">
+                    <h1>Eleição de Líder</h1>  
+                </div>
+                <div class="slide">
+                    <h1>Relógios Lógicos</h1>
+                </div>
+            </div>
+            <div class="section">
+                <h1>Sobre</h1>
+            </div>
+        </div>
+
+    </body>
+</html>
