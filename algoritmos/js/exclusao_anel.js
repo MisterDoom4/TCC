@@ -163,6 +163,13 @@ function callRandom() {
             }
     }
 }
+function reset(){
+    d3.select("#anelsvg").selectAll("circle").remove();
+    d3.select("#anelsvg").selectAll("text").remove();
+    d3.select("#anelsvg").selectAll("rect").remove();
+    d3.select("#anelsvg").selectAll("line").remove();
+    d3.select("#anelsvg").selectAll(".token").remove();
+}
 // function showPart(){
 //     d3.select("#anelsvg").selectAll("circle").remove();
 //     for(i=0;i<n1;i++){                
@@ -207,6 +214,13 @@ function callRandom() {
 //         }
 //     }
 // }
+var slider1 = document.getElementById("sliderNodePart");
+slider1.oninput = function () {
+    nodesFirst.splice(0, 10);
+    n1 = this.value;
+    reset();
+    desenhoinitPart();
+}
 window.onload = function () {
     desenhoinitPart();
     document.getElementById("buttonsR2").style.display = "block";

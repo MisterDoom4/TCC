@@ -3,8 +3,7 @@ var servidorCentral = d3.select("#scsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
-var i, radio = 15, distx, distx2, n1 = 3, partic = 0, x0, y0, x1, y1;
-var part;
+var i, radio = 15, distx, distx2, n1 = 3,x0, y0, x1, y1;
 var nodesFirst = [], fila = [];
 var color = "#E0FF33", line = "RoyalBlue";
 var serverColor = "#2892D7";
@@ -34,7 +33,7 @@ function desenhoInit() {
                 y1 = 150;
             }
         }
-        var newNode = { x: x1, y: y1, id: i, distx, part: partic };
+        var newNode = { x: x1, y: y1, id: i, distx};
         nodesFirst.push(newNode);
         servidorCentral.append("line")
             .attr("x1", x0)
@@ -349,6 +348,7 @@ window.onload = function () {
     desenhoInit();
     criarFila();
     filaProcessos();
+    desenhoInit0();
 }
 window.onscroll = function () { scrollFunction() };
 const p = document.querySelector("#customIMG");
@@ -365,7 +365,6 @@ function estaVisivel(el) {
     return estaVisivel;
 }
 function scrollFunction() {
-    var y = window.scrollY;
 
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
@@ -396,3 +395,66 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
+var teste = d3.select("#firstsvg")
+    .append("svg")
+    .attr("width", 500)
+    .attr("height", 200);
+var i0, radio0 = 15, distx0, distx02,x00, y00, x01, y01;
+var nodesZero = [];
+
+
+function desenhoInit0() {
+    y00 = 20; // posição y, fixa
+    x00 = 250;
+    // função para criar outros processos //
+    for (i0 = 0; i0 < 3; i0++) {
+            distx0 = 190;
+            x01 = distx0 + i0 * 60;
+            y01 = 150;
+        var newNode = { x: x01, y: y01, id: i0, distx0};
+        nodesZero.push(newNode);
+        teste.append("line")
+            .attr("x1", x00)
+            .attr("y1", y00)
+            .attr("x2", x01)
+            .attr("y2", y01)
+            .attr("stroke", lineC)
+            .attr("stroke-width", 5)
+            .attr("fill", colorC);
+
+        teste.append("circle")
+            .attr("cx", x01)
+            .attr("cy", y01)
+            .attr("r", radio0)
+            .attr("stroke", line)
+            .attr("stroke-width", 1)
+            .attr("fill", color)
+            .append("text")
+            .text("P" + i0);
+    }
+    // desenhar o token //
+    teste.append("circle")
+        .attr("class", "token")
+        .attr("cx", nodesZero[0].x)
+        .attr("cy", nodesZero[0].y)
+        .attr("r", 5)
+        .attr("stroke", lineC)
+        .attr("fill", colorC);
+    // primeiro circulo, esse é o servidor central //
+    teste.append("circle")
+        .attr("cx", x00)
+        .attr("cy", y00)
+        .attr("r", radio0)
+        .attr("stroke", line)
+        .attr("stroke-width", 1)
+        .attr("fill", serverColor);
+    // fila de processos //
+    teste.append("rect")
+        .attr("x", 180)
+        .attr("y", 180)
+        .attr("width", 130)
+        .attr("height", 18)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("fill", "transparent");
+}
