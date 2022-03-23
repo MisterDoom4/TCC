@@ -3,7 +3,7 @@ var first = d3.select("#anelsvg")
     .attr("width", 300)
     .attr("height", 300);
 
-var i, radio = 15, angle, n1 = 5, partic = 0, x1, y1, x2, y2;
+var i, radio = 15, angle, n1 = 3, partic = 0, x1, y1, x2, y2;
 var part = 0;
 var nodesFirst = [];
 var processoToken = -1;
@@ -138,10 +138,45 @@ function playAlg() {
         }, 3000);
         nodesFirst[token].processoToken = -1;
     }
-    setTimeout(callRandom(), 3000);
+    //setTimeout(callRandom(), 3000);
 }
 function pedirToken() {
-
+    var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (optionToken == token) {
+        alert("O processo que já está com o token não pode solicitar");
+    }
+    else {
+        if(nodesFirst[optionToken].processoToken == 0){
+            alert("O processo já solicitou");
+        }
+        else{
+            nodesFirst[optionToken].processoToken = 0;
+            d3.select("#anelsvg").selectAll(".P" + optionToken)
+            .transition()
+            .delay(250)
+            .duration(2000)
+            .attr("fill", nopartColor);
+        }
+    }
+}
+function cancelarToken(){
+    var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (optionToken == token) {
+        alert("O processo que já está com o token não pode ser revogado o acesso");
+    }
+    else {
+        if(nodesFirst[optionToken].processoToken == -1){
+           alert("Esse processo não solicitou ainda");
+        }
+        else{
+            nodesFirst[optionToken].processoToken = -1;
+            d3.select("#anelsvg").selectAll(".P" + optionToken)
+                .transition()
+                .delay(250)
+                .duration(2000)
+                .attr("fill", color);
+        }
+    }
 }
 function callRandom() {
     
@@ -224,4 +259,42 @@ slider1.oninput = function () {
 window.onload = function () {
     desenhoinitPart();
     document.getElementById("buttonsR2").style.display = "block";
+}
+window.onscroll = function () { scrollFunction() };
+const p = document.querySelector("#customIMG");
+// detectar o ultimo desenho //
+function estaVisivel(el) {
+    const posicoes = el.getBoundingClientRect();
+    const inicio = posicoes.top;
+    const fim = posicoes.bottom;
+    let estaVisivel = false
+
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
+        estaVisivel = true;
+    }
+    return estaVisivel;
+}
+function scrollFunction() {
+
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+    // troca de desenho //
+    if (estaVisivel(p) == true) {
+        document.getElementById("buttons").style.display = "flex";
+        d3.select("#combobox").selectAll("option").remove();
+        d3.select("#combobox").selectAll("select").remove();
+        criarComboBox();
+    }
+    else {
+        document.getElementById("buttons").style.display = "none";
+    }
+}
+var comboboxOptions = document.getElementById("combobox");
+function criarComboBox() {
+    for (i = 0; i < n1; i++) {
+        comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
+    }
 }

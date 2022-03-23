@@ -109,14 +109,11 @@
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
-                                <button onclick="criarCustomfila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
-                                <button onclick="removerFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
-                                <button onclick="apagarFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Limpar a fila</button>
-                                <button onclick="addPToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Colocar Token</button>
+                                <button onclick="pedirToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
+                                <button onclick="cancelarToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
+                                
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"
