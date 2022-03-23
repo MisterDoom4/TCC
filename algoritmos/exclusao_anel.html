@@ -58,10 +58,11 @@
                             a seção critica deve obter o token de acesso. Neste modelo o token fica sendo
                             transmitido infinitamente de um processo para o outro no "laço". O processo
                             pode acessar a sessão crítica quando o token passar por ele. Ao acessar a sessão crítica, a
-                            transmissão do token fica bloqueada no processo até ele terminar de acessa-la.
+                            transmissão do token fica bloqueada no processo até ele terminar de acessa-la. Na imagem
+                            logo abaixo vc consegue acompanhar quais componentes fazem parte deste algoritmo.
                     </p>
                     <p>
-                        Na simulação os processos mudam as cores da seguinte forma:
+                        Os processos tem seu estado representado por cores:
                         <ul>
                             <li>
                                 <span style="color:cornflowerblue">Azul </span> quando não deseja acessar a sessão
@@ -98,20 +99,19 @@
                             </div>
                         </div>
                     </div>
-
-                    <p>A cada vez que apertar <b> avançar</b>, o token será enviado para o processo seguinte. Neste
+                    <div class="blankSpace"></div>
+                    <p>
+                        Para o funcionamento do Algoritmo em Anel acompanhe a imagem abaixo. Aperte AVANÇAR para
+                        executa-lo iterativamente.Nexta próxima sessão, os processos solicitam acesso á sessão crítica
+                        randomicamente enquanto o
+                        token é transmitido pelos canais de comunicação. Nela você consegue acompanhar todas as etapas
+                        do gerenciamento de token do algoritmo em anel.
+                    </p>
+                    <p>A cada vez que apertar <b> AVANÇAR</b> o token será enviado para o processo seguinte. Neste
                         modelo, não foi levado em consideração o tempo que o token permanesse bloqueado no processo,
                         pois a representação desse bloqueio não afetaria a dinamica da simulação. Logo, ao clicar em
-                        Avançar, o algoritmo considera o momento onde o processo finaliza o acesso a sessão crítica e
+                        Avançar o algoritmo considera o momento onde o processo finaliza o acesso a sessão crítica e
                         libera o token para circular novamente.
-                    </p>
-
-
-                    <p>
-                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <p>
-                            <b>Texto para a imagem 2</b>
-                        </p>
                     </p>
                 </div>
             </div>
@@ -126,16 +126,16 @@
                             </p>
                             <p>
                                 No modelo seguinte, experimente modificar o algoritmo:
-                                <b id="customIMG">Texto para a imagem 2</b>
                                 <ul>
                                     <li>
-
-                                        Selecione o processo para ele solicitar acesso á sessão
-                                        crítica.
+                                        Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
+                                        solicitação.
                                     </li>
                                 </ul>
+
                             </p>
                         </div>
+                        <b id="customIMG"></b>
                     </div>
                 </div>
                 <div class="algSection">
