@@ -145,28 +145,16 @@
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Avançar</button>
                             </div>
-                            <div class="buttonsR2">
-                                <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Mostrar Processos</button>
-                            </div>
-                            <b class="litletext">Passe o mouse sobre o botão</b>
-
                         </div>
                         <div class="alg" id="anelsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
-                                <button onclick="criarCustomfila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
-                                <button onclick="removerFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover
-                                    da fila</button>
-                                <button onclick="apagarFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Limpar a
-                                    fila</button>
-                                <button onclick="addPToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Colocar
-                                    Token</button>
+                                <button onclick="pedirToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
+                                <button onclick="cancelarToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
+
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"
