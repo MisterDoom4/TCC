@@ -480,6 +480,47 @@ body.stretched .container-fullwidth {
     flex-direction: row;
 }
 
+.textSection {
+    position: relative;
+    min-width: 100%;
+    height: 100%;
+}
+
+.algSection {
+    position: sticky;
+    bottom: 0;
+    margin: 0px 40px;
+    background-color: whitesmoke;
+    text-align: center;
+    height: 350px;
+    /*Mudar aqui caso queira aumentar o tamanho da area svg do algoritmo */
+}
+
+@media only screen and (max-width: 1320px) {
+    .algSection {
+        height: 500px;
+    }
+}
+
+.algContent {
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 50px auto auto;
+    grid-template-areas: 'instruction instruction'
+        'alg interaction'
+        'extra extra';
+
+}
+
+@media only screen and (max-width: 1320px) {
+    .algContent {
+        grid-template-areas: 'instruction instruction'
+            'alg alg'
+            'interaction interaction';
+    }
+}
+
 .firstAlgSection {
     margin-bottom: 30px;
     position: sticky;
@@ -512,49 +553,6 @@ body.stretched .container-fullwidth {
 
 @media only screen and (max-width: 1320px) {
     .firstAlgContent {
-        grid-template-areas: 'instruction instruction'
-            'alg alg'
-            'interaction interaction';
-    }
-}
-
-
-.textSection {
-    position: relative;
-    min-width: 100%;
-    height: 100%;
-}
-
-.algSection {
-    position: sticky;
-    bottom: 0;
-        margin: 0px 40px;
-    background-color: whitesmoke;
-    text-align: center;
-    height: 300px; /*Mudar aqui caso queira aumentar o tamanho da area svg do algoritmo */
-}
-
-@media only screen and (max-width: 1320px) {
-    .algSection {
-        height: 500px;
-    }
-}
-
-
-
-.algContent {
-    height: 100%;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 50px auto auto;
-    grid-template-areas: 'instruction instruction'
-        'alg interaction'
-        'extra extra';
-
-}
-
-@media only screen and (max-width: 1320px) {
-    .algContent {        
         grid-template-areas: 'instruction instruction'
             'alg alg'
             'interaction interaction';
@@ -609,7 +607,8 @@ h1 {
         align-items: center;
     }
 }
-#buttonsR2{
+
+#buttonsR2 {
     display: none;
 }
 
@@ -653,17 +652,15 @@ h1 {
 @media only screen and (max-width: 1320px) {
     .interaction {
         grid-template-areas: 'buttons buttons'
-        'slider slider';
+            'slider slider';
     }
 }
 
-
-
-.litletext{
+.litletext {
     font-size: 0.8rem;
 }
 
-#combobox{
+#combobox {
     padding: 10px 10px;
 }
 

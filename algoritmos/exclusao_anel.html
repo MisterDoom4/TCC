@@ -10,7 +10,7 @@
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
     <meta name="Resource-type" content="Document" />
 
-    <link rel="stylesheet" type="text/css" href="css/fullpage-servidor_central.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage-exclusao_anel.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="plugins.css" />
@@ -56,20 +56,54 @@
                         Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
                             participantes da computação, cada processo P<sub>i</sub> que deseja acessar
                             a seção critica deve obter o token de acesso. Neste modelo o token fica sendo
-                            transmitido infinitamente de um processo para outro no "laço". O processo
+                            transmitido infinitamente de um processo para o outro no "laço". O processo
                             pode acessar a sessão crítica quando o token passar por ele. Ao acessar a sessão crítica, a
-                            transmissão do token fica bloqueada no processo, até o mesmo terminar de acessa-la.
-                            Verifique a imagem abaixo onde é exemplificado o funcionamento do
-                            algoritmo
+                            transmissão do token fica bloqueada no processo até ele terminar de acessa-la.
                     </p>
                     <p>
-                        Na barra horizontal você pode selecionar de 3 a 8 processos para
-                        participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
-                        aperte AVANÇAR e para reiniciar aperte RESET.
+                        Na simulação os processos mudam as cores da seguinte forma:
+                        <ul>
+                            <li>
+                                <span style="color:cornflowerblue">Azul </span> quando não deseja acessar a sessão
+                                crítica.
+                            </li>
+                            <li>
+                                <span style="color:yellowgreen">Verde </span> quando deseja acessar a sessão
+                                crítica.
+                            </li>
+                            <li>
+                                <span style="color:orange">Amarelo </span> quando está acessando a sessão
+                                crítica e o token está com sua movimentação
+                                bloqueada
+                            </li>
+                        </ul>
                     </p>
-                    <p>
-                        Ao clicar em RESET, o algoritmo será reiniciado e será gerado uma fila aleatória,
-                        que pode conter de 3 a 8 processos.
+                    <div>
+                        <div class="firstAlgSection">
+                            <div class="firstAlgContent">
+                                <div class="instruction">
+
+                                    <b>Instruções</b>
+
+                                </div>
+                                <div class="alg" id="scsvg"></div>
+                                <div class="interaction">
+                                    <div id="buttons">
+
+                                    </div>
+                                    <div class="sliderArea">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>A cada vez que apertar <b> avançar</b>, o token será enviado para o processo seguinte. Neste
+                        modelo, não foi levado em consideração o tempo que o token permanesse bloqueado no processo,
+                        pois a representação desse bloqueio não afetaria a dinamica da simulação. Logo, ao clicar em
+                        Avançar, o algoritmo considera o momento onde o processo finaliza o acesso a sessão crítica e
+                        libera o token para circular novamente.
                     </p>
                     <p id="firstsvg">
                         Aqui vai uma SVG
@@ -125,11 +159,14 @@
                                 <button onclick="criarCustomfila()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
                                 <button onclick="removerFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
+                                    class="btn btn-rounded btn-light btn-sm">Remover
+                                    da fila</button>
                                 <button onclick="apagarFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Limpar a fila</button>
+                                    class="btn btn-rounded btn-light btn-sm">Limpar a
+                                    fila</button>
                                 <button onclick="addPToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Colocar Token</button>
+                                    class="btn btn-rounded btn-light btn-sm">Colocar
+                                    Token</button>
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"

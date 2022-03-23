@@ -90,50 +90,68 @@
                         Estrela.
                     </p>
 
-                    <p id="firstsvg">
-                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
-                        <p>
-                            Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
-                                processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                na seção critica deve obter um token de acesso. Existe somente um token para ser
-                                distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
-                                central funciona da seguinte forma:
-                                <p>
-                                    <ul>
-                                        <li>Se o servidor estiver com o token, ele responde a primeira solicitação
-                                            que
-                                            estiver na sua fila de mensagens.
-                                        </li>
-                                        <li>Se o servidor não estiver com o token ele não responderá e irá
-                                            enfileirar as
-                                            solicitações na fila de mensagem.
-                                        </li>
-                                        <li>
-                                            O servidor recebe a ficha de volta quando um processo envia uma mensagem
-                                            de liberação de
-                                            acesso
-                                        </li>
-                                    </ul>
-                                </p>
-                                <p>
-                                    Desta forma este algoritmo satisfaz as propriedades para a exclusão
-                                    mútua. Porém, o ponto
-                                    negativo é o atraso na resposta de mensagens, pois cada processo pode
-                                    ficar
-                                    indeterminadamente com o token e assim deixar as requisições muito tempo em
-                                    espera.
-                                </p>
-                        </p>
-                        <p>
-                            Abaixo foi construído um modelo para exemplificar o funcionamento do
-                            algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
-                            participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
-                            aperte AVANÇAR e para reiniciar aperte RESET.
-                        </p>
-                        <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
-                            que pode conter de 1 a 8 processos.
-                        </p>
+                    <div>
+                        <div class="firstAlgSection">
+                            <div class="firstAlgContent">
+                                <div class="instruction">
+
+                                    <b>Instruções</b>
+
+                                </div>
+                                <div class="alg" id=""></div>
+                                <div class="interaction">
+                                    <div>
+                                        <!-- Coloca os botões dentro dessa div, falta configurar ela, mas vou fazer isso -->
+                                    </div>
+                                    <div class="sliderArea">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
+                            participantes da computação, cada processo P<sub>i</sub> que deseja entrar
+                            na seção critica deve obter um token de acesso. Existe somente um token para ser
+                            distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
+                            central funciona da seguinte forma:
+                            <p>
+                                <ul>
+                                    <li>Se o servidor estiver com o token, ele responde a primeira solicitação
+                                        que
+                                        estiver na sua fila de mensagens.
+                                    </li>
+                                    <li>Se o servidor não estiver com o token ele não responderá e irá
+                                        enfileirar as
+                                        solicitações na fila de mensagem.
+                                    </li>
+                                    <li>
+                                        O servidor recebe a ficha de volta quando um processo envia uma mensagem
+                                        de liberação de
+                                        acesso
+                                    </li>
+                                </ul>
+                            </p>
+                            <p>
+                                Desta forma este algoritmo satisfaz as propriedades para a exclusão
+                                mútua. Porém, o ponto
+                                negativo é o atraso na resposta de mensagens, pois cada processo pode
+                                ficar
+                                indeterminadamente com o token e assim deixar as requisições muito tempo em
+                                espera.
+                            </p>
+                    </p>
+                    <p>
+                        Abaixo foi construído um modelo para exemplificar o funcionamento do
+                        algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
+                        participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
+                        aperte AVANÇAR e para reiniciar aperte RESET.
+                    </p>
+                    <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
+                        que pode conter de 1 a 8 processos.
+                    </p>
                 </div>
             </div>
             <div class="container">
