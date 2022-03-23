@@ -138,7 +138,9 @@ function playAlg() {
         }, 3000);
         nodesFirst[token].processoToken = -1;
     }
-    //setTimeout(callRandom(), 3000);
+    if(estaVisivel(p) == false){
+        setTimeout(callRandom(), 3000);
+    }
 }
 function pedirToken() {
     var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
