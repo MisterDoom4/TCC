@@ -694,8 +694,8 @@ h1 {
 .btn.btn-server:focus,
 .btn.btn-server:active,
 .btn.btn-server.active {
-    background-color: #e13138;
-    border-color: #e13138;
+    background-color: #000000;
+    border-color: #000000;
     color: #fff;
 }
 
@@ -709,8 +709,8 @@ h1 {
 .btn.btn-token:focus,
 .btn.btn-token:active,
 .btn.btn-token.active {
-    background-color: #e13138;
-    border-color: #e13138;
+    background-color: #4B0082;
+    border-color: #4B0082;
     color: #fff;
     color: #fff;
 }
@@ -725,8 +725,8 @@ h1 {
 .btn.btn-fila:focus,
 .btn.btn-fila:active,
 .btn.btn-fila.active {
-    background-color: #e13138;
-    border-color: #e13138;
+    background-color: #006400;
+    border-color: #006400;
     color: #fff;
 }
 

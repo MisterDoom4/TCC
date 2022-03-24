@@ -3,11 +3,11 @@ var servidorCentral = d3.select("#scsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
-var i, radio = 15, distx, distx2, n1 = 3,x0, y0, x1, y1;
+var i, radio = 15, distx, distx2, n1 = 3, x0, y0, x1, y1;
 var nodesFirst = [], fila = [];
 var color = "#E0FF33", line = "RoyalBlue";
 var serverColor = "#2892D7";
-var lineC = "#454545", colorC = "#ffffff", colorToken = "#FF0000";
+var lineC = "#454545", colorC = "#ffffff"
 var choose = 0;
 var chooseInit = 1, rand;
 //primeiro desenho //
@@ -33,7 +33,7 @@ function desenhoInit() {
                 y1 = 150;
             }
         }
-        var newNode = { x: x1, y: y1, id: i, distx};
+        var newNode = { x: x1, y: y1, id: i, distx };
         nodesFirst.push(newNode);
         servidorCentral.append("line")
             .attr("x1", x0)
@@ -386,7 +386,8 @@ var teste = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
-var i0, radio0 = 15, distx0, distx02,x00, y00, x01, y01;
+var i0, distx0, distx02, x00, y00, x01, y01;
+var colorToken = "#4B0082", colorProcesso = "#e13138", colorCentral = "#000000", colorFila = "#006400"
 var nodesZero = [];
 
 // desenhar o exemplo
@@ -395,10 +396,10 @@ function desenhoInit0() {
     x00 = 250;
     // função para criar outros processos //
     for (i0 = 0; i0 < 3; i0++) {
-            distx0 = 190;
-            x01 = distx0 + i0 * 60;
-            y01 = 150;
-        var newNode = { x: x01, y: y01, id: i0, distx0};
+        distx0 = 190;
+        x01 = distx0 + i0 * 60;
+        y01 = 150;
+        var newNode = { x: x01, y: y01, id: i0, distx0 };
         nodesZero.push(newNode);
         teste.append("line")
             .attr("x1", x00)
@@ -412,7 +413,8 @@ function desenhoInit0() {
         teste.append("circle")
             .attr("cx", x01)
             .attr("cy", y01)
-            .attr("r", radio0)
+            .attr("class", "processos")
+            .attr("r", radio)
             .attr("stroke", line)
             .attr("stroke-width", 1)
             .attr("fill", color)
@@ -429,14 +431,16 @@ function desenhoInit0() {
         .attr("fill", colorC);
     // primeiro circulo, esse é o servidor central //
     teste.append("circle")
+        .attr("class", "central")
         .attr("cx", x00)
         .attr("cy", y00)
-        .attr("r", radio0)
+        .attr("r", radio)
         .attr("stroke", line)
         .attr("stroke-width", 1)
         .attr("fill", serverColor);
     // fila de processos //
     teste.append("rect")
+        .attr("class", "fila")
         .attr("x", 180)
         .attr("y", 180)
         .attr("width", 130)
@@ -445,20 +449,209 @@ function desenhoInit0() {
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
 }
-function showProcessos(){
-    
+function showCentral() {
+    d3.select("#firstsvg").selectAll(".central")
+        .transition()
+        .duration(1500)
+        .attr("stroke", colorCentral)
+        .attr("stroke-width", 4);
+
+    teste.append("rect")
+        .attr("x", 110)
+        .attr("y", 15)
+        .attr("class", "ajuda")
+        .attr("width", 90)
+        .attr("height", 18)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("fill", "transparent");
+    teste.append("text")
+        .attr("x", 112)
+        .attr("y", 28)
+        .attr("class", "ajuda")
+        .text("Servidor Central")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .attr("fill", lineC);
+    teste.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("class", "ajuda")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 10)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    teste.append("line")
+        .attr("class", "ajuda")
+        .attr("x1", 234)
+        .attr("y1", 23)
+        .attr("x2", 200)
+        .attr("y2", 23)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("marker-start", "url(#arrow)");
 }
-// trocar a cor do token //
+function unshowCentral() {
+    d3.select("#firstsvg").selectAll(".central")
+        .transition()
+        .duration(1500)
+        .attr("stroke", line)
+        .attr("stroke-width", 1)
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+function showProcessos() {
+    d3.select("#firstsvg").selectAll(".processos")
+        .transition()
+        .duration(1500)
+        .attr("stroke", colorProcesso)
+        .attr("stroke-width", 4);
+
+    teste.append("rect")
+        .attr("x", 370)
+        .attr("y", 145)
+        .attr("class", "ajuda")
+        .attr("width", 60)
+        .attr("height", 18)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("fill", "transparent");
+    teste.append("text")
+        .attr("x", 372)
+        .attr("y", 158)
+        .attr("class", "ajuda")
+        .text("Processos")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .attr("fill", lineC);
+    teste.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("class", "ajuda")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 10)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    teste.append("line")
+        .attr("class", "ajuda")
+        .attr("x1", 330)
+        .attr("y1", 153)
+        .attr("x2", 370)
+        .attr("y2", 153)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("marker-start", "url(#arrow)");
+}
+function unshowProcessos() {
+    d3.select("#firstsvg").selectAll(".processos")
+        .transition()
+        .duration(1500)
+        .attr("stroke", line)
+        .attr("stroke-width", 1)
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
 function showToken() {
     d3.select("#firstsvg").selectAll(".token")
         .transition()
-        .duration(2000)
+        .duration(1500)
         .attr("fill", colorToken);
+    teste.append("rect")
+        .attr("x", 110)
+        .attr("y", 141)
+        .attr("class", "ajuda")
+        .attr("width", 37)
+        .attr("height", 18)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("fill", "transparent");
+    teste.append("text")
+        .attr("x", 112)
+        .attr("y", 154)
+        .attr("class", "ajuda")
+        .text("Token")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .attr("fill", lineC);
+    teste.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("class", "ajuda")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 10)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    teste.append("line")
+        .attr("class", "ajuda")
+        .attr("x1", 182)
+        .attr("y1", 149)
+        .attr("x2", 147)
+        .attr("y2", 149)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("marker-start", "url(#arrow)");
 }
-// voltar a cor do token//
 function unshowToken() {
     d3.select("#firstsvg").selectAll(".token")
         .transition()
-        .duration(2000)
+        .duration(1500)
         .attr("fill", colorC);
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+function showFila() {
+    d3.select("#firstsvg").selectAll(".fila")
+        .transition()
+        .duration(1500)
+        .attr("fill", colorFila);
+    teste.append("rect")
+        .attr("x", 60)
+        .attr("y", 180)
+        .attr("class", "ajuda")
+        .attr("width", 96)
+        .attr("height", 18)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("fill", "transparent");
+    teste.append("text")
+        .attr("x", 60)
+        .attr("y", 193)
+        .attr("class", "ajuda")
+        .text("Fila de processos")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .attr("fill", lineC);
+    teste.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("class", "ajuda")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 10)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    teste.append("line")
+        .attr("class", "ajuda")
+        .attr("x1", 182)
+        .attr("y1", 188)
+        .attr("x2", 157)
+        .attr("y2", 188)
+        .attr("stroke", lineC)
+        .attr("stroke-width", 1)
+        .attr("marker-start", "url(#arrow)");
+}
+function unshowFila(){
+    d3.select("#firstsvg").selectAll(".fila")
+        .transition()
+        .duration(1500)
+        .attr("fill", "transparent");
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
