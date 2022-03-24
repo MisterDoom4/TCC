@@ -1,4 +1,4 @@
-// primeiro desenho //
+// variaveis do desenho //
 var servidorCentral = d3.select("#scsvg")
     .append("svg")
     .attr("width", 500)
@@ -82,14 +82,14 @@ function desenhoInit() {
 }
 // trocar a cor do token //
 function showToken() {
-    d3.select("#scsvg").selectAll(".token")
+    d3.select("#firstsvg").selectAll(".token")
         .transition()
         .duration(2000)
         .attr("fill", colorToken);
 }
 // voltar a cor do token//
 function unshowToken() {
-    d3.select("#scsvg").selectAll(".token")
+    d3.select("#firstsvg").selectAll(".token")
         .transition()
         .duration(2000)
         .attr("fill", colorC);
@@ -394,7 +394,7 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-
+// variaveis do desenho exemplo //
 var teste = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 500)
@@ -402,7 +402,7 @@ var teste = d3.select("#firstsvg")
 var i0, radio0 = 15, distx0, distx02,x00, y00, x01, y01;
 var nodesZero = [];
 
-
+// desenhar o exemplo
 function desenhoInit0() {
     y00 = 20; // posição y, fixa
     x00 = 250;
