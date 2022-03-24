@@ -10,7 +10,7 @@
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
     <meta name="Resource-type" content="Document" />
 
-    <link rel="stylesheet" type="text/css" href="css/fullpage-servidor_central.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage-exclusao_anel.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="plugins.css" />
@@ -44,31 +44,74 @@
         <section class="stickyConfig">
             <div class="container">
                 <div class="text">
-                    <h1>Introdução sobre Algoritmo em Anel e sua estrutura</h1>
+                    <h1>Algoritmo em Anel</h1>
                     <p>
-
+                        Este algoritmo é o mais simples para garantir a exclusão mútua em um sistema distríbuido. Ele
+                        utiliza a topologia em Anel, onde cada processo P participante da computação
+                        precisa somente de um canal de comunicação com o processo seguinte.
+                        Deste modo, os processos formam um "laço" circular de comunicação, onde as mensagens são
+                        transmitidas de maneira unidirecional.
                     </p>
+                    <p>
+                        Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
+                            participantes da computação, cada processo P<sub>i</sub> que deseja acessar
+                            a seção critica deve obter o token de acesso. Neste modelo o token fica sendo
+                            transmitido infinitamente de um processo para o outro no "laço". O processo
+                            pode acessar a sessão crítica quando o token passar por ele. Ao acessar a sessão crítica, a
+                            transmissão do token fica bloqueada no processo até ele terminar de acessa-la. Na imagem
+                            logo abaixo vc consegue acompanhar quais componentes fazem parte deste algoritmo.
+                    </p>
+                    <p>
+                        Os processos tem seu estado representado por cores:
+                        <ul>
+                            <li>
+                                <span style="color:cornflowerblue">Azul </span> quando não deseja acessar a sessão
+                                crítica.
+                            </li>
+                            <li>
+                                <span style="color:yellowgreen">Verde </span> quando deseja acessar a sessão
+                                crítica.
+                            </li>
+                            <li>
+                                <span style="color:orange">Amarelo </span> quando está acessando a sessão
+                                crítica e o token está com sua movimentação
+                                bloqueada
+                            </li>
+                        </ul>
+                    </p>
+                    <div>
+                        <div class="firstAlgSection">
+                            <div class="firstAlgContent">
+                                <div class="instruction">
 
+                                    <b>Instruções</b>
 
-                    <p id="firstsvg">
-                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
-                        <p>
-                            Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
-                                processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                na seção critica deve obter um token de acesso. Existe somente um token para ser
-                                distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
-                                central funciona da seguinte forma:
-                        </p>
-                        <p>
-                            Abaixo foi construído um modelo para exemplificar o funcionamento do
-                            algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
-                            participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
-                            aperte AVANÇAR e para reiniciar aperte RESET.
-                        </p>
-                        <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
-                            que pode conter de 1 a 8 processos.
-                        </p>
+                                </div>
+                                <div class="alg" id="scsvg"></div>
+                                <div class="interaction">
+                                    <div>
+
+                                    </div>
+                                    <div class="sliderArea">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blankSpace"></div>
+                    <p>
+                        Para o funcionamento do Algoritmo em Anel acompanhe a imagem abaixo. Aperte AVANÇAR para
+                        executa-lo iterativamente.Nexta próxima sessão, os processos solicitam acesso á sessão crítica
+                        randomicamente enquanto o
+                        token é transmitido pelos canais de comunicação. Nela você consegue acompanhar todas as etapas
+                        do gerenciamento de token do algoritmo em anel.
+                    </p>
+                    <p>A cada vez que apertar <b> AVANÇAR</b> o token será enviado para o processo seguinte. Neste
+                        modelo, não foi levado em consideração o tempo que o token permanesse bloqueado no processo,
+                        pois a representação desse bloqueio não afetaria a dinamica da simulação. Logo, ao clicar em
+                        Avançar o algoritmo considera o momento onde o processo finaliza o acesso a sessão crítica e
+                        libera o token para circular novamente.
                     </p>
                 </div>
             </div>
@@ -85,16 +128,14 @@
                                 No modelo seguinte, experimente modificar o algoritmo:
                                 <ul>
                                     <li>
-
-                                    </li>
-                                    <li id="customIMG">Altere a posição do token para o processo
-                                        selecionado.
+                                        Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
+                                        solicitação.
                                     </li>
                                 </ul>
 
                             </p>
-                            <div class="fadeEffect"></div> <!-- Aqui tem o fade effect basta ativar a classe-->
                         </div>
+                        <b id="customIMG"></b>
                     </div>
                 </div>
                 <div class="algSection">
@@ -102,28 +143,18 @@
                         <div class="instruction">
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Play</button>
+                                    class="btn btn-rounded btn-light btn-sm">Avançar</button>
                             </div>
-                            <div class="buttonsR2">
-
-                                <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Mostrar Processos</button>
-                                <b class="litletext">Passe o mouse sobre o botão</b>
-                            </div>
-
                         </div>
-                        <div class="alg" id="scsvg"></div>
+                        <div class="alg" id="anelsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
-                                <button onclick="criarCustomfila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
-                                <button onclick="removerFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
-                                <button onclick="apagarFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Limpar a fila</button>
-                                <button onclick="addPToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Colocar Token</button>
+                                <button onclick="pedirToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
+                                <button onclick="cancelarToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
+
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"
@@ -153,7 +184,7 @@
     <!-- Go to top button -->
     <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
 
-    <script type="text/javascript" src="./js/servidor_central.js"></script>
+    <script type="text/javascript" src="./js/exclusao_anel.js"></script>
     <script type="text/javascript" src="../plugin/d3.js"></script>
 
 
