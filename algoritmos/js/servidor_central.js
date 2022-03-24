@@ -80,20 +80,7 @@ function desenhoInit() {
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
 }
-// trocar a cor do token //
-function showToken() {
-    d3.select("#firstsvg").selectAll(".token")
-        .transition()
-        .duration(2000)
-        .attr("fill", colorToken);
-}
-// voltar a cor do token//
-function unshowToken() {
-    d3.select("#firstsvg").selectAll(".token")
-        .transition()
-        .duration(2000)
-        .attr("fill", colorC);
-}
+
 // bloquear o botão para não ter bugs //
 function bloquearAvancar() {
     d3.select("#buttonsR2").selectAll("#avancar")
@@ -457,4 +444,21 @@ function desenhoInit0() {
         .attr("stroke", lineC)
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
+}
+function showProcessos(){
+    
+}
+// trocar a cor do token //
+function showToken() {
+    d3.select("#firstsvg").selectAll(".token")
+        .transition()
+        .duration(2000)
+        .attr("fill", colorToken);
+}
+// voltar a cor do token//
+function unshowToken() {
+    d3.select("#firstsvg").selectAll(".token")
+        .transition()
+        .duration(2000)
+        .attr("fill", colorC);
 }
