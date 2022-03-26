@@ -10,7 +10,7 @@
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
     <meta name="Resource-type" content="Document" />
 
-    <link rel="stylesheet" type="text/css" href="css/fullpage-servidor_central.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage-exclusao_anel.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="plugins.css" />
@@ -44,31 +44,100 @@
         <section class="stickyConfig">
             <div class="container">
                 <div class="text">
-                    <h1>Introdução sobre Algoritmo de Richart e Agrawala e sua estrutura</h1>
+                    <h1>Algoritmo de Ricart & Agrawala</h1>
                     <p>
+                        Este algoritmo é usado para garantir exclusão mútua entre N processos pares em um sistema
+                        distríbuido. Muito similar ao algoritmo de votação de líder, um processo P que deseje entrar na
+                        sessão crítica deve enviar uma mensagem
+                        para todos os processos, um <button onmouseover="showMulticast()" onmouseout="unshowMulticast()"
+                            type="button" class="btn btn-light btn-xs">Multicast</button>, para isso presume-se que cada
+                        processo
+                        tenha um canal de comunicação com os outros processos. Tendo todas as
+                        respostas do multicast ele
+                        poderá acessar a sessão crítica. Ou seja, um processo só acessa a sessão crítica quando todos
+                        "permitirem", respondendo a mensagem do requisitante.
+                    </p>
+                    <p>
+                        Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
+                            participantes da computação, cada processo P<sub>i</sub> deve possuir um <button
+                                onmouseover="showRelogio()" onmouseout="unshowRelogio()" type="button"
+                                class="btn btn-light btn-xs">relógio lógico</button> de
+                            Lamport para anexar na mensagem, uma <button onmouseover="showFila()"
+                                onmouseout="unshowFila()" type="button" class="btn btn-light btn-xs">fila
+                            </button> local para armazenar mensagem recebidas e uma váriavel de estado. Toda
+                            <button onmouseover="showMensagem()" onmouseout="unshowMensagem()" type="button"
+                                class="btn btn-light btn-xs">mensagem
+                            </button> enviada pelos processos segue o formato < T,P<sub>i</sub>>
+                                , onde T é o valor do relógio lógico do processo e P<sub>i</sub> é o
+                                identificador do processo. Na imagem abaixo é possível conferir os componentes
+                                deste algoritmo e onde foram alocados para a prototipação.
+                    </p>
+                    <div>
+                        <div class="firstAlgSection">
+                            <div class="firstAlgContent">
+                                <div class="alg" id="firstsvg"></div>
+                                <div class="interaction">
+                                    <div>
 
+                                    </div>
+                                    <div class="sliderArea">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        Um fator importante nesse algoritmo é a váriavel de estado do processo, pois ela é
+                        o primeiro fator que vai orientar as decisões do processo. A variável diz sua intenção em
+                        relação a sessão crítica, sendo de 3 tipos:
+                        <ul>
+                            <li>
+                                <B>RELEASED</B>, o processo está fora dela e não deseja acessá-la.
+                            </li>
+                            <li>
+                                <b>WANTED</b>, o processo deseja acesso.
+                            </li>
+                            <li>
+                                <b>HELD</b>, o processo está acessando.
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        Como previamente descrito anteriormente, quando um processo P<sub>i</sub> deseja entrar na
+                        sessão crítica ele vai mudar sua variável de estado para WANTED e vai enviar um multicast para
+                        todos os processos, incluindo ele mesmo, e se obtiver todas as resposta, ele receberá acesso.
+                        A lógica de resposta dos processos é descrita abaixo.
+                    </p>
+                    <ul>
+                        <li>
+                            Se o processo que receber a mensagem estiver com seu
+                            estado RELEASED, então ele responderá a mensagem de P<sub>i</sub>.
+                        </li>
+                        <li>
+                            Se o processo que receber estiver com o estado WANTED, ele vai comparar o seu relógio lógico
+                            local, com aquele que veio marcado na mensagem. Se for maior, T<sub>local</sub>
+                            > T <sub>mensagem</sub>, então ele responderá a mensagem. Se for menor, T<sub>local</sub>
+                            < T <sub>mensagem</sub>, então ele enfileirará a mensagem na sua fila, para responder
+                                mais tarde.
+                        </li>
+                        <li>
+                            Se o processo que receber estiver com o estado HELD, ele enfileirará a mensagem.
+                        </li>
+                    </ul>
+
+                    <p>
+                        Todo processo que terminar de acessar a sessão crítica, mudar o estado de HELD para RELEASED,
+                        irá responder todas as mensagens que tem em sua fila. Essa fila de mensagem, usa a lógica
+                        FIFO (First in - First out), então as mensagens mais antigas serão respondidas primeiro. Desta
+                        forma, se dois ou mais processos solicitarem acesso a sessão crítica simultaneamente,
+                        aquele que tiver o menor tempo lógico receberá as N-1 respostas e acessará antes.
                     </p>
 
-
-                    <p id="firstsvg">
-                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                        <img alt="Servidor central estrutura" src="/img/servidor central  Modelo.png" />
-                        <p>
-                            Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de
-                                processos participantes da computação, cada processo P<sub>i</sub> que deseja entrar
-                                na seção critica deve obter um token de acesso. Existe somente um token para ser
-                                distribuído entre os processos requisitantes e seu gerenciamento pelo servidor
-                                central funciona da seguinte forma.
-                        </p>
-                        <p>
-                            Abaixo foi construído um modelo para exemplificar o funcionamento do
-                            algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
-                            participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
-                            aperte AVANÇAR e para reiniciar aperte RESET.
-                        </p>
-                        <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
-                            que pode conter de 1 a 8 processos.
-                        </p>
+                    <p>
+                        Teste o algoritmo abaixo, para iniciar a simulação aperte <b>PLAY</b>, para executar
+                        iterativamente aperte <b>AVANÇAR</b> e para reiniciar aperte <b>RESET</b>.
+                    </p>
                 </div>
             </div>
             <div class="container">
@@ -84,16 +153,14 @@
                                 No modelo seguinte, experimente modificar o algoritmo:
                                 <ul>
                                     <li>
-
-                                    </li>
-                                    <li id="customIMG">Altere a posição do token para o processo
-                                        selecionado.
+                                        Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
+                                        solicitação.
                                     </li>
                                 </ul>
 
                             </p>
-                            <div class="fadeEffect"></div> <!-- Aqui tem o fade effect basta ativar a classe-->
                         </div>
+                        <b id="customIMG"></b>
                     </div>
                 </div>
                 <div class="algSection">
@@ -101,28 +168,18 @@
                         <div class="instruction">
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Play</button>
+                                    class="btn btn-rounded btn-light btn-sm">Avançar</button>
                             </div>
-                            <div class="buttonsR2">
-
-                                <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Mostrar Processos</button>
-                                <b class="litletext">Passe o mouse sobre o botão</b>
-                            </div>
-
                         </div>
-                        <div class="alg" id="scsvg"></div>
+                        <div class="alg" id="anelsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
-                                <button onclick="criarCustomfila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
-                                <button onclick="removerFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
-                                <button onclick="apagarFila()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Limpar a fila</button>
-                                <button onclick="addPToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Colocar Token</button>
+                                <button onclick="pedirToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
+                                <button onclick="cancelarToken()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
+
                             </div>
                             <div class="sliderArea">
                                 <input class="slider" type="range" min="3" max="8" step="1" value="3"
@@ -152,7 +209,7 @@
     <!-- Go to top button -->
     <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
 
-    <script type="text/javascript" src="./js/servidor_central.js"></script>
+    <script type="text/javascript" src="./js/exclusao_anel.js"></script>
     <script type="text/javascript" src="../plugin/d3.js"></script>
 
 

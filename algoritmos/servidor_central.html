@@ -49,9 +49,10 @@
                         crítica para evitar inconsistência de dados, erros de processamento e bloqueio de recursos
                         indeterminadamente. Este é o mais simples dos
                         algoritmos para se obter exclusão
-                        mútua em um sistema distríbuido, pois ele utiliza um <b>servidor central</b>
+                        mútua em um sistema distríbuido, pois ele utiliza um Servidor Central
                         para gerenciar e coordenar os acessos à seção critica.
-                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um <b>token</b> ao servidor
+                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um servidor central token
+                        ao servidor
                         central. O gerenciamento desse token
                         é feito pelo servidor central através de troca de mensagens com os processos.
 
@@ -65,20 +66,28 @@
 
                         <ul>
                             <li>
-                                Processos enviam mensagens para o servidor central e aguardam a resposta dele.
+                                Processos enviam mensagens para o <button onmouseover="showCentral()"
+                                    onmouseout="unshowCentral()" type="button" class="btn btn-light btn-xs">servidor
+                                    central</button> e aguardam a resposta dele.
                             </li>
                             <li>
                                 As mensagens tem em sua composição um
-                                identificador do processo emisor (P<sub>i</sub>) e o conteudo da mensagem, que pode ser:
+                                <button onmouseover="showProcessos()" onmouseout="unshowProcessos()" type="button"
+                                    class="btn btn-light btn-xs">identificador de processo</button> emisor
+                                (P<sub>i</sub>) e o conteudo da mensagem, que pode ser:
                                 solicitação ou liberação da sessão crítica.
 
                             </li>
                         </ul>
                     </p>
                     <p>
-                        Todo processo que receber resposta do servidor central, tem automaticamente liberação para
+                        Todo processo que receber resposta do servidor central, receber o <button
+                            onmouseover="showToken()" onmouseout="unshowToken()" type="button"
+                            class="btn btn-light btn-xs">token</button>, tem automaticamente liberação para
                         acessar a sessão crítica. É necessário uma administração dessas respostas para
-                        garantir a exclusão mútua. Para isso, o servidor central tem uma fila para armazenar as
+                        garantir a exclusão mútua. Para isso, o servidor central tem uma <button
+                            onmouseover="showFila()" onmouseout="unshowFila()" type="button"
+                            class="btn btn-light btn-xs">fila</button> para armazenar as
                         requisições dos
                         processos que utiliza a lógica do "Primeiro a Entrar é o Primeiro a Sair" (FIFO - First in
                         First out).
@@ -100,14 +109,14 @@
                                 <div class="alg" id="firstsvg"></div>
                                 <div class="interaction">
                                     <div>
-                                        <button  onmouseover="showCentral()" onmouseout="unshowCentral()" type="button"
+                                        <button onmouseover="showCentral()" onmouseout="unshowCentral()" type="button"
                                             class="btn btn-rounded btn-server btn-sm">Servidor Central</button>
-                                        <button  onmouseover="showProcessos()" onmouseout="unshowProcessos()" type="button"
-                                            class="btn btn-rounded btn-process btn-sm">Processos</button>
+                                        <button onmouseover="showProcessos()" onmouseout="unshowProcessos()"
+                                            type="button" class="btn btn-rounded btn-process btn-sm">Processos</button>
                                         <button onmouseover="showToken()" onmouseout="unshowToken()" type="button"
                                             class="btn btn-rounded btn-token btn-sm">Token</button>
-                                        <button onmouseover="showFila()" onmouseout="unshowFila()" type="button" 
-                                        class="btn btn-rounded btn-fila btn-sm">Fila de Processos</button>
+                                        <button onmouseover="showFila()" onmouseout="unshowFila()" type="button"
+                                            class="btn btn-rounded btn-fila btn-sm">Fila de Processos</button>
                                     </div>
                                     <div class="sliderArea">
 
