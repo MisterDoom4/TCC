@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" />
     <meta charset="utf-8" />
-    <title>Algoritmo do Servidor Central</title>
+    <title>Algoritmo de Exclusão do anel</title>
     <meta name="author" content="Julio Sandro e Vinícius Barbosa" />
     <meta name="description" content="Ensinando exclusão mútua de forma simples" />
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
@@ -61,31 +61,34 @@
                             transmissão do token fica bloqueada no processo até ele terminar de acessa-la. Na imagem
                             logo abaixo vc consegue acompanhar quais componentes fazem parte deste algoritmo.
                     </p>
-                    <p>
-                        Os processos tem seu estado representado por cores:
-                        <ul>
-                            <li>
-                                <span id ="normal" style="color:cornflowerblue">Azul  </span>quando não deseja acessar a sessão
-                                crítica.
-                            </li>
-                            <li>
-                                <span id ="pedindo" style="color:yellowgreen">Verde </span>quando deseja acessar a sessão
-                                crítica.
-                            </li>
-                            <li>
-                                <span id ="usando" style="color:orange">Amarelo </span>quando está acessando a sessão
-                                crítica e o token está com sua movimentação
-                                bloqueada
-                            </li>
-                        </ul>
-                    </p>
+
                     <div>
                         <div class="firstAlgSection">
                             <div class="firstAlgContent">
                                 <div class="alg" id="firstsvg"></div>
                                 <div class="interaction">
                                     <div>
-
+                                        <p>
+                                            Os processos tem seu estado representado por cores:
+                                        <ul>
+                                            <li>
+                                                <span id="normal" style="color:cornflowerblue">Azul </span>quando não
+                                                deseja acessar a sessão
+                                                crítica.
+                                            </li>
+                                            <li>
+                                                <span id="pedindo" style="color:yellowgreen">Verde </span>quando deseja
+                                                acessar a sessão
+                                                crítica.
+                                            </li>
+                                            <li>
+                                                <span id="usando" style="color:orange">Amarelo </span>quando está
+                                                acessando a sessão
+                                                crítica e o token está com sua movimentação
+                                                bloqueada
+                                            </li>
+                                        </ul>
+                                        </p>
                                     </div>
                                     <div class="sliderArea">
 
@@ -121,12 +124,12 @@
                             </p>
                             <p>
                                 No modelo seguinte, experimente modificar o algoritmo:
-                                <ul>
-                                    <li>
-                                        Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
-                                        solicitação.
-                                    </li>
-                                </ul>
+                            <ul>
+                                <li>
+                                    Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
+                                    solicitação.
+                                </li>
+                            </ul>
 
                             </p>
                         </div>
