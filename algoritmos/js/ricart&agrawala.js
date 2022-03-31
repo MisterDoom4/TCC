@@ -7,6 +7,7 @@ var i, j, p, k;
 var nodesFirst = [];
 var mess = "RELEASED";
 var clock = 0;
+var ini = 0;
 function desenhoinitPart() {
     p = 0; // nome do processo //
     for (i = 0; i < 2; i++) {
@@ -90,15 +91,175 @@ function inRandom() {
     }
     clock = rand;
 }
+// colocar wanted nos processos //
+function playRand() {
+    var chooseP;
+    for (i = 0; i < 4; i++) {
+        if (i == 0) {
+            chooseP = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
+            do {
+                rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
+            } while (rand == 2)
+            if (rand == 0) {
+                nodesFirst[chooseP].message = "RELEASED";
+            }
+            else {
+
+                nodesFirst[chooseP].message = "WANTED";
+                d3.select("#multicastsvg").selectAll(".M" + chooseP)
+                    .transition()
+                    .delay(250)
+                    .duration(8000)
+                    .text(nodesFirst[chooseP].message);
+            }
+        }
+        else {
+            do {
+                rand = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
+            } while (chooseP == rand)
+            chooseP = rand;
+            do {
+                rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
+            } while (rand == 2)
+            if (rand == 0) {
+                nodesFirst[chooseP].message = "RELEASED";
+            }
+            else {
+                console.log("ola");
+                nodesFirst[chooseP].message = "WANTED";
+                d3.select("#multicastsvg").selectAll(".M" + chooseP)
+                    .transition()
+                    .delay(250)
+                    .duration(8000)
+                    .text(nodesFirst[chooseP].message);
+            }
+        }
+    }
+
+
+}
+function checkMess(el) {
+    let pediu = false
+    if (nodesFirst[el].message == "WANTED") {
+        pediu = true;
+    }
+    return pediu;
+}
 function playAlg() {
-    nodesFirst[0].filaProcesso.push(1);
-    nodesFirst[1].filaProcesso.push(2);
+    var process = []; // vetor dos processo que tem wanted//
+    var origem, maior, destino;
+    // função para o terceiro desenho //
+    if (estaVisivel(d) == true) {
+
+    }
+    // segundo desenho
+    else {
+        // primeiro apertar//
+        if (ini == 0) {
+            playRand();
+        }
+        else {
+            for (i = 0; i < 4; i++) {
+                // checar quem está com wanted //
+                if (checkMess(i) == true) {
+                    process.push(i);
+                }
+            }
+            // ignore esse de baixo //
+            // for (i = 0; i < process.length; i++) {
+            //     origem = nodesFirst[i].clock;
+            //     if (i == 0) {
+            //         maior = nodesFirst[i].clock;
+            //     }
+            //     else {
+            //         if (origem > maior) {
+            //             maior = origem;
+            //             destino = process[i];
+            //         }
+            //     }
+            //
+            // teste.append("rect")
+            //     .attr("x", x0 - 85)
+            //     .attr("y", y0 + 2)
+            //     .attr("class", "seta")
+            //     .attr("rx", 10)
+            //     .attr("ry", 10)
+            //     .attr("width", 54)
+            //     .attr("height", 22)
+            //     .attr("stroke", "#000")
+            //     .attr("stroke-width", 1)
+            //     .attr("fill", "#6EB960");
+            // teste.append("text")
+            //     .attr("x", x0 - 82)
+            //     .attr("y", y0 + 18)
+            //     .attr("class", "seta")
+            //     .text("P0" + "   -11")
+            //     .attr("font-family", "sans-serif")
+            //     .attr("font-size", "17px")
+            //     .attr("fill", "#000000");
+            // teste.append("defs").append("marker")
+            //     .attr("id", "arrow")
+            //     .attr("viewBox", "0 -5 10 10")
+            //     .attr("class", "seta")
+            //     .attr("refX", 8)
+            //     .attr("refY", 0)
+            //     .attr("markerWidth", 5)
+            //     .attr("markerHeight", 10)
+            //     .attr("orient", "auto-start-reverse")
+            //     .append("path")
+            //     .attr("d", "M0,-5L10,0L0,5");
+            // teste.append("line")
+            //     .attr("x1", x0)
+            //     .attr("y1", y0 + 30)
+            //     .attr("x2", x0 - 128)
+            //     .attr("y2", y0 + 30)
+            //     .attr("class", "seta")
+            //     .attr("stroke", "#000")
+            //     .attr("stroke-width", 3)
+            //     .attr("marker-start", "url(#arrow)");
+            // }
+        }
+    }
+    // nodesFirst[0].filaProcesso.push(1);
+    // nodesFirst[1].filaProcesso.push(2);
 
 }
 window.onload = function () {
     desenhoinitPart();
     document.getElementById("buttonsR2").style.display = "block";
     desenhoinitPart0();
+}
+window.onscroll = function () { scrollFunction() };
+const d = document.querySelector("#customIMG");
+// detectar o ultimo desenho //
+function estaVisivel(el) {
+    const posicoes = el.getBoundingClientRect();
+    const inicio = posicoes.top;
+    const fim = posicoes.bottom;
+    let estaVisivel = false
+
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
+        estaVisivel = true;
+    }
+    return estaVisivel;
+}
+function scrollFunction() {
+
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+    // troca de desenho //
+    if (estaVisivel(d) == true) {
+        // document.getElementById("buttons").style.display = "flex";
+        // d3.select("#combobox").selectAll("option").remove();
+        // d3.select("#combobox").selectAll("select").remove();
+        // criarComboBox();
+    }
+    else {
+        // document.getElementById("buttons").style.display = "none";
+    }
 }
 var teste = d3.select("#firstsvg")
     .append("svg")
@@ -156,6 +317,7 @@ function desenhoinitPart0() {
             .attr("height", ty + ty + 0.2);
         p++;
     }
+    // mensagem //
     teste.append("rect")
         .attr("x", x0 - 85)
         .attr("y", y0 + 2)
