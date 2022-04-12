@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" />
     <meta charset="utf-8" />
-    <title>Algoritmo do Servidor Central</title>
+    <title>Algoritmo de Ricart & Agrawala</title>
     <meta name="author" content="Julio Sandro e Vinícius Barbosa" />
     <meta name="description" content="Ensinando exclusão mútua de forma simples" />
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
@@ -80,6 +80,7 @@
                         <div class="firstAlgSection">
                             <div class="firstAlgContent">
                                 <div class="alg" id="firstsvg"></div>
+                                
                                 <div class="interaction">
                                     <div>
 
@@ -180,19 +181,12 @@
                                     class="btn btn-rounded btn-light btn-sm">Avançar</button>
                             </div>
                         </div>
-                        <div class="alg" id="anelsvg"></div>
+                        <div class="alg" id="multicastsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
-                                <select id="combobox"></select>
-                                <button onclick="pedirToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
-                                <button onclick="cancelarToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
+                                
+                                
 
-                            </div>
-                            <div class="sliderArea">
-                                <input class="slider" type="range" min="3" max="8" step="1" value="3"
-                                    id="sliderNodePart"></input>
                             </div>
                         </div>
                     </div>
@@ -218,7 +212,7 @@
     <!-- Go to top button -->
     <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
 
-    <script type="text/javascript" src="./js/exclusao_anel.js"></script>
+    <script type="text/javascript" src="./js/ricart&agrawala.js"></script>
     <script type="text/javascript" src="../plugin/d3.js"></script>
 
 

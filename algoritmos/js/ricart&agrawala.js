@@ -5,13 +5,12 @@ var multicast = d3.select("#multicastsvg")
 var x0 = 0, y0 = 0, tx = 97, ty = 30;
 var i, j, p, k;
 var nodesFirst = [];
-var nodesFirst2 = [];
 var mess = "RELEASED";
 var clock = 0;
-var ini = 0;
-var header = 0;
-var operation = 'SEND';
-function desenhoinitPart1() {
+var ini = -1;
+var operation = "SEND";
+var lineC = "#000";
+function desenhoinitPart() {
     p = 0; // nome do processo //
     for (i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
@@ -25,7 +24,6 @@ function desenhoinitPart1() {
                 .attr("width", tx)
                 .attr("height", ty)
                 .attr("stroke", "#000");
-
             multicast.append("text")
                 .attr("x", x0 + 30)
                 .attr("y", y0 + 22)
@@ -33,6 +31,7 @@ function desenhoinitPart1() {
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "17px")
                 .attr("fill", "#000");
+            //relogio //
             multicast.append("text")
                 .attr("x", x0 + 50)
                 .attr("y", y0 + 22)
@@ -41,7 +40,7 @@ function desenhoinitPart1() {
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "17px")
                 .attr("fill", "#000");
-
+            // mensagem //
             multicast.append("rect")
                 .attr("style", "fill:#2892D7")
                 .attr("x", x0)
@@ -57,6 +56,7 @@ function desenhoinitPart1() {
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "17px")
                 .attr("fill", "#000000");
+            // fila//
             multicast.append("rect")
                 .attr("style", "fill:#7B7B7B")
                 .attr("stroke", "#000")
@@ -65,7 +65,7 @@ function desenhoinitPart1() {
                 .attr("width", 25)
                 .attr("height", ty + ty + 0.2);
             var fila = [];
-            var newNode = { x: x0, y: y0, message: mess, filaProcesso: fila, clock };
+            var newNode = { id: p, x: x0, y: y0, message: mess, filaProcesso: fila, clock };
             nodesFirst.push(newNode);
             p++;
         }
@@ -128,7 +128,6 @@ function playRand() {
                 nodesFirst[chooseP].message = "RELEASED";
             }
             else {
-                console.log("ola");
                 nodesFirst[chooseP].message = "WANTED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
@@ -141,206 +140,819 @@ function playRand() {
 
 
 }
-function checkMess(el) {
-    let pediu = false
-    if (nodesFirst[el].message == "WANTED") {
-        pediu = true;
-    }
-    return pediu;
-}
-
 //desenho da seta P2P
-function desenharMensagem(P1,P2) {
-    //lógica do d3 para desenhar uma seta com o indentificador de processo, tendo como parametro o Processo origem e destino
+function desenharMensagem(p1, p2) {
+    if (p1.id == 0 && p2.id == 1 || (p1.id == 2 && p2.id == 3)) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x)
+            .attr("y1", p2.y + 30)
+            .attr("x2", p1.x + tx + 25)
+            .attr("y2", p1.y + 30)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 0 && p2.id == 2 || (p1.id == 1 && p2.id == 3)) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x + (tx / 2))
+            .attr("y1", p2.y)
+            .attr("x2", p1.x + (tx / 2))
+            .attr("y2", p1.y + 2 * ty)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 0 && p2.id == 3) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x)
+            .attr("y1", p2.y)
+            .attr("x2", p1.x + tx + 25)
+            .attr("y2", p1.y + 2 * ty)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 1 && p2.id == 0 || (p1.id == 3 && p2.id == 2)) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x + tx + 25)
+            .attr("y1", p2.y + 30)
+            .attr("x2", p1.x)
+            .attr("y2", p1.y + 30)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 1 && p2.id == 2) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x + tx + 25)
+            .attr("y1", p2.y)
+            .attr("x2", p1.x)
+            .attr("y2", p1.y + 2 * ty)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 2 && p2.id == 0 || (p1.id == 3 && p2.id == 1)) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x + (tx / 2))
+            .attr("y1", p2.y + 2 * ty)
+            .attr("x2", p1.x + (tx / 2))
+            .attr("y2", p1.y)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 2 && p2.id == 1) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x)
+            .attr("y1", p2.y + 2 * ty)
+            .attr("x2", p1.x + tx + 25)
+            .attr("y2", p1.y)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (p1.id == 3 && p2.id == 0) {
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "mensagem")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", p2.x + tx + 25)
+            .attr("y1", p2.y + 2 * ty)
+            .attr("x2", p1.x)
+            .attr("y2", p1.y)
+            .attr("class", "mensagem")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
 }
-
-//desenhar setas para todos os processos.
-//Da para usar a função de desenharMensagem dentro para reuso de código
-function broadcast(processoSolicitante) {
-    
-}
-
+// função que retorna mensagem para quem solicitou //
 function heldBroadcast(processo) {
-    for (let index = 0; index < processo.fila.length; index++) {
-       //desenhar a mensagem partido de P (processo) para nodesFirst2[processo.fila[index].id]
-        
-        //COMO ACESSAR OS DADOS
-       // processo.x;
-        // processo.y;
-        // nodesFirst2[processo.fila[index].id].x;
-        // nodesFirst2[processo.fila[index].id].y;
+    for (let index = 0; index < processo.filaProcesso.length; index++) {
+        desenharMensagem(processo, nodesFirst[processo.filaProcesso[index]]);
     }
 }
-
-//função para desenhar o novo status de P, o header é um identificador de processo de 0 a 3. Processo que teve seu status alterado, mas n atualizado graficamente
-function atualizarStatus(header) {
-
-}
-
-//FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD
-//acessa nodeFirst2 de acordo com o id da fila do processo HELD
-function liberarAcesso(processo) {
-    let index = 0
-    while(processo.fila[index] != null) {
-        //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
-         if (revisarAcesso(nodesFirst2[processo.fila[index].id]) === 3) {
-             nodesFirst2[processo.fila[index].id].status = 'HELD';
-             
-             //atualizar desenho do status
-        }
-    }
-}
-
-function revisarAcesso() {
-    var acesso =  0;
-    for (i = 0; i < nodesFirst2.length; i++){
-		if (processoSolicitante.x == vetorProcesso[i].x && processoSolicitante.y == nodesFirst2[i].y){
-			i++;
-		}
-        if (nodesFirst2[i].status === 'RELEASED') {
-            acesso++;
-        } else {
-            if (nodesFirst2[i].status === 'WANTED') {
-                acesso++;
-            }
-        }
-    }
-    //é preciso atualizar todo o desenho ao final do for, pois são bastante alterações
-    return acesso;
-}
-
-//função para mandar mensagem para todos os processos
 function analisarAcesso(processoSolicitante) {
-    //respostas
-    var acesso =  0;
-    for (i = 0; i < nodesFirst2.length; i++){
-		if (processoSolicitante.x == vetorProcesso[i].x && processoSolicitante.y == nodesFirst2[i].y){
-			i++;
-		}
-        if (nodesFirst2[i].status === 'RELEASED') {
+    //respostas //
+    var acesso = 0;
+    for (i = 0; i < nodesFirst.length; i++) {
+        if (processoSolicitante.id == nodesFirst[i].id) {
+            continue;
+        }
+        if (nodesFirst[i].message == "RELEASED") {
             acesso++;
-            desenharMensagem(nodesFirst2[i], processoSolicitante);
+            desenharMensagem(nodesFirst[i], processoSolicitante);
         } else {
-            if (nodesFirst2[i].status === 'HELD') {
-                nodesFirst2[i].fila.push(processoSolicitante);
+            if (nodesFirst[i].message == "HELD") {
+                nodesFirst[i].filaProcesso.push(processoSolicitante.id);
+                desenharFila(nodesFirst[i]);
             } else {
-                if (nodesFirst2[i].status === 'WANTED') {
-                    if (nodesFirst2[i].relógio > processoSolicitante.relogio) {
+                if (nodesFirst[i].message == "WANTED") {
+                    if (nodesFirst[i].clock > processoSolicitante.clock) {
                         acesso++;
-                        desenharMensagem(nodesFirst2[i], processoSolicitante);
-                    }
-                    if (nodesFirst2[i].relógio < processoSolicitante.relogio) {
-			  
+                        desenharMensagem(nodesFirst[i], processoSolicitante);
                     }
                 }
             }
         }
     }
-    //é preciso atualizar todo o desenho ao final do for, pois são bastante alterações
     return acesso;
 }
-
-function playAlg() {
-    //gerar um processo com o status WANTED
-
-
-    //para teste vou setar o primeiro como WANTED
-    if (operation === 'RESP' && nodesFirst2[header].status === 'WANTED') {
-        if (analisarAcesso(nodesFirst2[header] === 3)) {
-            nodesFirst2[header].status = 'HELD';
-        }
-        header++;
-        operation = 'SEND'
+function desenharFila(p1) {
+    var disty = p1.y + 2 * ty;
+    for (i = 0; i < p1.filaProcesso.length; i++) {
+        disty -= 1.2 +  20;
+        multicast.append("rect")
+            .attr("style", "fill:white")
+            .attr("x", p1.x + tx + 1)
+            .attr("y", disty + 4)
+            .attr("width", 20)
+            .attr("height", 18)
+            .attr("stroke", "#000");
+        multicast.append("text")
+            .attr("class", "filaprocesso")
+            .attr("x", p1.x + tx + 2)
+            .attr("y", disty + 16)
+            .text("P" + p1.filaProcesso[i])
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .attr("fill", lineC);
     }
-    if (operation === 'SEND') {
-        if (nodesFirst2[header].status === 'WANTED') {
-            broadcast(nodesFirst2[header]);
-            operation = 'RESP'; //var para controle de resposta
-        }
-        if (nodesFirst2[header].status === 'RELEASED') {
-            header++;
-        }
-        if (nodesFirst2[header].status === 'HELD') {
-            heldBroadcast(nodesFirst2[header]); //acho q tem q colocar timeout aqui também
-
-            nodesFirst2[header].status = 'RELEASED'
-            // função para mudar status do desenho depois de 1s;
-            setTimeout(atualizarStatus(header), 1500);
-            
-            revisarAcesso(nodesFirst2[header]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
-        }
-    }
-    
-    
-    if (header === 4) {
-        header = 0;    
-    }
-    
-
-    // ignore esse de baixo //
-    // for (i = 0; i < process.length; i++) {
-    //     origem = nodesFirst[i].clock;
-    //     if (i == 0) {
-    //         maior = nodesFirst[i].clock;
-    //     }
-    //     else {
-    //         if (origem > maior) {
-    //             maior = origem;
-    //             destino = process[i];
-    //         }
-    //     }
-    //
-    // teste.append("rect")
-    //     .attr("x", x0 - 85)
-    //     .attr("y", y0 + 2)
-    //     .attr("class", "seta")
-    //     .attr("rx", 10)
-    //     .attr("ry", 10)
-    //     .attr("width", 54)
-    //     .attr("height", 22)
-    //     .attr("stroke", "#000")
-    //     .attr("stroke-width", 1)
-    //     .attr("fill", "#6EB960");
-    // teste.append("text")
-    //     .attr("x", x0 - 82)
-    //     .attr("y", y0 + 18)
-    //     .attr("class", "seta")
-    //     .text("P0" + "   -11")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", "17px")
-    //     .attr("fill", "#000000");
-    // teste.append("defs").append("marker")
-    //     .attr("id", "arrow")
-    //     .attr("viewBox", "0 -5 10 10")
-    //     .attr("class", "seta")
-    //     .attr("refX", 8)
-    //     .attr("refY", 0)
-    //     .attr("markerWidth", 5)
-    //     .attr("markerHeight", 10)
-    //     .attr("orient", "auto-start-reverse")
-    //     .append("path")
-    //     .attr("d", "M0,-5L10,0L0,5");
-    // teste.append("line")
-    //     .attr("x1", x0)
-    //     .attr("y1", y0 + 30)
-    //     .attr("x2", x0 - 128)
-    //     .attr("y2", y0 + 30)
-    //     .attr("class", "seta")
-    //     .attr("stroke", "#000")
-    //     .attr("stroke-width", 3)
-    //     .attr("marker-start", "url(#arrow)");
-    // }
-
-    // nodesFirst[0].filaProcesso.push(1);
-    // nodesFirst[1].filaProcesso.push(2);
-
 }
+function broadcast(processoSolicitante) {
+    if (processoSolicitante.id == 0) {
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + tx + 50)
+            .attr("y", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + tx + 55)
+            .attr("y", processoSolicitante.y + 16)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[1].x)
+            .attr("y1", nodesFirst[1].y + 30)
+            .attr("x2", processoSolicitante.x + tx + 25)
+            .attr("y2", processoSolicitante.y + 30)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+        // proximo processo //
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + (tx / 2) + 5)
+            .attr("y", nodesFirst[2].y - 60)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + (tx / 2) + 10)
+            .attr("y", nodesFirst[2].y - 44)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[2].x + (tx / 2))
+            .attr("y1", nodesFirst[2].y)
+            .attr("x2", processoSolicitante.x + (tx / 2))
+            .attr("y2", processoSolicitante.y + 2 * ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
 
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + tx + 80)
+            .attr("y", nodesFirst[3].y - 78)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + tx + 85)
+            .attr("y", nodesFirst[3].y - 62)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[3].x)
+            .attr("y1", nodesFirst[3].y)
+            .attr("x2", processoSolicitante.x + tx + 25)
+            .attr("y2", processoSolicitante.y + 2 * ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (processoSolicitante.id == 1) {
+        multicast.append("rect")
+            .attr("x", nodesFirst[0].x + tx + 55)
+            .attr("y", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", nodesFirst[0].x + tx + 60)
+            .attr("y", processoSolicitante.y + 16)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[0].x + tx + 25)
+            .attr("y1", nodesFirst[0].y + 30)
+            .attr("x2", processoSolicitante.x)
+            .attr("y2", processoSolicitante.y + 30)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+        // proximo processo //
+        multicast.append("rect")
+            .attr("x", nodesFirst[2].x + 125)
+            .attr("y", nodesFirst[2].y - 75)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", nodesFirst[2].x + 130)
+            .attr("y", nodesFirst[2].y - 59)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[2].x + tx + 25)
+            .attr("y1", nodesFirst[2].y)
+            .attr("x2", processoSolicitante.x)
+            .attr("y2", processoSolicitante.y + 2 * ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
 
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + (tx / 2) + 5)
+            .attr("y", nodesFirst[3].y - 73)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + (tx / 2) + 10)
+            .attr("y", nodesFirst[3].y - 57)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[3].x + (tx / 2))
+            .attr("y1", nodesFirst[3].y)
+            .attr("x2", processoSolicitante.x + (tx / 2))
+            .attr("y2", processoSolicitante.y + 2 * ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (processoSolicitante.id == 2) {
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + (tx / 2) + 5)
+            .attr("y", processoSolicitante.y - 73)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + (tx / 2) + 10)
+            .attr("y", processoSolicitante.y - 57)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[0].x + (tx / 2))
+            .attr("y1", nodesFirst[0].y + 2 * ty)
+            .attr("x2", processoSolicitante.x + (tx / 2))
+            .attr("y2", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+        //proximo processo //
+        multicast.append("rect")
+            .attr("x", nodesFirst[2].x + 125)
+            .attr("y", nodesFirst[2].y - 75)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", nodesFirst[2].x + 130)
+            .attr("y", nodesFirst[2].y - 59)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[1].x)
+            .attr("y1", nodesFirst[1].y + 2 * ty)
+            .attr("x2", processoSolicitante.x + tx + 25)
+            .attr("y2", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + tx + 55)
+            .attr("y", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + tx + 60)
+            .attr("y", processoSolicitante.y + 16)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[3].x)
+            .attr("y1", nodesFirst[3].y + ty)
+            .attr("x2", processoSolicitante.x + tx + 25)
+            .attr("y2", processoSolicitante.y + ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+    if (processoSolicitante.id == 3) {
+        multicast.append("rect")
+            .attr("x", processoSolicitante.x + (tx / 2) + 5)
+            .attr("y", processoSolicitante.y - 73)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", processoSolicitante.x + (tx / 2) + 10)
+            .attr("y", processoSolicitante.y - 57)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[0].x + tx + 25)
+            .attr("y1", nodesFirst[0].y + 2 * ty)
+            .attr("x2", processoSolicitante.x)
+            .attr("y2", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+        //proximo processo //
+        multicast.append("rect")
+            .attr("x", nodesFirst[0].x + 170)
+            .attr("y", nodesFirst[0].y + 75)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", nodesFirst[0].x + 175)
+            .attr("y", nodesFirst[0].y + 91)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[1].x + (tx / 2))
+            .attr("y1", nodesFirst[1].y + 2 * ty)
+            .attr("x2", processoSolicitante.x + (tx / 2))
+            .attr("y2", processoSolicitante.y)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+
+        multicast.append("rect")
+            .attr("x", nodesFirst[2].x + tx + 60)
+            .attr("y", nodesFirst[2].y)
+            .attr("class", "bloco")
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("width", 54)
+            .attr("height", 22)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "#6EB960");
+        multicast.append("text")
+            .attr("x", nodesFirst[2].x + tx + 65)
+            .attr("y", nodesFirst[2].y + 16)
+            .attr("class", "bloco")
+            .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
+        multicast.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("class", "bloco")
+            .attr("refX", 8)
+            .attr("refY", 0)
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto-start-reverse")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+        multicast.append("line")
+            .attr("x1", nodesFirst[2].x + tx + 25)
+            .attr("y1", nodesFirst[2].y + ty)
+            .attr("x2", processoSolicitante.x)
+            .attr("y2", processoSolicitante.y + ty)
+            .attr("class", "bloco")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 3)
+            .attr("marker-start", "url(#arrow)");
+    }
+}
+function atualizarStatus(p) {
+    d3.select("#multicastsvg").selectAll(".M" + p)
+        .transition()
+        .delay(250)
+        .duration(8000)
+        .text(nodesFirst[p].message);
+}
+//FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD
+//acessa nodeFirst de acordo com o id da fila do processo HELD
+function liberarAcesso(processo) {
+    let index = 0
+    while (processo.filaProcesso[index] != null) {
+        //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
+        if (revisarAcesso(nodesFirst[processo.filaProcesso[index]]) === 3) {
+            nodesFirst[processo.filaProcesso[index]].message = "HELD";
+            atualizarStatus(processo.filaProcesso[index].id);
+            //atualizar desenho do status
+        }
+    }
+}
+function revisarAcesso(processoSolicitante) {
+    var acesso = 0;
+    for (i = 0; i < nodesFirst.length; i++) {
+        if (processoSolicitante.id == nodesFirst[i].id) {
+            i++;
+        }
+        if (nodesFirst[i].message === "RELEASED") {
+            acesso++;
+        } else {
+            if (nodesFirst[i].message === "WANTED") {
+                if (nodesFirst[i].clock > processoSolicitante.clock) {
+                    acesso++;
+                }
+            }
+        }
+    }
+    return acesso;
+}
+function playAlg() {
+    console.log(ini);  
+    if (ini == 4) {
+            ini = 0;
+        }
+    // função para o terceiro desenho //
+    if (estaVisivel(d) == true) {
+
+    }
+    // segundo desenho
+    else {
+        d3.select("#multicastsvg").selectAll(".bloco").remove();
+        d3.select("#multicastsvg").selectAll(".mensagem").remove();
+        // primeiro apertar//
+        if (ini == -1) {
+            playRand();
+            ini++;
+            operation = "SEND";
+        }
+        else {
+             if (operation == "SEND") {
+                console.log(nodesFirst[ini].message);
+                if (nodesFirst[ini].message == "WANTED") {
+                    broadcast(nodesFirst[ini]);
+                    operation = "RESP"; //var para controle de resposta
+                }
+                
+                if (nodesFirst[ini].message == "HELD") {
+                    heldBroadcast(nodesFirst[ini]);
+
+                    nodesFirst[ini].message = "RELEASED";
+                    // função para mudar status do desenho depois de 1s;
+                    atualizarStatus(ini);
+
+                    liberarAcesso(nodesFirst[ini]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
+                }
+                if (nodesFirst[ini].message == "RELEASED") {
+                    ini++;
+                }
+            }
+        }
+            if (operation == "RESP" && nodesFirst[ini].message == "WANTED") {
+                if (analisarAcesso(nodesFirst[ini]) == 3) {
+                    nodesFirst[ini].message = "HELD";
+                    atualizarStatus(ini);
+                }
+                ini++;
+                operation = "SEND";
+            }
+           
+      
+    }
+}
 window.onload = function () {
-    desenhoinitPart1();
+    desenhoinitPart();
     document.getElementById("buttonsR2").style.display = "block";
-    desenhoinitPart2();
+    desenhoinitPart0();
 }
 window.onscroll = function () { scrollFunction() };
 const d = document.querySelector("#customIMG");
@@ -356,7 +968,6 @@ function estaVisivel(el) {
     }
     return estaVisivel;
 }
-
 function scrollFunction() {
 
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -375,39 +986,14 @@ function scrollFunction() {
         // document.getElementById("buttons").style.display = "none";
     }
 }
-
 var teste = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 540)
     .attr("height", 300)
-
-//desenha a estrutura inicial da simulação do algoritmo na sessão de algoritmo 2
-//Todos os processos devem ter identificador P[i] e relógio lógicos diferentes e > 0. Todos os estados são
-//inicialmente RELEASED     
-function desenhoinitPart2() {
-
-    var x1, y1, mensagem = 'RELEASED', relLogico = 0;
-    
-    for (i = 0; i < 4; i++) {
-        
-       
-        var newNode = {
-            x: x1,
-            y: y1,
-            id: i + 1,
-            status: mensagem,
-            relogico: relLogico,
-            fila: []
-        };
-        nodesFirst2.push(newNode);
-    }
-    
-    console.log(nodesFirst2);
-
+function desenhoinitPart0() {
     y0 = 0;
     x0 = 0;
     p = 0;
-    //desenha os 4 processos, usando o for para definir o layout da linha dos processos
     for (i = 0; i < 2; i++) {
         x0 = x0 + i * 250;
         teste.append("rect")

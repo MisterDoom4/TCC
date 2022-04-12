@@ -33,7 +33,7 @@ function desenhoInit() {
                 y1 = 150;
             }
         }
-        var newNode = { x: x1, y: y1, id: i, distx };
+        var newNode = { x: x1, y: y1, id: i};
         nodesFirst.push(newNode);
         servidorCentral.append("line")
             .attr("x1", x0)
@@ -399,7 +399,7 @@ function desenhoInit0() {
         distx0 = 190;
         x01 = distx0 + i0 * 60;
         y01 = 150;
-        var newNode = { x: x01, y: y01, id: i0, distx0 };
+        var newNode = { x: x01, y: y01, id: i0};
         nodesZero.push(newNode);
         teste.append("line")
             .attr("x1", x00)
