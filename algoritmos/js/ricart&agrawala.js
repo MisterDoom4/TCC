@@ -12,7 +12,7 @@ var operation = "SEND";
 var lineC = "#000";
 function desenhoinitPart() {
     p = 0; // nome do processo //
-    for (i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
         for (j = 0; j < 2; j++) {
             inRandom();
@@ -64,6 +64,7 @@ function desenhoinitPart() {
                 .attr("y", y0)
                 .attr("width", 25)
                 .attr("height", ty + ty + 0.2);
+
             var fila = [];
             var newNode = { id: p, x: x0, y: y0, message: mess, filaProcesso: fila, clock };
             nodesFirst.push(newNode);
@@ -97,7 +98,7 @@ function inRandom() {
 // colocar wanted nos processos //
 function playRand() {
     var chooseP;
-    for (i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
         if (i == 0) {
             chooseP = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
             do {
@@ -114,6 +115,7 @@ function playRand() {
                     .delay(250)
                     .duration(8000)
                     .text(nodesFirst[chooseP].message);
+                console.log("Processo: " + chooseP + " Mensagem: " + nodesFirst[chooseP].message);
             }
         }
         else {
@@ -126,6 +128,11 @@ function playRand() {
             } while (rand == 2)
             if (rand == 0) {
                 nodesFirst[chooseP].message = "RELEASED";
+                d3.select("#multicastsvg").selectAll(".M" + chooseP)
+                    .transition()
+                    .delay(250)
+                    .duration(8000)
+                    .text(nodesFirst[chooseP].message);
             }
             else {
                 nodesFirst[chooseP].message = "WANTED";
@@ -134,6 +141,7 @@ function playRand() {
                     .delay(250)
                     .duration(8000)
                     .text(nodesFirst[chooseP].message);
+                console.log("Processo: " + chooseP + " Mensagem: " + nodesFirst[chooseP].message);
             }
         }
     }
@@ -142,6 +150,7 @@ function playRand() {
 }
 //desenho da seta P2P
 function desenharMensagem(p1, p2) {
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
     if (p1.id == 0 && p2.id == 1 || (p1.id == 2 && p2.id == 3)) {
         multicast.append("defs").append("marker")
             .attr("id", "arrow")
@@ -321,6 +330,7 @@ function desenharMensagem(p1, p2) {
 }
 // função que retorna mensagem para quem solicitou //
 function heldBroadcast(processo) {
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
     for (let index = 0; index < processo.filaProcesso.length; index++) {
         desenharMensagem(processo, nodesFirst[processo.filaProcesso[index]]);
     }
@@ -328,34 +338,46 @@ function heldBroadcast(processo) {
 function analisarAcesso(processoSolicitante) {
     //respostas //
     var acesso = 0;
-    for (i = 0; i < nodesFirst.length; i++) {
-        if (processoSolicitante.id == nodesFirst[i].id) {
-            continue;
-        }
-        if (nodesFirst[i].message == "RELEASED") {
-            acesso++;
-            desenharMensagem(nodesFirst[i], processoSolicitante);
-        } else {
-            if (nodesFirst[i].message == "HELD") {
-                nodesFirst[i].filaProcesso.push(processoSolicitante.id);
-                desenharFila(nodesFirst[i]);
+    for (let i = 0; i < nodesFirst.length; i++) {
+        console.log("Processos" + nodesFirst.length);
+        if (processoSolicitante.id != nodesFirst[i].id) {
+            if (nodesFirst[i].message == "RELEASED") {
+                acesso++;
+                desenharMensagem(nodesFirst[i], processoSolicitante);
             } else {
-                if (nodesFirst[i].message == "WANTED") {
-                    if (nodesFirst[i].clock > processoSolicitante.clock) {
-                        acesso++;
-                        desenharMensagem(nodesFirst[i], processoSolicitante);
+                if (nodesFirst[i].message == "HELD") {
+                    if (!nodesFirst[i].filaProcesso.find(element => element == processoSolicitante.id)) {
+                        nodesFirst[i].filaProcesso.push(processoSolicitante.id);
+                        desenharFila(nodesFirst[i]);
+                    }
+
+                } else {
+                    if (nodesFirst[i].message == "WANTED") {
+                        if (nodesFirst[i].clock > processoSolicitante.clock) {
+                            acesso++;
+                            desenharMensagem(nodesFirst[i], processoSolicitante);
+                            if (!nodesFirst[i].filaProcesso.find(element => element == processoSolicitante.id)) {
+                                processoSolicitante.filaProcesso.push(nodesFirst[i].id);
+                                desenharFila(processoSolicitante);
+                            }
+
+                        }
                     }
                 }
             }
         }
+
     }
+    console.log("Acesso: " + acesso);
     return acesso;
 }
 function desenharFila(p1) {
+    d3.select("#multicastsvg").selectAll(".filaprocesso" + p1.id).remove();
     var disty = p1.y + 2 * ty;
-    for (i = 0; i < p1.filaProcesso.length; i++) {
-        disty -= 1.2 +  20;
+    for (let i = 0; i < p1.filaProcesso.length; i++) {
+        disty -= 1.2 + 20;
         multicast.append("rect")
+            .attr("class", "filaprocesso" + p1.id)
             .attr("style", "fill:white")
             .attr("x", p1.x + tx + 1)
             .attr("y", disty + 4)
@@ -363,7 +385,7 @@ function desenharFila(p1) {
             .attr("height", 18)
             .attr("stroke", "#000");
         multicast.append("text")
-            .attr("class", "filaprocesso")
+            .attr("class", "filaprocesso" + p1.id)
             .attr("x", p1.x + tx + 2)
             .attr("y", disty + 16)
             .text("P" + p1.filaProcesso[i])
@@ -861,8 +883,7 @@ function broadcast(processoSolicitante) {
 function atualizarStatus(p) {
     d3.select("#multicastsvg").selectAll(".M" + p)
         .transition()
-        .delay(250)
-        .duration(8000)
+        .delay(1200)
         .text(nodesFirst[p].message);
 }
 //FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD
@@ -872,17 +893,23 @@ function liberarAcesso(processo) {
     while (processo.filaProcesso[index] != null) {
         //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
         if (revisarAcesso(nodesFirst[processo.filaProcesso[index]]) === 3) {
+
             nodesFirst[processo.filaProcesso[index]].message = "HELD";
-            atualizarStatus(processo.filaProcesso[index].id);
+            atualizarStatus(processo.filaProcesso[index]);
             //atualizar desenho do status
         }
+        processo.filaProcesso.splice(0, 1);
+        desenharFila(processo);
     }
 }
 function revisarAcesso(processoSolicitante) {
     var acesso = 0;
-    for (i = 0; i < nodesFirst.length; i++) {
+    for (let i = 0; i < nodesFirst.length; i++) {
         if (processoSolicitante.id == nodesFirst[i].id) {
             i++;
+            if (i == 4) {
+                return acesso;
+            }
         }
         if (nodesFirst[i].message === "RELEASED") {
             acesso++;
@@ -897,10 +924,10 @@ function revisarAcesso(processoSolicitante) {
     return acesso;
 }
 function playAlg() {
-    console.log(ini);  
+    console.log(ini);
     if (ini == 4) {
-            ini = 0;
-        }
+        ini = 0;
+    }
     // função para o terceiro desenho //
     if (estaVisivel(d) == true) {
 
@@ -914,29 +941,9 @@ function playAlg() {
             playRand();
             ini++;
             operation = "SEND";
+
         }
         else {
-             if (operation == "SEND") {
-                console.log(nodesFirst[ini].message);
-                if (nodesFirst[ini].message == "WANTED") {
-                    broadcast(nodesFirst[ini]);
-                    operation = "RESP"; //var para controle de resposta
-                }
-                
-                if (nodesFirst[ini].message == "HELD") {
-                    heldBroadcast(nodesFirst[ini]);
-
-                    nodesFirst[ini].message = "RELEASED";
-                    // função para mudar status do desenho depois de 1s;
-                    atualizarStatus(ini);
-
-                    liberarAcesso(nodesFirst[ini]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
-                }
-                if (nodesFirst[ini].message == "RELEASED") {
-                    ini++;
-                }
-            }
-        }
             if (operation == "RESP" && nodesFirst[ini].message == "WANTED") {
                 if (analisarAcesso(nodesFirst[ini]) == 3) {
                     nodesFirst[ini].message = "HELD";
@@ -945,8 +952,31 @@ function playAlg() {
                 ini++;
                 operation = "SEND";
             }
-           
-      
+            else {
+                if (operation == "SEND") {
+                    console.log(nodesFirst[ini].message);
+                    if (nodesFirst[ini].message == "WANTED") {
+                        broadcast(nodesFirst[ini]);
+                        operation = "RESP"; //var para controle de resposta
+                    }
+
+                    if (nodesFirst[ini].message == "HELD") {
+                        heldBroadcast(nodesFirst[ini]);
+
+                        nodesFirst[ini].message = "RELEASED";
+                        // função para mudar status do desenho depois de 1s;
+                        atualizarStatus(ini);
+
+                        liberarAcesso(nodesFirst[ini]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
+                    }
+                    if (nodesFirst[ini].message == "RELEASED") {
+                        ini++;
+                    }
+                }
+            }
+
+        }
+
     }
 }
 window.onload = function () {
@@ -994,8 +1024,16 @@ function desenhoinitPart0() {
     y0 = 0;
     x0 = 0;
     p = 0;
-    for (i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
         x0 = x0 + i * 250;
+        teste.append("rect")
+            .attr("class", "legenda" + p)
+            .attr("style", "fill:#fff")
+            .attr("stroke", "#000")
+            .attr("x", x0)
+            .attr("y", y0)
+            .attr("width", tx + 24)
+            .attr("height", ty + ty + 0.2);
         teste.append("rect")
             .attr("style", "fill:pink")
             .attr("x", x0)
