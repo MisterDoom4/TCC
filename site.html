@@ -104,27 +104,36 @@
                                 <div class="col_half">
                                     <p>
                                         Em um sistema distríbuido é necessário a coordenação das atividades dos
-                                        processos através da troca de mensagens, devido a existência de recursos
-                                        compartilhados na
-                                        computação do sistema. A exclusão mútua dos processos garante que eles acessem
-                                        a sessão crítica (recursos compartilhados), efetuem
+                                        processos, através da troca de mensagens, devido a existência de recursos
+                                        compartilhados. <b>A Exclusão Mútua</b> garante que os processos acessem
+                                        a Seção Crítica (recursos compartilhados), efetuem
                                         suas operações e saiam da mesma de forma a não compremeter dados ou recursos
                                         comuns ao sistema, liberando-a para acesso de outros
                                         processos.
-                                        A Exclusão Mútua deve respeitar 3 propriedades fundamentais, são elas:
+                                        A Exclusão Mútua deve respeitar 3 propriedades fundamentais:
                                     </p>
                                     <ul>
-                                        <li> <b> P1 - Segurança:</b> No máximo um processo por vez pode ser executado na
-                                            sessão crítica</li>
-                                        <li><b> P2 - Subsistência:</b> As requisições para entrar e sair da seção
-                                            crítica
-                                            devem ter sucesso</li>
-                                        <li><b>P3 - Ordenação:</b> Se uma requisição para entrar na seção aconteceu
-                                            antes
-                                            de outra, então a entrada na seção crítica é garantida nessa ordem</li>
+                                        <li> <span style="font-size: 18px"><b>Segurança:</b> No máximo um processo
+                                                por vez
+                                                pode ser executado na
+                                                sessão crítica;</span>
+                                        </li>
+                                        <li><span style="font-size: 18px"><b>Subsistência:</b> As requisições para
+                                                entrar e sair da seção
+                                                crítica
+                                                devem ter sucesso;</span>
+                                        </li>
+                                        <li><span style="font-size: 18px"><b>Ordenação:</b> Se uma requisição para
+                                                entrar na seção aconteceu
+                                                antes
+                                                de outra, então a entrada na seção crítica é garantida nessa
+                                                ordem;</span>
+                                        </li>
                                     </ul>
                                     <p>
-                                        Algoritmos de exclusão mútua visam desenvolver métodos de troca de mensagem para
+                                        <b>Algoritmos de Exclusão Mútua</b> usam técnicas de trocas de
+                                        mensagens
+                                        para
                                         efetuar a coordenação desses acessos obedecendo as propriedades descritas.
                                     </p>
 
@@ -133,7 +142,7 @@
                                     <a href="algoritmos/servidor_central.html">
                                         <div class="nav-unit sec1">
                                             <div id="canvas1">
-                                                <span> Servidor Central </span>
+                                                <span style="font-size: 18px"> Servidor Central </span>
                                                 <br>
                                             </div>
                                         </div>
@@ -141,15 +150,7 @@
                                     <a href="algoritmos/exclusao_anel.html">
                                         <div class="nav-unit sec2">
                                             <div id="canvas2">
-                                                <span> Anel </span>
-                                                <br>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="algoritmos/maekawa.html">
-                                        <div class="nav-unit sec3">
-                                            <div id="canvas3">
-                                                <span> Maekawa </span>
+                                                <span style="font-size: 18px"> Anel </span>
                                                 <br>
                                             </div>
                                         </div>
@@ -157,7 +158,15 @@
                                     <a href="algoritmos/ricart_agrawala.html">
                                         <div class="nav-unit sec4">
                                             <div id="canvas4">
-                                                <span> Ricart & Agrawala </span>
+                                                <span style="font-size: 18px"> Ricart & Agrawala </span>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="algoritmos/maekawa.html">
+                                        <div class="nav-unit sec3">
+                                            <div id="canvas3">
+                                                <span style="font-size: 18px"> Maekawa </span>
                                                 <br>
                                             </div>
                                         </div>

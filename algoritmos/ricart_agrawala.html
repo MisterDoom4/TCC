@@ -47,8 +47,9 @@
                     <h1>Algoritmo de Ricart & Agrawala</h1>
                     <p>
                         Este algoritmo é usado para garantir exclusão mútua entre N processos pares em um sistema
-                        distríbuido. Muito similar ao algoritmo de votação de líder, um processo P que deseje entrar na
-                        sessão crítica deve enviar uma mensagem
+                        distríbuido. Muito similar aos algoritmos de eleição de líder, um vez que um processo P que
+                        deseje entrar na
+                        seção crítica deve enviar uma mensagem
                         para todos os processos, um <button onmouseover="showMulticast()" onmouseout="unshowMulticast()"
                             type="button" class="btn btn-light btn-xs">Multicast</button>, para isso presume-se que cada
                         processo
@@ -64,7 +65,10 @@
                                 class="btn btn-light btn-xs">relógio lógico</button> de
                             Lamport para anexar na mensagem, uma <button onmouseover="showFila()"
                                 onmouseout="unshowFila()" type="button" class="btn btn-light btn-xs">fila
-                            </button> local para armazenar mensagem recebidas e uma váriavel de estado. Toda
+                            </button> local para armazenar mensagem recebidas e uma
+                            <button onmouseover="showMensagem()" onmouseout="unshowMensagem()" type="button"
+                                class="btn btn-light btn-xs">Variável de estado
+                            </button>. Toda
                             <button onmouseover="showMensagem()" onmouseout="unshowMensagem()" type="button"
                                 class="btn btn-light btn-xs">mensagem
                             </button> enviada pelos processos segue o formato < T,P<sub>i</sub>>
@@ -76,7 +80,7 @@
                         <div class="firstAlgSection">
                             <div class="firstAlgContent">
                                 <div class="alg" id="firstsvg"></div>
-                                
+
                                 <div class="interaction">
                                     <div>
 
@@ -105,9 +109,10 @@
                         </ul>
                     </p>
                     <p>
-                        Como previamente descrito anteriormente, quando um processo P<sub>i</sub> deseja entrar na
-                        sessão crítica ele vai mudar sua variável de estado para WANTED e vai enviar um multicast para
-                        todos os processos, incluindo ele mesmo, e se obtiver todas as resposta, ele receberá acesso.
+                        Como previamente descrito, quando um processo P<sub>i</sub> deseja entrar na
+                        sessão crítica ele muda sua variável de estado para WANTED e envia um multicast para
+                        os demais processos, e se obtiver as resposta de todos os processos, ele receberá acesso e
+                        passará seu estado para HELD.
                         A lógica de resposta dos processos é descrita abaixo.
                     </p>
                     <ul>
@@ -116,19 +121,20 @@
                             estado RELEASED, então ele responderá a mensagem de P<sub>i</sub>.
                         </li>
                         <li>
-                            Se o processo que receber estiver com o estado WANTED, ele vai comparar o seu relógio lógico
+                            Se o processo que receber a mensagem estiver com o estado WANTED, ele vai comparar o seu
+                            relógio lógico
                             local, com aquele que veio marcado na mensagem. Se for maior, T<sub>local</sub>
                             > T <sub>mensagem</sub>, então ele responderá a mensagem. Se for menor, T<sub>local</sub>
                             < T <sub>mensagem</sub>, então ele enfileirará a mensagem na sua fila, para responder
                                 mais tarde.
                         </li>
                         <li>
-                            Se o processo que receber estiver com o estado HELD, ele enfileirará a mensagem.
+                            Se o processo que receber a mensagem estiver com o estado HELD, ele enfileirará a mensagem.
                         </li>
                     </ul>
 
                     <p>
-                        Todo processo que terminar de acessar a sessão crítica, mudar o estado de HELD para RELEASED,
+                        Todo processo que terminar de acessar a sessão crítica muda o estado de HELD para RELEASED,
                         irá responder todas as mensagens que tem em sua fila. Essa fila de mensagem, usa a lógica
                         FIFO (First in - First out), então as mensagens mais antigas serão respondidas primeiro. Desta
                         forma, se dois ou mais processos solicitarem acesso a sessão crítica simultaneamente,
@@ -180,8 +186,8 @@
                         <div class="alg" id="multicastsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
-                                
-                                
+
+
 
                             </div>
                         </div>

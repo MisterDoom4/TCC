@@ -694,8 +694,8 @@ h1 {
 .btn.btn-server:focus,
 .btn.btn-server:active,
 .btn.btn-server.active {
-    background-color: #000000;
-    border-color: #000000;
+    background-color: #FF4A4A;
+    border-color: #FF4A4A;
     color: #fff;
 }
 
@@ -709,8 +709,8 @@ h1 {
 .btn.btn-token:focus,
 .btn.btn-token:active,
 .btn.btn-token.active {
-    background-color: #4B0082;
-    border-color: #4B0082;
+    background-color: #5C40DB;
+    border-color: #5C40DB;
     color: #fff;
     color: #fff;
 }
@@ -725,8 +725,8 @@ h1 {
 .btn.btn-fila:focus,
 .btn.btn-fila:active,
 .btn.btn-fila.active {
-    background-color: #006400;
-    border-color: #006400;
+    background-color: #16C172;
+    border-color: #16C172;
     color: #fff;
 }
 
@@ -740,7 +740,7 @@ h1 {
 .btn.btn-process:focus,
 .btn.btn-process:active,
 .btn.btn-process.active {
-    background-color: #e13138;
-    border-color: #e13138;
+    background-color: #4089DC;
+    border-color: #4089DC;
     color: #fff;
 }
