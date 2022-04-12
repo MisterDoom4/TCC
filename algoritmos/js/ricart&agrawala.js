@@ -108,7 +108,6 @@ function playRand() {
                 nodesFirst[chooseP].message = "RELEASED";
             }
             else {
-
                 nodesFirst[chooseP].message = "WANTED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
@@ -1036,6 +1035,7 @@ function desenhoinitPart0() {
             .attr("height", ty + ty + 0.2);
         teste.append("rect")
             .attr("style", "fill:pink")
+            .attr("class", "blocoNome")
             .attr("x", x0)
             .attr("y", y0)
             .attr("width", tx)
@@ -1058,6 +1058,7 @@ function desenhoinitPart0() {
             .attr("fill", "#000");
 
         teste.append("rect")
+            .attr("class", "blocoMensagem")
             .attr("style", "fill:#2892D7")
             .attr("x", x0)
             .attr("y", y0 + 30.2)
