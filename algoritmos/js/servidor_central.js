@@ -387,7 +387,7 @@ var teste = d3.select("#firstsvg")
     .attr("width", 500)
     .attr("height", 200);
 var i0, distx0, distx02, x00, y00, x01, y01;
-var colorToken = "#4B0082", colorProcesso = "#e13138", colorCentral = "#000000", colorFila = "#006400"
+var colorToken = "#5C40DB", colorProcesso = "#4089DC", colorCentral = "#FF4A4A", colorFila = "#16C172"
 var nodesZero = [];
 
 // desenhar o exemplo
@@ -452,9 +452,16 @@ function desenhoInit0() {
 function showCentral() {
     d3.select("#firstsvg").selectAll(".central")
         .transition()
-        .duration(1500)
-        .attr("stroke", colorCentral)
-        .attr("stroke-width", 4);
+        .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", colorCentral)
+            .style("stroke-width", 1)
+            .transition()
+            .style("stroke", colorCentral)
+            .style("stroke-width", 4)
+            .on("start", repeat);
+      })
 
     teste.append("rect")
         .attr("x", 110)
@@ -497,17 +504,31 @@ function showCentral() {
 function unshowCentral() {
     d3.select("#firstsvg").selectAll(".central")
         .transition()
-        .duration(1500)
-        .attr("stroke", line)
-        .attr("stroke-width", 1)
+        .duration(700)
+        .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", line)
+            .style("stroke-width", 1)
+            .on("start", repeat);
+      })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 function showProcessos() {
     d3.select("#firstsvg").selectAll(".processos")
         .transition()
-        .duration(1500)
-        .attr("stroke", colorProcesso)
-        .attr("stroke-width", 4);
+        .duration(400)
+        .delay(function(d, i) { return i * 50; })
+    .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", colorProcesso)
+            .style("stroke-width", 1)
+            .transition()
+            .style("stroke", colorProcesso)
+            .style("stroke-width", 4)
+            .on("start", repeat);
+      })
 
     teste.append("rect")
         .attr("x", 370)
@@ -550,9 +571,14 @@ function showProcessos() {
 function unshowProcessos() {
     d3.select("#firstsvg").selectAll(".processos")
         .transition()
-        .duration(1500)
-        .attr("stroke", line)
-        .attr("stroke-width", 1)
+        .duration(700)
+        .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", colorProcesso)
+            .style("stroke-width", 1)
+            .on("start", repeat);
+      })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 function showToken() {
@@ -608,8 +634,17 @@ function unshowToken() {
 function showFila() {
     d3.select("#firstsvg").selectAll(".fila")
         .transition()
-        .duration(1500)
-        .attr("fill", colorFila);
+        .duration(500)
+        .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", colorFila)
+            .style("stroke-width", 1)
+            .transition()
+            .style("stroke", colorFila)
+            .style("stroke-width", 4)
+            .on("start", repeat);
+      });
     teste.append("rect")
         .attr("x", 60)
         .attr("y", 180)
@@ -651,7 +686,13 @@ function showFila() {
 function unshowFila(){
     d3.select("#firstsvg").selectAll(".fila")
         .transition()
-        .duration(1500)
-        .attr("fill", "transparent");
+        .duration(700)
+        .on("start", function repeat() {
+        d3.active(this)
+            .transition()
+            .style("stroke", lineC)
+            .style("stroke-width", 1)
+            .on("start", repeat);
+      })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
