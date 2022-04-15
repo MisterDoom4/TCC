@@ -10,7 +10,7 @@
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
     <meta name="Resource-type" content="Document" />
 
-    <link rel="stylesheet" type="text/css" href="css/fullpage-exclusao_anel.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage-ricart&agrawala.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="plugins.css" />
@@ -83,9 +83,6 @@
 
                                 <div class="interaction">
                                     <div>
-
-                                    </div>
-                                    <div class="sliderArea">
 
                                     </div>
                                 </div>
@@ -181,12 +178,29 @@
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Avançar</button>
+                                    <button onclick="playRand()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Cenário 1</button>
+                                    <button onclick="playRand2(0)" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Cenário 2</button>
+                                    <button onclick="reset()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Reset</button>
                             </div>
                         </div>
                         <div class="alg" id="multicastsvg"></div>
                         <div class="interaction">
                             <div id="buttons">
-
+                                <table id="table2" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Processo</td>
+                                            <td>Relógios</td>
+                                            <td>Mensagem</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button onclick="playCustom()" type="button"
+                                class="btn btn-rounded btn-light btn-sm">Salvar</button>
+                                
 
 
                             </div>

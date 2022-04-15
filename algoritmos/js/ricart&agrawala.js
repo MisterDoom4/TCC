@@ -3,7 +3,7 @@ var multicast = d3.select("#multicastsvg")
     .attr("width", 540)
     .attr("height", 300)
 var x0 = 0, y0 = 0, tx = 97, ty = 30;
-var i, j, p, k;
+var p;
 var nodesFirst = [];
 var mess = "RELEASED";
 var clock = 0;
@@ -14,8 +14,8 @@ function desenhoinitPart() {
     p = 0; // nome do processo //
     for (let i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
-        for (j = 0; j < 2; j++) {
-            inRandom();
+        for (let j = 0; j < 2; j++) {
+            clockRandom();
             x0 = x0 + j * 250;
             multicast.append("rect")
                 .attr("style", "fill:pink")
@@ -74,13 +74,13 @@ function desenhoinitPart() {
     }
 }
 // inicialização dos relogios aleatorios //
-function inRandom() {
+function clockRandom() {
     var ver;
     if (clock != 0) {
         do {
             rand = Math.floor(Math.random() * (Math.floor(30) - Math.ceil(0))) + 1;
             ver = 0;
-            for (k = 0; k < p; k++) {
+            for (let k = 0; k < p; k++) {
                 if (nodesFirst[k].clock == rand) {
                     ver--;
                 }
@@ -95,9 +95,12 @@ function inRandom() {
     }
     clock = rand;
 }
-// colocar wanted nos processos //
+// colocar pelo menos 1 wanted nos processos //
 function playRand() {
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
+    d3.select("#multicastsvg").selectAll(".mensagem").remove();
     var chooseP;
+    let released = 0;  // contagem de released, não pode ter 4 //
     for (let i = 0; i < 4; i++) {
         if (i == 0) {
             chooseP = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
@@ -106,6 +109,7 @@ function playRand() {
             } while (rand == 2)
             if (rand == 0) {
                 nodesFirst[chooseP].message = "RELEASED";
+                released++;
             }
             else {
                 nodesFirst[chooseP].message = "WANTED";
@@ -132,6 +136,7 @@ function playRand() {
                     .delay(250)
                     .duration(8000)
                     .text(nodesFirst[chooseP].message);
+                released++;
             }
             else {
                 nodesFirst[chooseP].message = "WANTED";
@@ -144,8 +149,66 @@ function playRand() {
             }
         }
     }
-
-
+    if (released == 4) {
+        playRand();
+    }
+    ini = 0;
+    operation = "SEND";
+}
+function playRand2(e) {
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
+    d3.select("#multicastsvg").selectAll(".mensagem").remove();
+    var chooseP;
+    let held = e;
+    var chooseHeld; // variavel que escolhe processo está com HELD//
+    let released = 0; // contagem de released, não pode ter 3 //
+    for (let i = 0; i < 4; i++) {
+        if (i == 0) {
+            chooseHeld = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
+            chooseP = chooseHeld;
+            nodesFirst[chooseHeld].message = "HELD";
+            d3.select("#multicastsvg").selectAll(".M" + chooseHeld)
+                .transition()
+                .delay(250)
+                .duration(8000)
+                .text(nodesFirst[chooseHeld].message);
+            console.log("Processo: " + chooseHeld + " Mensagem: " + nodesFirst[chooseHeld].message);
+            held++;
+        }
+        else {
+            do {
+                rand = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
+            } while (chooseP == rand || chooseHeld == rand)
+            chooseP = rand;
+            do {
+                rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
+            } while (rand == 2)
+            if (rand == 0) {
+                nodesFirst[chooseP].message = "RELEASED";
+                d3.select("#multicastsvg").selectAll(".M" + chooseP)
+                    .transition()
+                    .delay(250)
+                    .duration(8000)
+                    .text(nodesFirst[chooseP].message);
+                released++;
+            }
+            else {
+                nodesFirst[chooseP].message = "WANTED";
+                d3.select("#multicastsvg").selectAll(".M" + chooseP)
+                    .transition()
+                    .delay(250)
+                    .duration(8000)
+                    .text(nodesFirst[chooseP].message);
+                console.log("Processo: " + chooseP + " Mensagem: " + nodesFirst[chooseP].message);
+            }
+        }
+    }
+    if (released == 3 || held > 1) {
+        playRand2();
+        console.log(held);
+    }
+    ini = 0;
+    operation = "SEND";
 }
 //desenho da seta P2P
 function desenharMensagem(p1, p2) {
@@ -882,7 +945,7 @@ function broadcast(processoSolicitante) {
 function atualizarStatus(p) {
     d3.select("#multicastsvg").selectAll(".M" + p)
         .transition()
-        .delay(1200)
+        .delay(1000)
         .text(nodesFirst[p].message);
 }
 //FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD
@@ -927,60 +990,94 @@ function playAlg() {
     if (ini == 4) {
         ini = 0;
     }
-    // função para o terceiro desenho //
-    if (estaVisivel(d) == true) {
-
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
+    d3.select("#multicastsvg").selectAll(".mensagem").remove();
+    // primeiro apertar//
+    if (ini == -1) {
+        alert("Precisa escolher um cenario antes de avançar");
     }
-    // segundo desenho
     else {
-        d3.select("#multicastsvg").selectAll(".bloco").remove();
-        d3.select("#multicastsvg").selectAll(".mensagem").remove();
-        // primeiro apertar//
-        if (ini == -1) {
-            playRand();
+        if (operation == "RESP" && nodesFirst[ini].message == "WANTED") {
+            if (analisarAcesso(nodesFirst[ini]) == 3) {
+                nodesFirst[ini].message = "HELD";
+                atualizarStatus(ini);
+            }
             ini++;
             operation = "SEND";
-
         }
         else {
-            if (operation == "RESP" && nodesFirst[ini].message == "WANTED") {
-                if (analisarAcesso(nodesFirst[ini]) == 3) {
-                    nodesFirst[ini].message = "HELD";
+            if (operation == "SEND") {
+                console.log(nodesFirst[ini].message);
+                if (nodesFirst[ini].message == "WANTED") {
+                    broadcast(nodesFirst[ini]);
+                    operation = "RESP"; //var para controle de resposta
+                }
+
+                if (nodesFirst[ini].message == "HELD") {
+                    heldBroadcast(nodesFirst[ini]);
+
+                    nodesFirst[ini].message = "RELEASED";
+                    // função para mudar status do desenho depois de 1s;
                     atualizarStatus(ini);
+
+                    liberarAcesso(nodesFirst[ini]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
                 }
-                ini++;
-                operation = "SEND";
-            }
-            else {
-                if (operation == "SEND") {
-                    console.log(nodesFirst[ini].message);
-                    if (nodesFirst[ini].message == "WANTED") {
-                        broadcast(nodesFirst[ini]);
-                        operation = "RESP"; //var para controle de resposta
-                    }
-
-                    if (nodesFirst[ini].message == "HELD") {
-                        heldBroadcast(nodesFirst[ini]);
-
-                        nodesFirst[ini].message = "RELEASED";
-                        // função para mudar status do desenho depois de 1s;
-                        atualizarStatus(ini);
-
-                        liberarAcesso(nodesFirst[ini]); //no caso de alguma interação entrar no held, pode ter mudanças significativas no programa, é prioridade atualiza-las
-                    }
-                    if (nodesFirst[ini].message == "RELEASED") {
-                        ini++;
-                    }
+                if (nodesFirst[ini].message == "RELEASED") {
+                    ini++;
                 }
             }
-
         }
 
     }
+
+}
+function tabela() {
+    var data = ["RELEASED", "WANTED", "HELD"];
+    for (let i = 0; i < nodesFirst.length; i++) {
+        d3.select("#table2").append("tr").attr("class", "linha" + i)
+            .attr("align", "center")
+            .append("td").text(nodesFirst[i].id);
+        d3.select("#table2").select(".linha" + i).append("td") // colocar o relogio //
+            .append("input")
+            .attr("type", "number")
+            .attr("step", "1")
+            .attr("min", "1")
+            .attr("max", "100")
+            .attr("class", "form")
+            .attr("id", "relogio" + i)
+            .attr("value", nodesFirst[i].clock);
+        d3.select("#table2").select(".linha" + i).append("td") // select da mensagem //
+            .append("select")
+            .attr("class", "combobox" + i);
+        d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).selectAll("option")
+            .data(data).enter()
+            .append("option")
+            .text(function (d) { return d; });
+    }
+}
+function playCustom() {
+    // resetar a fila na função reset() e verificar o erro //
+    ini = 0;
+    var x = document.getElementById("relogio" + 0).value; // pegar o relogio //
+    var selectValue = d3.select("#table2").select(".linha" + 0).selectAll(".combobox" + 0).property("value"); // pegar a mensagem//
+    for (let i = 0; i < nodesFirst.length; i++) {
+        nodesFirst[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+        atualizarStatus(i);
+        nodesFirst[i].clock = document.getElementById("relogio" + i).value;
+        atualizarClock(i);
+    }
+    // console.log(x);
+}
+function atualizarClock(p) {
+    d3.select("#multicastsvg").selectAll(".P" + p)
+        .transition()
+        .delay(1000)
+        .text("[" + nodesFirst[p].clock + "]");
 }
 window.onload = function () {
     desenhoinitPart();
     document.getElementById("buttonsR2").style.display = "block";
+    tabela();
     desenhoinitPart0();
 }
 window.onscroll = function () { scrollFunction() };
@@ -1006,13 +1103,44 @@ function scrollFunction() {
     }
     // troca de desenho //
     if (estaVisivel(d) == true) {
-        // document.getElementById("buttons").style.display = "flex";
+        document.getElementById("buttons").style.display = "flex";
         // d3.select("#combobox").selectAll("option").remove();
         // d3.select("#combobox").selectAll("select").remove();
         // criarComboBox();
     }
     else {
-        // document.getElementById("buttons").style.display = "none";
+        document.getElementById("buttons").style.display = "none";
+    }
+}
+function reset() {
+    ini = -1;
+    d3.select("#multicastsvg").selectAll(".bloco").remove();
+    d3.select("#multicastsvg").selectAll(".mensagem").remove();
+    clock = 0; // para inicializar a função clockRandom()
+    for (let i = 0; i < nodesFirst.length; i++) {
+        d3.select("#multicastsvg").selectAll(".P" + i).remove();
+        d3.select("#multicastsvg").selectAll(".M" + i).remove();
+    }
+    for (let i = 0; i < nodesFirst.length; i++) {
+        clockRandom();
+        nodesFirst[i].clock = clock;
+        nodesFirst[i].message = mess;
+        multicast.append("text")
+            .attr("x", nodesFirst[i].x + 50)
+            .attr("y", nodesFirst[i].y + 22)
+            .attr("class", "P" + i)
+            .text("[" + clock + "]")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000");
+        multicast.append("text")
+            .attr("x", nodesFirst[i].x + 2)
+            .attr("y", nodesFirst[i].y + 52)
+            .attr("class", "M" + i)
+            .text(mess)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "17px")
+            .attr("fill", "#000000");
     }
 }
 var teste = d3.select("#firstsvg")
