@@ -108,8 +108,7 @@ function clockRandom() {
 }
 // colocar pelo menos 1 wanted nos processos //
 function playRand() {
-    d3.select("#multicastsvg").selectAll(".bloco").remove();
-    d3.select("#multicastsvg").selectAll(".mensagem").remove();
+    reset();
     var chooseP; // variavel para escolher o processo //
     let released = 0;  // contagem de released, não pode ter 4 //
     for (let i = 0; i < 4; i++) {
@@ -166,8 +165,7 @@ function playRand() {
 }
 // função para escolher pelo menos 1 HELD //
 function playRand2(e) {
-    d3.select("#multicastsvg").selectAll(".bloco").remove();
-    d3.select("#multicastsvg").selectAll(".mensagem").remove();
+    reset();
     var chooseP;
     let held = e;
     var chooseHeld; // variavel que escolhe processo está com HELD//
