@@ -13,6 +13,7 @@ var token = 0;
 var rand;
 
 function desenhoinitPart() {
+    token = 0;
     for (i = 0; i < n1; i++) {
         angle = 2 * Math.PI * i / n1;
         x1 = Math.cos(angle) * 103 + 130;
