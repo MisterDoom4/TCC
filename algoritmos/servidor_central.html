@@ -73,7 +73,7 @@
                             </li>
                             <li>
                                 As mensagens tem em sua composição um
-                                <button onmouseover="showProcessos()" onmouseout="unshowProcessos()" type="button"
+                                <button onmouseover="showProcess()" onmouseout="unshowProcess()" type="button"
                                     class="btn btn-light btn-xs">identificador de processo (P<sub>i</sub>)</button>
                                 e o conteúdo da mensagem, que pode ser:
                                 solicitação ou liberação da seção crítica.
@@ -87,7 +87,7 @@
                             class="btn btn-light btn-xs">token</button> e tem automaticamente liberação para
                         acessar a sessão crítica. É necessário uma administração dessas respostas para
                         garantir a exclusão mútua. Para isso, o servidor central tem uma <button
-                            onmouseover="showFila()" onmouseout="unshowFila()" type="button"
+                            onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
                             class="btn btn-light btn-xs">fila</button> para armazenar as
                         requisições dos
                         processos que utiliza a lógica do "Primeiro a Entrar - Primeiro a Sair" (FIFO - First in
