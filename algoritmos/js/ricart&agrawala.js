@@ -4,7 +4,7 @@ var multicast = d3.select("#multicastsvg")
     .attr("height", 300)
 var x0 = 0, y0 = 10, tx = 97, ty = 30;
 var p;
-var nodesFirst = [];
+var arrayNodes = [];
 var mess = "RELEASED";
 var clock = 0;
 var ini = -1;
@@ -77,7 +77,7 @@ function desenhoinitPart() {
 
             var fila = [];
             var newNode = { id: p, x: x0, y: y0, message: mess, filaProcesso: fila, clock };
-            nodesFirst.push(newNode);
+            arrayNodes.push(newNode);
             p++;
         }
         x0 = 0;
@@ -91,7 +91,7 @@ function clockRandom() {
             rand = Math.floor(Math.random() * (Math.floor(30) - Math.ceil(0))) + 1;
             ver = 0;
             for (let k = 0; k < p; k++) {
-                if (nodesFirst[k].clock == rand) {
+                if (arrayNodes[k].clock == rand) {
                     ver--;
                 }
                 else {
@@ -118,16 +118,16 @@ function playRand() {
                 rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
             } while (rand == 2)
             if (rand == 0) { // se rand for zero vai RELEASED // 
-                nodesFirst[chooseP].message = "RELEASED";
+                arrayNodes[chooseP].message = "RELEASED";
                 released++;
             }
             else {
-                nodesFirst[chooseP].message = "WANTED";
+                arrayNodes[chooseP].message = "WANTED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
                     .delay(250)
                     .duration(8000)
-                    .text(nodesFirst[chooseP].message);
+                    .text(arrayNodes[chooseP].message);
             }
         }
         else {
@@ -139,21 +139,21 @@ function playRand() {
                 rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
             } while (rand == 2)
             if (rand == 0) {
-                nodesFirst[chooseP].message = "RELEASED";
+                arrayNodes[chooseP].message = "RELEASED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
                     .delay(250)
                     .duration(8000)
-                    .text(nodesFirst[chooseP].message);
+                    .text(arrayNodes[chooseP].message);
                 released++;
             }
             else {
-                nodesFirst[chooseP].message = "WANTED";
+                arrayNodes[chooseP].message = "WANTED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
                     .delay(250)
                     .duration(8000)
-                    .text(nodesFirst[chooseP].message);
+                    .text(arrayNodes[chooseP].message);
             }
         }
     }
@@ -174,12 +174,12 @@ function playRand2(e) {
         if (i == 0) {
             chooseHeld = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
             chooseP = chooseHeld;
-            nodesFirst[chooseHeld].message = "HELD";
+            arrayNodes[chooseHeld].message = "HELD";
             d3.select("#multicastsvg").selectAll(".M" + chooseHeld)
                 .transition()
                 .delay(250)
                 .duration(8000)
-                .text(nodesFirst[chooseHeld].message);
+                .text(arrayNodes[chooseHeld].message);
             held++;
         }
         else {
@@ -191,21 +191,21 @@ function playRand2(e) {
                 rand = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + 0;
             } while (rand == 2)
             if (rand == 0) {
-                nodesFirst[chooseP].message = "RELEASED";
+                arrayNodes[chooseP].message = "RELEASED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
                     .delay(250)
                     .duration(8000)
-                    .text(nodesFirst[chooseP].message);
+                    .text(arrayNodes[chooseP].message);
                 released++;
             }
             else {
-                nodesFirst[chooseP].message = "WANTED";
+                arrayNodes[chooseP].message = "WANTED";
                 d3.select("#multicastsvg").selectAll(".M" + chooseP)
                     .transition()
                     .delay(250)
                     .duration(8000)
-                    .text(nodesFirst[chooseP].message);
+                    .text(arrayNodes[chooseP].message);
             }
         }
     }
@@ -399,31 +399,31 @@ function desenharMensagem(p1, p2) {
 function heldBroadcast(processo) {
     d3.select("#multicastsvg").selectAll(".bloco").remove();
     for (let index = 0; index < processo.filaProcesso.length; index++) {
-        desenharMensagem(processo, nodesFirst[processo.filaProcesso[index]]);
+        desenharMensagem(processo, arrayNodes[processo.filaProcesso[index]]);
     }
 }
 // descobrir as mensagens dos outros processo e retornar o acesso //
 function analisarAcesso(processoSolicitante) {
     var acesso = 0; //respostas //
-    for (let i = 0; i < nodesFirst.length; i++) {
-        if (processoSolicitante.id != nodesFirst[i].id) {
-            if (nodesFirst[i].message == "RELEASED") {
+    for (let i = 0; i < arrayNodes.length; i++) {
+        if (processoSolicitante.id != arrayNodes[i].id) {
+            if (arrayNodes[i].message == "RELEASED") {
                 acesso++;
-                desenharMensagem(nodesFirst[i], processoSolicitante);
+                desenharMensagem(arrayNodes[i], processoSolicitante);
             } else {
-                if (nodesFirst[i].message == "HELD") {
-                    if (nodesFirst[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
-                        nodesFirst[i].filaProcesso.push(processoSolicitante.id);
-                        desenharFila(nodesFirst[i]);
+                if (arrayNodes[i].message == "HELD") {
+                    if (arrayNodes[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
+                        arrayNodes[i].filaProcesso.push(processoSolicitante.id);
+                        desenharFila(arrayNodes[i]);
                     }
 
                 } else {
-                    if (nodesFirst[i].message == "WANTED") {
-                        if (nodesFirst[i].clock > processoSolicitante.clock) {
+                    if (arrayNodes[i].message == "WANTED") {
+                        if (arrayNodes[i].clock > processoSolicitante.clock) {
                             acesso++;
-                            desenharMensagem(nodesFirst[i], processoSolicitante);
-                            if (nodesFirst[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
-                                processoSolicitante.filaProcesso.push(nodesFirst[i].id);
+                            desenharMensagem(arrayNodes[i], processoSolicitante);
+                            if (arrayNodes[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
+                                processoSolicitante.filaProcesso.push(arrayNodes[i].id);
                                 desenharFila(processoSolicitante);
                             }
 
@@ -492,8 +492,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[1].x)
-            .attr("y1", nodesFirst[1].y + 30)
+            .attr("x1", arrayNodes[1].x)
+            .attr("y1", arrayNodes[1].y + 30)
             .attr("x2", processoSolicitante.x + tx + 25)
             .attr("y2", processoSolicitante.y + 30)
             .attr("class", "bloco")
@@ -503,7 +503,7 @@ function broadcast(processoSolicitante) {
         // proximo processo //
         multicast.append("rect")
             .attr("x", processoSolicitante.x + (tx / 2) + 5)
-            .attr("y", nodesFirst[2].y - 60)
+            .attr("y", arrayNodes[2].y - 60)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -514,7 +514,7 @@ function broadcast(processoSolicitante) {
             .attr("fill", "#6EB960");
         multicast.append("text")
             .attr("x", processoSolicitante.x + (tx / 2) + 10)
-            .attr("y", nodesFirst[2].y - 44)
+            .attr("y", arrayNodes[2].y - 44)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -532,8 +532,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[2].x + (tx / 2))
-            .attr("y1", nodesFirst[2].y)
+            .attr("x1", arrayNodes[2].x + (tx / 2))
+            .attr("y1", arrayNodes[2].y)
             .attr("x2", processoSolicitante.x + (tx / 2))
             .attr("y2", processoSolicitante.y + 2 * ty)
             .attr("class", "bloco")
@@ -543,7 +543,7 @@ function broadcast(processoSolicitante) {
 
         multicast.append("rect")
             .attr("x", processoSolicitante.x + tx + 80)
-            .attr("y", nodesFirst[3].y - 78)
+            .attr("y", arrayNodes[3].y - 78)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -554,7 +554,7 @@ function broadcast(processoSolicitante) {
             .attr("fill", "#6EB960");
         multicast.append("text")
             .attr("x", processoSolicitante.x + tx + 85)
-            .attr("y", nodesFirst[3].y - 62)
+            .attr("y", arrayNodes[3].y - 62)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -572,8 +572,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[3].x)
-            .attr("y1", nodesFirst[3].y)
+            .attr("x1", arrayNodes[3].x)
+            .attr("y1", arrayNodes[3].y)
             .attr("x2", processoSolicitante.x + tx + 25)
             .attr("y2", processoSolicitante.y + 2 * ty)
             .attr("class", "bloco")
@@ -583,7 +583,7 @@ function broadcast(processoSolicitante) {
     }
     if (processoSolicitante.id == 1) {
         multicast.append("rect")
-            .attr("x", nodesFirst[0].x + tx + 55)
+            .attr("x", arrayNodes[0].x + tx + 55)
             .attr("y", processoSolicitante.y)
             .attr("class", "bloco")
             .attr("rx", 10)
@@ -594,7 +594,7 @@ function broadcast(processoSolicitante) {
             .attr("stroke-width", 1)
             .attr("fill", "#6EB960");
         multicast.append("text")
-            .attr("x", nodesFirst[0].x + tx + 60)
+            .attr("x", arrayNodes[0].x + tx + 60)
             .attr("y", processoSolicitante.y + 16)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
@@ -613,8 +613,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[0].x + tx + 25)
-            .attr("y1", nodesFirst[0].y + 30)
+            .attr("x1", arrayNodes[0].x + tx + 25)
+            .attr("y1", arrayNodes[0].y + 30)
             .attr("x2", processoSolicitante.x)
             .attr("y2", processoSolicitante.y + 30)
             .attr("class", "bloco")
@@ -623,8 +623,8 @@ function broadcast(processoSolicitante) {
             .attr("marker-start", "url(#arrow)");
         // proximo processo //
         multicast.append("rect")
-            .attr("x", nodesFirst[2].x + 125)
-            .attr("y", nodesFirst[2].y - 75)
+            .attr("x", arrayNodes[2].x + 125)
+            .attr("y", arrayNodes[2].y - 75)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -634,8 +634,8 @@ function broadcast(processoSolicitante) {
             .attr("stroke-width", 1)
             .attr("fill", "#6EB960");
         multicast.append("text")
-            .attr("x", nodesFirst[2].x + 130)
-            .attr("y", nodesFirst[2].y - 59)
+            .attr("x", arrayNodes[2].x + 130)
+            .attr("y", arrayNodes[2].y - 59)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -653,8 +653,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[2].x + tx + 25)
-            .attr("y1", nodesFirst[2].y)
+            .attr("x1", arrayNodes[2].x + tx + 25)
+            .attr("y1", arrayNodes[2].y)
             .attr("x2", processoSolicitante.x)
             .attr("y2", processoSolicitante.y + 2 * ty)
             .attr("class", "bloco")
@@ -664,7 +664,7 @@ function broadcast(processoSolicitante) {
 
         multicast.append("rect")
             .attr("x", processoSolicitante.x + (tx / 2) + 5)
-            .attr("y", nodesFirst[3].y - 73)
+            .attr("y", arrayNodes[3].y - 73)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -675,7 +675,7 @@ function broadcast(processoSolicitante) {
             .attr("fill", "#6EB960");
         multicast.append("text")
             .attr("x", processoSolicitante.x + (tx / 2) + 10)
-            .attr("y", nodesFirst[3].y - 57)
+            .attr("y", arrayNodes[3].y - 57)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -693,8 +693,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[3].x + (tx / 2))
-            .attr("y1", nodesFirst[3].y)
+            .attr("x1", arrayNodes[3].x + (tx / 2))
+            .attr("y1", arrayNodes[3].y)
             .attr("x2", processoSolicitante.x + (tx / 2))
             .attr("y2", processoSolicitante.y + 2 * ty)
             .attr("class", "bloco")
@@ -734,8 +734,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[0].x + (tx / 2))
-            .attr("y1", nodesFirst[0].y + 2 * ty)
+            .attr("x1", arrayNodes[0].x + (tx / 2))
+            .attr("y1", arrayNodes[0].y + 2 * ty)
             .attr("x2", processoSolicitante.x + (tx / 2))
             .attr("y2", processoSolicitante.y)
             .attr("class", "bloco")
@@ -744,8 +744,8 @@ function broadcast(processoSolicitante) {
             .attr("marker-start", "url(#arrow)");
         //proximo processo //
         multicast.append("rect")
-            .attr("x", nodesFirst[2].x + 125)
-            .attr("y", nodesFirst[2].y - 75)
+            .attr("x", arrayNodes[2].x + 125)
+            .attr("y", arrayNodes[2].y - 75)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -755,8 +755,8 @@ function broadcast(processoSolicitante) {
             .attr("stroke-width", 1)
             .attr("fill", "#6EB960");
         multicast.append("text")
-            .attr("x", nodesFirst[2].x + 130)
-            .attr("y", nodesFirst[2].y - 59)
+            .attr("x", arrayNodes[2].x + 130)
+            .attr("y", arrayNodes[2].y - 59)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -774,8 +774,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[1].x)
-            .attr("y1", nodesFirst[1].y + 2 * ty)
+            .attr("x1", arrayNodes[1].x)
+            .attr("y1", arrayNodes[1].y + 2 * ty)
             .attr("x2", processoSolicitante.x + tx + 25)
             .attr("y2", processoSolicitante.y)
             .attr("class", "bloco")
@@ -814,8 +814,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[3].x)
-            .attr("y1", nodesFirst[3].y + ty)
+            .attr("x1", arrayNodes[3].x)
+            .attr("y1", arrayNodes[3].y + ty)
             .attr("x2", processoSolicitante.x + tx + 25)
             .attr("y2", processoSolicitante.y + ty)
             .attr("class", "bloco")
@@ -855,8 +855,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[0].x + tx + 25)
-            .attr("y1", nodesFirst[0].y + 2 * ty)
+            .attr("x1", arrayNodes[0].x + tx + 25)
+            .attr("y1", arrayNodes[0].y + 2 * ty)
             .attr("x2", processoSolicitante.x)
             .attr("y2", processoSolicitante.y)
             .attr("class", "bloco")
@@ -865,8 +865,8 @@ function broadcast(processoSolicitante) {
             .attr("marker-start", "url(#arrow)");
         //proximo processo //
         multicast.append("rect")
-            .attr("x", nodesFirst[0].x + 170)
-            .attr("y", nodesFirst[0].y + 75)
+            .attr("x", arrayNodes[0].x + 170)
+            .attr("y", arrayNodes[0].y + 75)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -876,8 +876,8 @@ function broadcast(processoSolicitante) {
             .attr("stroke-width", 1)
             .attr("fill", "#6EB960");
         multicast.append("text")
-            .attr("x", nodesFirst[0].x + 175)
-            .attr("y", nodesFirst[0].y + 91)
+            .attr("x", arrayNodes[0].x + 175)
+            .attr("y", arrayNodes[0].y + 91)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -895,8 +895,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[1].x + (tx / 2))
-            .attr("y1", nodesFirst[1].y + 2 * ty)
+            .attr("x1", arrayNodes[1].x + (tx / 2))
+            .attr("y1", arrayNodes[1].y + 2 * ty)
             .attr("x2", processoSolicitante.x + (tx / 2))
             .attr("y2", processoSolicitante.y)
             .attr("class", "bloco")
@@ -905,8 +905,8 @@ function broadcast(processoSolicitante) {
             .attr("marker-start", "url(#arrow)");
 
         multicast.append("rect")
-            .attr("x", nodesFirst[2].x + tx + 60)
-            .attr("y", nodesFirst[2].y)
+            .attr("x", arrayNodes[2].x + tx + 60)
+            .attr("y", arrayNodes[2].y)
             .attr("class", "bloco")
             .attr("rx", 10)
             .attr("ry", 10)
@@ -916,8 +916,8 @@ function broadcast(processoSolicitante) {
             .attr("stroke-width", 1)
             .attr("fill", "#6EB960");
         multicast.append("text")
-            .attr("x", nodesFirst[2].x + tx + 65)
-            .attr("y", nodesFirst[2].y + 16)
+            .attr("x", arrayNodes[2].x + tx + 65)
+            .attr("y", arrayNodes[2].y + 16)
             .attr("class", "bloco")
             .text("P" + processoSolicitante.id + "-" + processoSolicitante.clock)
             .attr("font-family", "sans-serif")
@@ -935,8 +935,8 @@ function broadcast(processoSolicitante) {
             .append("path")
             .attr("d", "M0,-5L10,0L0,5");
         multicast.append("line")
-            .attr("x1", nodesFirst[2].x + tx + 25)
-            .attr("y1", nodesFirst[2].y + ty)
+            .attr("x1", arrayNodes[2].x + tx + 25)
+            .attr("y1", arrayNodes[2].y + ty)
             .attr("x2", processoSolicitante.x)
             .attr("y2", processoSolicitante.y + ty)
             .attr("class", "bloco")
@@ -950,7 +950,7 @@ function atualizarStatus(p) {
     d3.select("#multicastsvg").selectAll(".M" + p)
         .transition()
         .delay(1000)
-        .text(nodesFirst[p].message);
+        .text(arrayNodes[p].message);
 }
 //FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD //
 //acessa nodeFirst de acordo com o id da fila do processo HELD //
@@ -958,9 +958,9 @@ function liberarAcesso(processo) {
     let index = 0
     while (processo.filaProcesso[index] != null) {
         //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
-        if (revisarAcesso(nodesFirst[processo.filaProcesso[index]]) === 3) {
+        if (revisarAcesso(arrayNodes[processo.filaProcesso[index]]) === 3) {
 
-            nodesFirst[processo.filaProcesso[index]].message = "HELD";
+            arrayNodes[processo.filaProcesso[index]].message = "HELD";
             atualizarStatus(processo.filaProcesso[index]);
             //atualizar desenho do status
         }
@@ -971,18 +971,18 @@ function liberarAcesso(processo) {
 // retornar acesso do processo que está na fila//
 function revisarAcesso(processoSolicitante) {
     var acesso = 0;
-    for (let i = 0; i < nodesFirst.length; i++) {
-        if (processoSolicitante.id == nodesFirst[i].id) {
+    for (let i = 0; i < arrayNodes.length; i++) {
+        if (processoSolicitante.id == arrayNodes[i].id) {
             i++;
             if (i == 4) {
                 return acesso;
             }
         }
-        if (nodesFirst[i].message === "RELEASED") {
+        if (arrayNodes[i].message === "RELEASED") {
             acesso++;
         } else {
-            if (nodesFirst[i].message === "WANTED") {
-                if (nodesFirst[i].clock > processoSolicitante.clock) {
+            if (arrayNodes[i].message === "WANTED") {
+                if (arrayNodes[i].clock > processoSolicitante.clock) {
                     acesso++;
                 }
             }
@@ -1002,9 +1002,9 @@ function playAlg() {
     }
     else {
         mostrar(ini);
-        if (operation == "RESP" && nodesFirst[ini].message == "WANTED") {
-            if (analisarAcesso(nodesFirst[ini]) == 3) {
-                nodesFirst[ini].message = "HELD";
+        if (operation == "RESP" && arrayNodes[ini].message == "WANTED") {
+            if (analisarAcesso(arrayNodes[ini]) == 3) {
+                arrayNodes[ini].message = "HELD";
                 atualizarStatus(ini);
             }
             ini++;
@@ -1012,18 +1012,18 @@ function playAlg() {
         }
         else {
             if (operation == "SEND") {
-                if (nodesFirst[ini].message == "WANTED") {
-                    broadcast(nodesFirst[ini]);
+                if (arrayNodes[ini].message == "WANTED") {
+                    broadcast(arrayNodes[ini]);
                     operation = "RESP"; //var para controle de resposta
                 }
 
-                if (nodesFirst[ini].message == "HELD") {
-                    heldBroadcast(nodesFirst[ini]);
-                    nodesFirst[ini].message = "RELEASED";
+                if (arrayNodes[ini].message == "HELD") {
+                    heldBroadcast(arrayNodes[ini]);
+                    arrayNodes[ini].message = "RELEASED";
                     atualizarStatus(ini);
-                    liberarAcesso(nodesFirst[ini]);
+                    liberarAcesso(arrayNodes[ini]);
                 }
-                if (nodesFirst[ini].message == "RELEASED") {
+                if (arrayNodes[ini].message == "RELEASED") {
                     ini++;
                 }
             }
@@ -1049,10 +1049,10 @@ function mostrar(e) {
 }
 function tabela() {
     var data = ["RELEASED", "WANTED", "HELD"];
-    for (let i = 0; i < nodesFirst.length; i++) {
+    for (let i = 0; i < arrayNodes.length; i++) {
         d3.select("#table2").append("tr").attr("class", "linha" + i)
             .attr("align", "center")
-            .append("td").text(nodesFirst[i].id);
+            .append("td").text(arrayNodes[i].id);
         d3.select("#table2").select(".linha" + i).append("td") // colocar o relogio //
             .append("input")
             .attr("type", "number")
@@ -1061,7 +1061,7 @@ function tabela() {
             .attr("max", "100")
             .attr("class", "form")
             .attr("id", "relogio" + i)
-            .attr("value", nodesFirst[i].clock);
+            .attr("value", arrayNodes[i].clock);
         d3.select("#table2").select(".linha" + i).append("td") // select da mensagem //
             .append("select")
             .attr("class", "combobox" + i);
@@ -1074,10 +1074,10 @@ function tabela() {
 // função para inserir valores que vieram da tabela //
 function playCustom() {
     ini = 0;
-    for (let i = 0; i < nodesFirst.length; i++) {
-        nodesFirst[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+    for (let i = 0; i < arrayNodes.length; i++) {
+        arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
         atualizarStatus(i);
-        nodesFirst[i].clock = document.getElementById("relogio" + i).value;
+        arrayNodes[i].clock = document.getElementById("relogio" + i).value;
         atualizarClock(i);
     }
 }
@@ -1086,7 +1086,7 @@ function atualizarClock(p) {
     d3.select("#multicastsvg").selectAll(".P" + p)
         .transition()
         .delay(1000)
-        .text("[" + nodesFirst[p].clock + "]");
+        .text("[" + arrayNodes[p].clock + "]");
 }
 window.onload = function () {
     desenhoinitPart();
@@ -1095,9 +1095,9 @@ window.onload = function () {
     desenhoinitPart0();
 }
 window.onscroll = function () { scrollFunction() };
-const d = document.querySelector("#customIMG");
+const d = document.querySelector("#transition");
 // detectar o ultimo desenho //
-function estaVisivel(el) {
+function isVisible(el) {
     const posicoes = el.getBoundingClientRect();
     const inicio = posicoes.top;
     const fim = posicoes.bottom;
@@ -1116,7 +1116,7 @@ function scrollFunction() {
         document.getElementById("myBtn").style.display = "none";
     }
     // troca de desenho //
-    if (estaVisivel(d) == true) {
+    if (isVisible(d) == true) {
         document.getElementById("buttons").style.display = "flex";
     }
     else {
@@ -1128,27 +1128,27 @@ function reset() {
     d3.select("#multicastsvg").selectAll(".bloco").remove();
     d3.select("#multicastsvg").selectAll(".mensagem").remove();
     clock = 0; // para inicializar a função clockRandom()
-    for (let i = 0; i < nodesFirst.length; i++) {
+    for (let i = 0; i < arrayNodes.length; i++) {
         d3.select("#multicastsvg").selectAll(".P" + i).remove();
         d3.select("#multicastsvg").selectAll(".M" + i).remove();
         d3.select("#multicastsvg").selectAll(".filaprocesso" + i).remove();
     }
-    for (let i = 0; i < nodesFirst.length; i++) {
+    for (let i = 0; i < arrayNodes.length; i++) {
         clockRandom();
-        nodesFirst[i].clock = clock;
-        nodesFirst[i].message = mess;
-        nodesFirst[i].filaProcesso.splice(0, 10);
+        arrayNodes[i].clock = clock;
+        arrayNodes[i].message = mess;
+        arrayNodes[i].filaProcesso.splice(0, 10);
         multicast.append("text")
-            .attr("x", nodesFirst[i].x + 50)
-            .attr("y", nodesFirst[i].y + 22)
+            .attr("x", arrayNodes[i].x + 50)
+            .attr("y", arrayNodes[i].y + 22)
             .attr("class", "P" + i)
             .text("[" + clock + "]")
             .attr("font-family", "sans-serif")
             .attr("font-size", "17px")
             .attr("fill", "#000");
         multicast.append("text")
-            .attr("x", nodesFirst[i].x + 2)
-            .attr("y", nodesFirst[i].y + 52)
+            .attr("x", arrayNodes[i].x + 2)
+            .attr("y", arrayNodes[i].y + 52)
             .attr("class", "M" + i)
             .text(mess)
             .attr("font-family", "sans-serif")
@@ -1157,7 +1157,7 @@ function reset() {
 
     }
 }
-var teste = d3.select("#firstsvg")
+var example = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 540)
     .attr("height", 300)
@@ -1168,7 +1168,7 @@ function desenhoinitPart0() {
     p = 0;
     for (let i = 0; i < 2; i++) {
         x0 = x0 + i * 250;
-        teste.append("rect")
+        example.append("rect")
             .attr("class", "legenda" + p)
             .attr("style", "fill:#fff")
             .attr("stroke", "#000")
@@ -1176,7 +1176,7 @@ function desenhoinitPart0() {
             .attr("y", y0)
             .attr("width", tx + 24)
             .attr("height", ty + ty + 0.2);
-        teste.append("rect")
+        example.append("rect")
             .attr("style", "fill:pink")
             .attr("class", "blocoNome")
             .attr("x", x0)
@@ -1185,14 +1185,14 @@ function desenhoinitPart0() {
             .attr("height", ty)
             .attr("stroke", "#000");
 
-        teste.append("text")
+        example.append("text")
             .attr("x", x0 + 30)
             .attr("y", y0 + 22)
             .text("P" + p)
             .attr("font-family", "sans-serif")
             .attr("font-size", "17px")
             .attr("fill", "#000");
-        teste.append("text")
+        example.append("text")
             .attr("x", x0 + 50)
             .attr("y", y0 + 22)
             .text("[11]")
@@ -1200,7 +1200,7 @@ function desenhoinitPart0() {
             .attr("font-size", "17px")
             .attr("fill", "#000");
 
-        teste.append("rect")
+        example.append("rect")
             .attr("class", "blocoMensagem")
             .attr("style", "fill:#2892D7")
             .attr("x", x0)
@@ -1208,14 +1208,14 @@ function desenhoinitPart0() {
             .attr("width", tx)
             .attr("height", ty)
             .attr("stroke", "#000");
-        teste.append("text")
+        example.append("text")
             .attr("x", x0 + 2)
             .attr("y", y0 + 52)
             .text("WANTED")
             .attr("font-family", "sans-serif")
             .attr("font-size", "17px")
             .attr("fill", "#000000");
-        teste.append("rect")
+        example.append("rect")
             .attr("style", "fill:#7B7B7B")
             .attr("stroke", "#000")
             .attr("x", x0 + 96)
@@ -1225,7 +1225,7 @@ function desenhoinitPart0() {
         p++;
     }
     // mensagem //
-    teste.append("rect")
+    example.append("rect")
         .attr("x", x0 - 85)
         .attr("y", y0 + 2)
         .attr("class", "teste")
@@ -1236,7 +1236,7 @@ function desenhoinitPart0() {
         .attr("stroke", "#000")
         .attr("stroke-width", 1)
         .attr("fill", "#6EB960");
-    teste.append("text")
+    example.append("text")
         .attr("x", x0 - 82)
         .attr("y", y0 + 18)
         .attr("class", "teste")
@@ -1244,7 +1244,7 @@ function desenhoinitPart0() {
         .attr("font-family", "sans-serif")
         .attr("font-size", "17px")
         .attr("fill", "#000000");
-    teste.append("defs").append("marker")
+    example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
         .attr("class", "teste")
@@ -1255,7 +1255,7 @@ function desenhoinitPart0() {
         .attr("orient", "auto-start-reverse")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-    teste.append("line")
+    example.append("line")
         .attr("x1", x0)
         .attr("y1", y0 + 30)
         .attr("x2", x0 - 128)

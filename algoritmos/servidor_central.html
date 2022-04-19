@@ -111,11 +111,11 @@
                                     <div>
                                         <button onmouseover="showCentral()" onmouseout="unshowCentral()" type="button"
                                             class="btn btn-rounded btn-server btn-sm">Servidor Central</button>
-                                        <button onmouseover="showProcessos()" onmouseout="unshowProcessos()"
+                                        <button onmouseover="showProcess()" onmouseout="unshowProcess()"
                                             type="button" class="btn btn-rounded btn-process btn-sm">Processos</button>
                                         <button onmouseover="showToken()" onmouseout="unshowToken()" type="button"
                                             class="btn btn-rounded btn-token btn-sm">Token</button>
-                                        <button onmouseover="showFila()" onmouseout="unshowFila()" type="button"
+                                        <button onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
                                             class="btn btn-rounded btn-fila btn-sm">Fila de Processos</button>
                                     </div>
                                     <div class="sliderArea">
@@ -195,7 +195,7 @@
                                         Adicione ou remova processos selecionados da
                                         fila.
                                     </li>
-                                    <li id="customIMG">Altere a posição do token para o processo
+                                    <li id="transition">Altere a posição do token para o processo
                                         selecionado.
                                     </li>
                                 </ul>
@@ -214,7 +214,7 @@
                             </div>
                             <div class="buttonsR2">
 
-                                <button onmouseover="showPart()" onmouseout="unshowPart()" type="button"
+                                <button onmouseover="showProcessName()" onmouseout="unshowProcessName()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Mostrar Processos</button>
                                 <b class="litletext">Passe o mouse sobre o botão</b>
                             </div>
@@ -224,11 +224,11 @@
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
-                                <button onclick="criarCustomfila()" type="button"
+                                <button onclick="createCustomQueue()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Adicionar na fila</button>
-                                <button onclick="removerFila()" type="button"
+                                <button onclick="removeElementinQueue()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Remover da fila</button>
-                                <button onclick="apagarFila()" type="button"
+                                <button onclick="deleteQueue()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Limpar a fila</button>
                                 <button onclick="addPToken()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Colocar Token</button>

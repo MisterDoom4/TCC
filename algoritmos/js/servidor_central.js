@@ -1,21 +1,18 @@
-// variaveis do desenho //
-var servidorCentral = d3.select("#scsvg")
+// variaveis do desenho 
+var centralServer = d3.select("#scsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
-var i, radio = 15, distx, distx2, n1 = 3, x0, y0, x1, y1;
-var nodesFirst = [], fila = [];
-var color = "#E0FF33", line = "RoyalBlue";
-var serverColor = "#2892D7";
-var lineC = "#454545", colorC = "#ffffff"
-var choose = 0;
-var chooseInit = 1, rand;
-//primeiro desenho //
-function desenhoInit() {
-    y0 = 20; // posição y, fixa
+var radio = 15, distx, distx2, n1 = 3, x0, y0, x1, y1, chooseInit = 1, rand;
+var arrayNodes = [], processQueue = [];
+var color = "#E0FF33", line = "RoyalBlue", serverColor = "#2892D7", lineC = "#454545", colorC = "#ffffff"
+var tokenProcess = true; // saber se o token está em um processo 
+//primeiro desenho 
+function drawInit() {
+    y0 = 20;
     x0 = 250;
-    // função para criar outros processos //
-    for (i = 0; i < n1; i++) {
+    // função para criar outros processos 
+    for (let i = 0; i < n1; i++) {
         if (n1 < 4) {
             distx = 190;
             x1 = distx + i * 60;
@@ -33,9 +30,9 @@ function desenhoInit() {
                 y1 = 150;
             }
         }
-        var newNode = { x: x1, y: y1, id: i};
-        nodesFirst.push(newNode);
-        servidorCentral.append("line")
+        var newNode = { x: x1, y: y1, id: i };
+        arrayNodes.push(newNode);
+        centralServer.append("line")
             .attr("x1", x0)
             .attr("y1", y0)
             .attr("x2", x1)
@@ -44,7 +41,7 @@ function desenhoInit() {
             .attr("stroke-width", 5)
             .attr("fill", colorC);
 
-        servidorCentral.append("circle")
+        centralServer.append("circle")
             .attr("cx", x1)
             .attr("cy", y1)
             .attr("r", radio)
@@ -54,24 +51,24 @@ function desenhoInit() {
             .append("text")
             .text("P" + i);
     }
-    // desenhar o token //
-    servidorCentral.append("circle")
+    // desenhar o token 
+    centralServer.append("circle")
         .attr("class", "token")
-        .attr("cx", nodesFirst[chooseInit].x)
-        .attr("cy", nodesFirst[chooseInit].y)
+        .attr("cx", arrayNodes[chooseInit].x)
+        .attr("cy", arrayNodes[chooseInit].y)
         .attr("r", 5)
         .attr("stroke", lineC)
         .attr("fill", colorC);
-    // primeiro circulo, esse é o servidor central //
-    servidorCentral.append("circle")
+    // primeiro circulo, esse é o servidor central 
+    centralServer.append("circle")
         .attr("cx", x0)
         .attr("cy", y0)
         .attr("r", radio)
         .attr("stroke", line)
         .attr("stroke-width", 1)
         .attr("fill", serverColor);
-    // fila de processos //
-    servidorCentral.append("rect")
+    // fila de processos 
+    centralServer.append("rect")
         .attr("x", 180)
         .attr("y", 180)
         .attr("width", 130)
@@ -80,29 +77,47 @@ function desenhoInit() {
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
 }
+// pra começar o simulador 
+function playAlg() {
+    d3.select("#buttonsR2").selectAll("button").remove();
+    d3.select("#scsvg").selectAll(".token")
+        .transition()
+        .duration(3500)
+        .attr("cx", x0)
+        .attr("cy", y0);
+    tokenProcess = false;
+    chooseInit = -1;
 
-// bloquear o botão para não ter bugs //
-function bloquearAvancar() {
-    d3.select("#buttonsR2").selectAll("#avancar")
-        .attr("onclick", "");
+    d3.select("#buttonsR2").append("button")
+        .attr("class", "btn btn-rounded btn-light btn-sm")
+        .attr("id", "advance")
+        .text("Avançar");
+    setTimeout(function () {
+        d3.select("#buttonsR2").selectAll("#advance")
+            .attr("onclick", "advanceAlg()");
+    }, 3500)
 
+    d3.select("#buttonsR2").append("button")
+        .attr("onclick", "reset()")
+        .attr("class", "btn btn-rounded btn-light btn-sm")
+        .attr("id", "reset")
+        .text("Reset");
 }
-// avancar para o destino //
-function avancarAlg() {
 
-    bloquearAvancar();
+function advanceAlg() {
+    lockAdvance();
 
-    if (fila.length != 0) {
-        // quando ele esta em um processo, para ele ir pra o servidor central //
-        if (choose != 1) {
+    if (processQueue.length != 0) {
+        // quando ele esta em um processo, para ele ir pra o servidor central 
+        if (tokenProcess) {
             d3.select("#scsvg").selectAll(".token")
                 .transition()
                 .duration(3500)
                 .attr("cx", x0)
                 .attr("cy", y0);
-            choose = 1;
+            tokenProcess = false;
             setTimeout(function () {
-                d3.select("#buttonsR2").selectAll("#avancar")
+                d3.select("#buttonsR2").selectAll("#advance")
                     .attr("onclick", "avancarAlg()");
             }, 3500);
         }
@@ -110,45 +125,28 @@ function avancarAlg() {
             d3.select("#scsvg").selectAll(".token")
                 .transition()
                 .duration(3500)
-                .attr("cx", fila[0].x)
-                .attr("cy", fila[0].y);
+                .attr("cx", processQueue[0].x)
+                .attr("cy", processQueue[0].y);
             setTimeout(function () {
-                d3.select("#buttonsR2").selectAll("#avancar")
+                d3.select("#buttonsR2").selectAll("#advance")
                     .attr("onclick", "avancarAlg()");
             }, 3500);
-            chooseInit = fila[0].id;
-            fila.shift();
-            filaProcessos();
-            choose = 0;
+            chooseInit = processQueue[0].id;
+            processQueue.shift();
+            drawQueue();
+            tokenProcess = true;
         }
     }
     else {
         alert("Nenhum processo está solicitando entrar na seção critica");
-        d3.select("#buttonsR2").selectAll("#avancar")
+        d3.select("#buttonsR2").selectAll("#advance")
             .attr("onclick", "avancarAlg()");
     }
 }
-
-// função para resetar o desenho quando mudar o slider //
-function change() {
-    d3.select("#scsvg").selectAll("circle").remove();
-    d3.select("#scsvg").selectAll("text").remove();
-    d3.select("#scsvg").selectAll("rect").remove();
-    d3.select("#scsvg").selectAll("line").remove();
-    d3.select("#scsvg").selectAll(".token").remove();
-    d3.select("#buttonsR2").selectAll("button").remove();
-    d3.select("#combobox").selectAll("option").remove();
-    d3.select("#combobox").selectAll("select").remove();
-    chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-    desenhoInit();
-    criarComboBox();
-    fila.splice(0, 10);
-    criarFila();
-    filaProcessos();
-    d3.select("#buttonsR2").append("button")
-        .attr("onclick", "playAlg()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .text("Play");
+// bloquear o botão para não ter bugs 
+function lockAdvance() {
+    d3.select("#buttonsR2").selectAll("#advance")
+        .attr("onclick", "");
 }
 function reset() {
     d3.select("#scsvg").selectAll("circle").remove();
@@ -159,7 +157,7 @@ function reset() {
     d3.select("#buttonsR2").selectAll("button").remove();
     d3.select("#combobox").selectAll("option").remove();
     d3.select("#combobox").selectAll("select").remove();
-    nodesFirst.splice(0, 10);
+    arrayNodes.splice(0, 10);
     d3.select("#buttonsR2").append("button")
         .attr("onclick", "playAlg()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
@@ -170,132 +168,142 @@ function reset() {
         .attr("id", "reset")
         .text("Reset");
     chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-    desenhoInit();
+    drawInit();
     if (document.documentElement.scrollTop >= 1500) {
 
-        criarComboBox();
-        fila.splice(0, 10);
-        criarFila();
-        filaProcessos();
+        createComboBox();
+        processQueue.splice(0, 10);
+        createQueue();
+        drawQueue();
     }
     else {
-        fila.splice(0, 10);
-        criarFila();
-        filaProcessos();
+        processQueue.splice(0, 10);
+        createQueue();
+        drawQueue();
     }
 }
-// criação da fila aleatoria //
-function criarFila() {
-    for (i = 0; i < n1; i++) {
+// criação da fila aleatoria 
+function createQueue() {
+    for (let i = 0; i < n1; i++) {
         if (i != chooseInit) {
             rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-            if (fila != null) {
+            if (processQueue != null) {
             }
-            while (rand == chooseInit || fila.find(element => element.id == rand)) {
+            while (rand == chooseInit || processQueue.find(element => element.id == rand)) {
                 rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
             }
-            fila.push(nodesFirst[rand]);
+            processQueue.push(arrayNodes[rand]);
         }
     }
 }
-// fila customizada //
-function criarCustomfila() {
-    var optionFila = comboboxOptions.options[comboboxOptions.selectedIndex].value;
-    if (optionFila == chooseInit) {
+
+function createCustomQueue() {
+    var optionCombobox = comboboxOptions.options[comboboxOptions.selectedIndex].value;
+    if (optionCombobox == chooseInit) {
         alert("O processo que já está com o token não pode entrar na fila");
     }
     else {
-        if (fila != null) {
+        if (processQueue != null) {
 
-            if (fila.find(element => element.id == optionFila)) {
+            if (processQueue.find(element => element.id == optionCombobox)) {
                 alert("O processo já está na fila");
             }
             else {
-                fila.push(nodesFirst[optionFila]);
+                processQueue.push(arrayNodes[optionCombobox]);
             }
         }
         else {
             alert("Erro na fila");
         }
-        filaProcessos();
+        drawQueue();
     }
 }
-// função para tirar um processo da fila //
-function removerFila() {
+// função para tirar um processo da fila 
+function removeElementinQueue() {
     var optionFila = comboboxOptions.options[comboboxOptions.selectedIndex].value;
     var index;
     if (optionFila == chooseInit) {
         alert("O processo não está na fila");
     }
     else {
-        if (fila.find(element => element.id == optionFila)) {
-            index = fila.findIndex(function (i) {
+        if (processQueue.find(element => element.id == optionFila)) {
+            index = processQueue.findIndex(function (i) {
                 return i.id == optionFila;
             })
-            fila.splice(index, 1);
-            filaProcessos();
+            processQueue.splice(index, 1);
+            drawQueue();
         }
     }
 }
-function apagarFila() {
-    fila.splice(0, 10);
-    filaProcessos();
+
+function deleteQueue() {
+    processQueue.splice(0, 10);
+    drawQueue();
 }
-// mudar o token de processo //
+// desenhar processo na fila 
+function drawQueue() {
+    d3.select("#scsvg").selectAll(".filaprocesso").remove();
+    for (let i = 0; i < processQueue.length; i++) {
+        distx2 = 182 + i * 18;
+        centralServer.append("text")
+            .attr("class", "filaprocesso")
+            .attr("x", distx2)
+            .attr("y", 192)
+            .text("P" + processQueue[i].id)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .attr("fill", lineC);
+    }
+}
+// mudar o token de processo 
 function addPToken() {
     var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
-    if (fila.find(element => element.id == optionToken)) {
+    if (processQueue.find(element => element.id == optionToken)) {
         alert("O processo deve ser retirado da fila primeiro");
     }
     else {
         chooseInit = optionToken;
         d3.select("#scsvg").selectAll(".token")
-            .attr("cx", nodesFirst[chooseInit].x)
-            .attr("cy", nodesFirst[chooseInit].y);
+            .attr("cx", arrayNodes[chooseInit].x)
+            .attr("cy", arrayNodes[chooseInit].y);
     }
 }
-// pra começar o simulador //
-function playAlg() {
-
+// função para resetar o desenho quando mudar o slider 
+function changeDrawing() {
+    d3.select("#scsvg").selectAll("circle").remove();
+    d3.select("#scsvg").selectAll("text").remove();
+    d3.select("#scsvg").selectAll("rect").remove();
+    d3.select("#scsvg").selectAll("line").remove();
+    d3.select("#scsvg").selectAll(".token").remove();
     d3.select("#buttonsR2").selectAll("button").remove();
-    d3.select("#scsvg").selectAll(".token")
-        .transition()
-        .duration(3500)
-        .attr("cx", x0)
-        .attr("cy", y0);
-    choose = 1;
-    chooseInit = -1;
-
+    d3.select("#combobox").selectAll("option").remove();
+    d3.select("#combobox").selectAll("select").remove();
+    chooseInit = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
+    drawInit();
+    createComboBox();
+    processQueue.splice(0, 10);
+    createQueue();
+    drawQueue();
     d3.select("#buttonsR2").append("button")
+        .attr("onclick", "playAlg()")
         .attr("class", "btn btn-rounded btn-light btn-sm")
-        .attr("id", "avancar")
-        .text("Avançar");
-    setTimeout(function () {
-        d3.select("#buttonsR2").selectAll("#avancar")
-            .attr("onclick", "avancarAlg()");
-    }, 3500)
-
-    d3.select("#buttonsR2").append("button")
-        .attr("onclick", "reset()")
-        .attr("class", "btn btn-rounded btn-light btn-sm")
-        .attr("id", "reset")
-        .text("Reset");
+        .text("Play");
 }
-// mostrar o nome dos processos //
-function showPart() {
-    for (i = 0; i < n1; i++) {
-        servidorCentral.append("rect")
-            .attr("x", nodesFirst[i].x - 8)
-            .attr("y", nodesFirst[i].y + 7)
+
+function showProcessName() {
+    for (let i = 0; i < n1; i++) {
+        centralServer.append("rect")
+            .attr("x", arrayNodes[i].x - 8)
+            .attr("y", arrayNodes[i].y + 7)
             .attr("class", "nome")
             .attr("width", 16)
             .attr("height", 15)
             .attr("stroke", lineC)
             .attr("stroke-width", 1)
             .attr("fill", colorC);
-        servidorCentral.append("text")
-            .attr("x", nodesFirst[i].x - 8)
-            .attr("y", nodesFirst[i].y + 17)
+        centralServer.append("text")
+            .attr("x", arrayNodes[i].x - 8)
+            .attr("y", arrayNodes[i].y + 17)
             .attr("class", "nome")
             .text("P" + i)
             .attr("font-family", "sans-serif")
@@ -303,143 +311,125 @@ function showPart() {
             .attr("fill", lineC);
     }
 }
-// voltar para o estado inicial, sem os nomes dos processos //
-function unshowPart() {
-
+// voltar para o estado inicial, sem os nomes dos processos 
+function unshowProcessName() {
     d3.select("#scsvg").selectAll(".nome").remove();
 }
-// desenhar processo na fila //
-function filaProcessos() {
-    d3.select("#scsvg").selectAll(".filaprocesso").remove();
-    for (i = 0; i < fila.length; i++) {
-        distx2 = 182 + i * 18;
-        servidorCentral.append("text")
-            .attr("class", "filaprocesso")
-            .attr("x", distx2)
-            .attr("y", 192)
-            .text("P" + fila[i].id)
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "12px")
-            .attr("fill", lineC);
-    }
-}
-// função para utilizar o slide, para mudar o desenho //
-var slider1 = document.getElementById("sliderNodePart");
-slider1.oninput = function () {
-    nodesFirst.splice(0, 10);
+
+// função para utilizar o slide, para mudar o desenho 
+var slider = document.getElementById("sliderNodePart");
+slider.oninput = function () {
+    arrayNodes.splice(0, 10);
     n1 = this.value;
-    change();
+    changeDrawing();
 }
-// inicialização da tela //
+// inicialização da tela 
 window.onload = function () {
-    desenhoInit();
-    criarFila();
-    filaProcessos();
-    desenhoInit0();
+    drawInit();
+    createQueue();
+    drawQueue();
+    drawExample();
 }
+
 window.onscroll = function () { scrollFunction() };
-const p = document.querySelector("#customIMG");
-// detectar o ultimo desenho //
-function estaVisivel(el) {
-    const posicoes = el.getBoundingClientRect();
-    const inicio = posicoes.top;
-    const fim = posicoes.bottom;
-    let estaVisivel = false
-
-    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
-        estaVisivel = true;
-    }
-    return estaVisivel;
-}
 function scrollFunction() {
-
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
     } else {
         document.getElementById("myBtn").style.display = "none";
     }
-    // troca de desenho //
-    if (estaVisivel(p) == true) {
+    
+    if (isVisible(p) == true) {
         document.getElementById("buttons").style.display = "flex";
         d3.select("#combobox").selectAll("option").remove();
         d3.select("#combobox").selectAll("select").remove();
-        criarComboBox();
+        createComboBox();
     }
     else {
         document.getElementById("buttonsR2").style.display = "block";
         document.getElementById("buttons").style.display = "none";
     }
 }
+
+const p = document.querySelector("#transition");
+function isVisible(el) {
+    const positions = el.getBoundingClientRect();
+    const begin = positions.top;
+    const end = positions.bottom;
+    let isVisible = false
+
+    if ((begin >= 0) && (end <= (window.innerHeight) - 200)) {
+        isVisible = true;
+    }
+    return isVisible;
+}
+
 var comboboxOptions = document.getElementById("combobox");
-function criarComboBox() {
-    for (i = 0; i < n1; i++) {
-        comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
+function createComboBox() {
+    for (let i = 0; i < n1; i++) {
+        comboboxOptions.options[comboboxOptions.options.length] = new Option(arrayNodes[i].id, i);
     }
 }
-// When the user clicks on the button, scroll to the top of the document
+// quando o usuário cliclar volta para o topo
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
 // variaveis do desenho exemplo //
-var teste = d3.select("#firstsvg")
+var example = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 200);
-var i0, distx0, distx02, x00, y00, x01, y01;
-var colorToken = "#5C40DB", colorProcesso = "#4089DC", colorCentral = "#FF4A4A", colorFila = "#16C172"
-var nodesZero = [];
+var distx0, distx02, examplex0 = 250, exampley0 = 20, examplex1, exampley1;
+var colorToken = "#5C40DB", colorProcess = "#4089DC", colorCentral = "#FF4A4A", colorQueue = "#16C172"
+var examplesNodes = [];
 
-// desenhar o exemplo
-function desenhoInit0() {
-    y00 = 20; // posição y, fixa
-    x00 = 250;
-    // função para criar outros processos //
-    for (i0 = 0; i0 < 3; i0++) {
+function drawExample() {
+    for (let i = 0; i < 3; i++) {
         distx0 = 190;
-        x01 = distx0 + i0 * 60;
-        y01 = 150;
-        var newNode = { x: x01, y: y01, id: i0};
-        nodesZero.push(newNode);
-        teste.append("line")
-            .attr("x1", x00)
-            .attr("y1", y00)
-            .attr("x2", x01)
-            .attr("y2", y01)
+        examplex1 = distx0 + i * 60;
+        exampley1 = 150;
+        var newNode = { x: examplex1, y: exampley1, id: i };
+        examplesNodes.push(newNode);
+        example.append("line")
+            .attr("x1", examplex0)
+            .attr("y1", exampley0)
+            .attr("x2", examplex1)
+            .attr("y2", exampley1)
             .attr("stroke", lineC)
             .attr("stroke-width", 5)
             .attr("fill", colorC);
 
-        teste.append("circle")
-            .attr("cx", x01)
-            .attr("cy", y01)
+        example.append("circle")
+            .attr("cx", examplex1)
+            .attr("cy", exampley1)
             .attr("class", "processos")
             .attr("r", radio)
             .attr("stroke", line)
             .attr("stroke-width", 1)
             .attr("fill", color)
             .append("text")
-            .text("P" + i0);
+            .text("P" + i);
     }
-    // desenhar o token //
-    teste.append("circle")
+    
+    example.append("circle")
         .attr("class", "token")
-        .attr("cx", nodesZero[0].x)
-        .attr("cy", nodesZero[0].y)
+        .attr("cx", examplesNodes[0].x)
+        .attr("cy", examplesNodes[0].y)
         .attr("r", 5)
         .attr("stroke", lineC)
         .attr("fill", colorC);
-    // primeiro circulo, esse é o servidor central //
-    teste.append("circle")
+    
+    example.append("circle")
         .attr("class", "central")
-        .attr("cx", x00)
-        .attr("cy", y00)
+        .attr("cx", examplex0)
+        .attr("cy", exampley0)
         .attr("r", radio)
         .attr("stroke", line)
         .attr("stroke-width", 1)
         .attr("fill", serverColor);
-    // fila de processos //
-    teste.append("rect")
+    
+    example.append("rect")
         .attr("class", "fila")
         .attr("x", 180)
         .attr("y", 180)
@@ -453,17 +443,17 @@ function showCentral() {
     d3.select("#firstsvg").selectAll(".central")
         .transition()
         .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", colorCentral)
-            .style("stroke-width", 1)
-            .transition()
-            .style("stroke", colorCentral)
-            .style("stroke-width", 4)
-            .on("start", repeat);
-      })
+            d3.active(this)
+                .transition()
+                .style("stroke", colorCentral)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", colorCentral)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
 
-    teste.append("rect")
+    example.append("rect")
         .attr("x", 110)
         .attr("y", 15)
         .attr("class", "ajuda")
@@ -472,7 +462,7 @@ function showCentral() {
         .attr("stroke", lineC)
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
-    teste.append("text")
+    example.append("text")
         .attr("x", 112)
         .attr("y", 28)
         .attr("class", "ajuda")
@@ -480,7 +470,7 @@ function showCentral() {
         .attr("font-family", "sans-serif")
         .attr("font-size", "12px")
         .attr("fill", lineC);
-    teste.append("defs").append("marker")
+    example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("class", "ajuda")
         .attr("viewBox", "0 -5 10 10")
@@ -491,7 +481,7 @@ function showCentral() {
         .attr("orient", "auto-start-reverse")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-    teste.append("line")
+    example.append("line")
         .attr("class", "ajuda")
         .attr("x1", 234)
         .attr("y1", 23)
@@ -506,31 +496,31 @@ function unshowCentral() {
         .transition()
         .duration(700)
         .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", line)
-            .style("stroke-width", 1)
-            .on("start", repeat);
-      })
+            d3.active(this)
+                .transition()
+                .style("stroke", line)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
-function showProcessos() {
+function showProcess() {
     d3.select("#firstsvg").selectAll(".processos")
         .transition()
         .duration(400)
-        .delay(function(d, i) { return i * 50; })
-    .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", colorProcesso)
-            .style("stroke-width", 1)
-            .transition()
-            .style("stroke", colorProcesso)
-            .style("stroke-width", 4)
-            .on("start", repeat);
-      })
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", colorProcess)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", colorProcess)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
 
-    teste.append("rect")
+    example.append("rect")
         .attr("x", 370)
         .attr("y", 145)
         .attr("class", "ajuda")
@@ -539,7 +529,7 @@ function showProcessos() {
         .attr("stroke", lineC)
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
-    teste.append("text")
+    example.append("text")
         .attr("x", 372)
         .attr("y", 158)
         .attr("class", "ajuda")
@@ -547,7 +537,7 @@ function showProcessos() {
         .attr("font-family", "sans-serif")
         .attr("font-size", "12px")
         .attr("fill", lineC);
-    teste.append("defs").append("marker")
+    example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("class", "ajuda")
         .attr("viewBox", "0 -5 10 10")
@@ -558,7 +548,7 @@ function showProcessos() {
         .attr("orient", "auto-start-reverse")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-    teste.append("line")
+    example.append("line")
         .attr("class", "ajuda")
         .attr("x1", 330)
         .attr("y1", 153)
@@ -568,17 +558,17 @@ function showProcessos() {
         .attr("stroke-width", 1)
         .attr("marker-start", "url(#arrow)");
 }
-function unshowProcessos() {
+function unshowProcess() {
     d3.select("#firstsvg").selectAll(".processos")
         .transition()
         .duration(700)
         .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", colorProcesso)
-            .style("stroke-width", 1)
-            .on("start", repeat);
-      })
+            d3.active(this)
+                .transition()
+                .style("stroke", colorProcess)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 function showToken() {
@@ -586,7 +576,7 @@ function showToken() {
         .transition()
         .duration(1500)
         .attr("fill", colorToken);
-    teste.append("rect")
+    example.append("rect")
         .attr("x", 110)
         .attr("y", 141)
         .attr("class", "ajuda")
@@ -595,7 +585,7 @@ function showToken() {
         .attr("stroke", lineC)
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
-    teste.append("text")
+    example.append("text")
         .attr("x", 112)
         .attr("y", 154)
         .attr("class", "ajuda")
@@ -603,7 +593,7 @@ function showToken() {
         .attr("font-family", "sans-serif")
         .attr("font-size", "12px")
         .attr("fill", lineC);
-    teste.append("defs").append("marker")
+    example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("class", "ajuda")
         .attr("viewBox", "0 -5 10 10")
@@ -614,7 +604,7 @@ function showToken() {
         .attr("orient", "auto-start-reverse")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-    teste.append("line")
+    example.append("line")
         .attr("class", "ajuda")
         .attr("x1", 182)
         .attr("y1", 149)
@@ -631,21 +621,21 @@ function unshowToken() {
         .attr("fill", colorC);
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
-function showFila() {
+function showQueue() {
     d3.select("#firstsvg").selectAll(".fila")
         .transition()
         .duration(500)
         .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", colorFila)
-            .style("stroke-width", 1)
-            .transition()
-            .style("stroke", colorFila)
-            .style("stroke-width", 4)
-            .on("start", repeat);
-      });
-    teste.append("rect")
+            d3.active(this)
+                .transition()
+                .style("stroke", colorQueue)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", colorQueue)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        });
+    example.append("rect")
         .attr("x", 60)
         .attr("y", 180)
         .attr("class", "ajuda")
@@ -654,7 +644,7 @@ function showFila() {
         .attr("stroke", lineC)
         .attr("stroke-width", 1)
         .attr("fill", "transparent");
-    teste.append("text")
+    example.append("text")
         .attr("x", 60)
         .attr("y", 193)
         .attr("class", "ajuda")
@@ -662,7 +652,7 @@ function showFila() {
         .attr("font-family", "sans-serif")
         .attr("font-size", "12px")
         .attr("fill", lineC);
-    teste.append("defs").append("marker")
+    example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("class", "ajuda")
         .attr("viewBox", "0 -5 10 10")
@@ -673,7 +663,7 @@ function showFila() {
         .attr("orient", "auto-start-reverse")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-    teste.append("line")
+    example.append("line")
         .attr("class", "ajuda")
         .attr("x1", 182)
         .attr("y1", 188)
@@ -683,16 +673,16 @@ function showFila() {
         .attr("stroke-width", 1)
         .attr("marker-start", "url(#arrow)");
 }
-function unshowFila(){
+function unshowQueue() {
     d3.select("#firstsvg").selectAll(".fila")
         .transition()
         .duration(700)
         .on("start", function repeat() {
-        d3.active(this)
-            .transition()
-            .style("stroke", lineC)
-            .style("stroke-width", 1)
-            .on("start", repeat);
-      })
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
     d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
