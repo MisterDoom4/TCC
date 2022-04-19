@@ -1114,7 +1114,6 @@ function checkMessage() {
     for (let i = 0; i < arrayNodes.length; i++) {
         messageHeld = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
         if (messageHeld == "HELD") {
-            console.log("não é pra funcionar");
             for (let index = 0; index < arrayNodes.length; index++) {
                 if (index != i) {
                     var messageTable = d3.select("#table2").select(".linha" + index).selectAll(".combobox" + index).property("value");
