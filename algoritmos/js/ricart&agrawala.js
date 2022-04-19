@@ -1062,31 +1062,31 @@ function tabela() {
             .attr("class", "form")
             .attr("id", "relogio" + i)
             .attr("value", arrayNodes[i].clock)
-            .attr("oninput","checkClocks("+ i +")");
+            .attr("oninput", "checkClocks(" + i + ")");
         d3.select("#table2").select(".linha" + i).append("td") // select da mensagem //
             .append("select")
-            .attr("class", "combobox" + i);
+            .attr("class", "combobox" + i)
         d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).selectAll("option")
             .data(data).enter()
             .append("option")
             .text(function (d) { return d; });
     }
 }
-function checkClocks(id){
+function checkClocks(id) {
     var clock = document.getElementById("relogio" + id).value;
     console.log(clock);
-    if(clock == 0){
+    if (clock == 0) {
         alert("Atenção! Relógios não podem ficar vazios ou serem zero!");
         document.getElementById("relogio" + id).value = arrayNodes[id].clock;
     }
-    if(isEqualClock(clock)){
+    if (isEqualClock(clock)) {
         alert("Atenção! Relógios devem ser únicos!");
         document.getElementById("relogio" + id).value = arrayNodes[id].clock;
     }
 }
-function isEqualClock(clock){
-    for(let i = 0; i < arrayNodes.length;i++){
-        if(clock == arrayNodes[i].clock){
+function isEqualClock(clock) {
+    for (let i = 0; i < arrayNodes.length; i++) {
+        if (clock == arrayNodes[i].clock) {
             return true;
         }
     }
@@ -1095,12 +1095,37 @@ function isEqualClock(clock){
 // função para inserir valores que vieram da tabela //
 function playCustom() {
     ini = 0;
-    for (let i = 0; i < arrayNodes.length; i++) {
-        arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
-        atualizarStatus(i);
-        arrayNodes[i].clock = document.getElementById("relogio" + i).value;
-        atualizarClock(i);
+    if (checkMessage()) {
+        alert("Atenção! Só pode ter um processo com HELD!");
     }
+    else {
+        for (let i = 0; i < arrayNodes.length; i++) {
+            arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+            atualizarStatus(i);
+            arrayNodes[i].clock = document.getElementById("relogio" + i).value;
+            atualizarClock(i);
+        }
+    }
+
+}
+
+function checkMessage() {
+    var messageHeld;
+    for (let i = 0; i < arrayNodes.length; i++) {
+        messageHeld = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+        if (messageHeld == "HELD") {
+            console.log("não é pra funcionar");
+            for (let index = 0; index < arrayNodes.length; index++) {
+                if (index != i) {
+                    var messageTable = d3.select("#table2").select(".linha" + index).selectAll(".combobox" + index).property("value");
+                    if (messageHeld == messageTable) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 // mudança do desenho do relogio //
 function atualizarClock(p) {
