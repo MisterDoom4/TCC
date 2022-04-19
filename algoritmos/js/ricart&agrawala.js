@@ -1061,7 +1061,8 @@ function tabela() {
             .attr("max", "100")
             .attr("class", "form")
             .attr("id", "relogio" + i)
-            .attr("value", arrayNodes[i].clock);
+            .attr("value", arrayNodes[i].clock)
+            .attr("oninput","checkClocks("+ i +")");
         d3.select("#table2").select(".linha" + i).append("td") // select da mensagem //
             .append("select")
             .attr("class", "combobox" + i);
@@ -1070,6 +1071,26 @@ function tabela() {
             .append("option")
             .text(function (d) { return d; });
     }
+}
+function checkClocks(id){
+    var clock = document.getElementById("relogio" + id).value;
+    console.log(clock);
+    if(clock == 0){
+        alert("Atenção! Relógios não podem ficar vazios ou serem zero!");
+        document.getElementById("relogio" + id).value = arrayNodes[id].clock;
+    }
+    if(isEqualClock(clock)){
+        alert("Atenção! Relógios devem ser únicos!");
+        document.getElementById("relogio" + id).value = arrayNodes[id].clock;
+    }
+}
+function isEqualClock(clock){
+    for(let i = 0; i < arrayNodes.length;i++){
+        if(clock == arrayNodes[i].clock){
+            return true;
+        }
+    }
+    return false;
 }
 // função para inserir valores que vieram da tabela //
 function playCustom() {
