@@ -50,26 +50,25 @@
                         distríbuido. Muito similar aos algoritmos de eleição de líder, um vez que um processo P que
                         deseje entrar na
                         seção crítica deve enviar uma mensagem
-                        para todos os processos, um <button onmouseover="showMulticast()" onmouseout="unshowMulticast()"
-                            type="button" class="btn btn-light btn-xs">Multicast</button>, para isso presume-se que cada
+                        para todos os processos, um <i>Multicast</i>. Para isso presume-se que cada
                         processo
                         tenha um canal de comunicação com os outros processos. Tendo todas as
-                        respostas do multicast ele
-                        poderá acessar a sessão crítica. Ou seja, um processo só acessa a sessão crítica quando todos
+                        respostas do <i>multicast</i> ele
+                        poderá acessar a seção crítica. Ou seja, um processo só acessa a seção crítica quando todos
                         "permitirem", respondendo a mensagem do requisitante.
                     </p>
                     <p>
                         Seja P, um conjunto de processos P<sub>i</sub>, com 0 &le; i < n, onde n é o número de processos
                             participantes da computação, cada processo P<sub>i</sub> deve possuir um <button
-                                onmouseover="showRelogio()" onmouseout="unshowRelogio()" type="button"
+                                onmouseover="showId()" onmouseout="unshowId()" type="button"
                                 class="btn btn-light btn-xs">relógio lógico</button> de
-                            Lamport para anexar na mensagem, uma <button onmouseover="showFila()"
-                                onmouseout="unshowFila()" type="button" class="btn btn-light btn-xs">fila
+                            Lamport para anexar na mensagem, uma <button onmouseover="showQueue()"
+                                onmouseout="unshowQueue()" type="button" class="btn btn-light btn-xs">fila
                             </button> local para armazenar mensagem recebidas e uma
-                            <button onmouseover="showMensagem()" onmouseout="unshowMensagem()" type="button"
+                            <button onmouseover="showState()" onmouseout="unshowState()" type="button"
                                 class="btn btn-light btn-xs">Variável de estado
                             </button>. Toda
-                            <button onmouseover="showMensagem()" onmouseout="unshowMensagem()" type="button"
+                            <button onmouseover="showMessage()" onmouseout="unshowMessage()" type="button"
                                 class="btn btn-light btn-xs">mensagem
                             </button> enviada pelos processos segue o formato < T,P<sub>i</sub>>
                                 , onde T é o valor do relógio lógico do processo e P<sub>i</sub> é o
@@ -82,17 +81,29 @@
                                 <div class="alg" id="firstsvg"></div>
 
                                 <div class="interaction">
-                                    <div>
+                                    <div id="buttons2">
 
+                                        <button onmouseover="showId()" onmouseout="unshowId()" type="button"
+                                            class="btn btn-rounded btn-id btn-sm">relógio lógico</button>
+                                        <button onmouseover="showMessage()" onmouseout="unshowMessage()" type="button"
+                                            class="btn btn-rounded btn-message btn-sm">mensagem
+                                        </button>
+                                        <button onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
+                                            class="btn btn-rounded btn-queue btn-sm">fila
+                                        </button>
+                                        <button onmouseover="showState()" onmouseout="unshowState()" type="button"
+                                            class="btn btn-rounded btn-state btn-sm">Variável de estado
+                                        </button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                     <p>
-                        Um fator importante nesse algoritmo é a váriavel de estado do processo, pois ela é
+                        Um fator importante nesse algoritmo é a váriavel de estado, pois ela é
                         o primeiro fator que vai orientar as decisões do processo. A variável diz sua intenção em
-                        relação a sessão crítica, sendo de 3 tipos:
+                        relação a seção crítica, sendo de 3 tipos:
                         <ul>
                             <li>
                                 <B>RELEASED</B>, o processo está fora dela e não deseja acessá-la.
@@ -107,7 +118,7 @@
                     </p>
                     <p>
                         Como previamente descrito, quando um processo P<sub>i</sub> deseja entrar na
-                        sessão crítica ele muda sua variável de estado para WANTED e envia um multicast para
+                        seção crítica ele muda sua variável de estado para WANTED e envia um multicast para
                         os demais processos, e se obtiver as resposta de todos os processos, ele receberá acesso e
                         passará seu estado para HELD.
                         A lógica de resposta dos processos é descrita abaixo.
@@ -131,16 +142,26 @@
                     </ul>
 
                     <p>
-                        Todo processo que terminar de acessar a sessão crítica muda o estado de HELD para RELEASED,
+                        Todo processo que terminar de acessar a seção crítica muda o estado de HELD para RELEASED e
                         irá responder todas as mensagens que tem em sua fila. Essa fila de mensagem, usa a lógica
                         FIFO (First in - First out), então as mensagens mais antigas serão respondidas primeiro. Desta
-                        forma, se dois ou mais processos solicitarem acesso a sessão crítica simultaneamente,
+                        forma, se dois ou mais processos solicitarem acesso a seção crítica simultaneamente,
                         aquele que tiver o menor tempo lógico receberá as N-1 respostas e acessará antes.
                     </p>
 
                     <p>
-                        Teste o algoritmo abaixo, para iniciar a simulação aperte <b>PLAY</b>, para executar
-                        iterativamente aperte <b>AVANÇAR</b> e para reiniciar aperte <b>RESET</b>.
+                        Teste o algoritmo na animação abaixo, escolha um dos dois cenários iniciais para executar.
+                        <ul>
+                            <li><b>Cenário 1:</b> Pelo menos 1 processo com estado WANTED e o restante com RELEASED;
+                            </li>
+                            <li><b>Cenário 2:</b> Pelo menos 1 processo com estado HELD e o restante, ou com WANTED, ou
+                                com RELEASED; </li>
+                        </ul>
+                    </p>
+                    <p>
+                        Para executar
+                        iterativamente aperte <b>AVANÇAR</b> e para resetar aperte <b>RESET</b>.
+                        Para seguir à próxima animação, veja mais abaixo.
                     </p>
                 </div>
             </div>
@@ -157,14 +178,14 @@
                                 No modelo seguinte, experimente modificar o algoritmo:
                                 <ul>
                                     <li>
-                                        Edite as informações de cada processo antes de executar
+                                        Edite as informações de cada processo antes de executar. Defina seu Relógio
+                                        Lógico e seu Estado;
                                     </li>
                                     <li>
-                                        Gere composições randomicas para observar o funcionamento.
+                                        Você pode gerar composições usando os cenários também;
                                     </li>
-                                    <li>
-                                        Altere os relógios lógicos.
-                                    </li>
+                                    <li><b>IMPORTANTE!:</b> Antes de executar, <b>aperte em Salvar</b> para atualizar os
+                                        processos;</li>
                                 </ul>
 
                             </p>
@@ -178,11 +199,11 @@
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Avançar</button>
-                                    <button onclick="playRand()" type="button"
+                                <button onclick="playRand()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Cenário 1</button>
-                                    <button onclick="playRand2(0)" type="button"
+                                <button onclick="playRand2(0)" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Cenário 2</button>
-                                    <button onclick="reset()" type="button"
+                                <button onclick="reset()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Reset</button>
                             </div>
                         </div>
@@ -198,9 +219,11 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button onclick="playCustom()" type="button"
-                                class="btn btn-rounded btn-light btn-sm">Salvar</button>
-                                
+                                <div>
+
+                                    <button onclick="playCustom()" type="button"
+                                        class="btn btn-rounded btn-light btn-sm">Salvar</button>
+                                </div>
 
 
                             </div>

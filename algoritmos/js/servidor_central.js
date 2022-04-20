@@ -111,15 +111,16 @@ function advanceAlg() {
         // quando ele esta em um processo, para ele ir pra o servidor central 
         if (tokenProcess) {
             d3.select("#scsvg").selectAll(".token")
-                .transition()
-                .duration(3500)
-                .attr("cx", x0)
-                .attr("cy", y0);
+            .transition()
+            .duration(3500)
+            .attr("cx", x0)
+            .attr("cy", y0);
             tokenProcess = false;
             setTimeout(function () {
                 d3.select("#buttonsR2").selectAll("#advance")
-                    .attr("onclick", "avancarAlg()");
+                .attr("onclick", "advanceAlg()");
             }, 3500);
+            chooseInit = -1;
         }
         else {
             d3.select("#scsvg").selectAll(".token")
@@ -129,7 +130,7 @@ function advanceAlg() {
                 .attr("cy", processQueue[0].y);
             setTimeout(function () {
                 d3.select("#buttonsR2").selectAll("#advance")
-                    .attr("onclick", "avancarAlg()");
+                    .attr("onclick", "advanceAlg()");
             }, 3500);
             chooseInit = processQueue[0].id;
             processQueue.shift();
@@ -140,7 +141,7 @@ function advanceAlg() {
     else {
         alert("Nenhum processo está solicitando entrar na seção critica");
         d3.select("#buttonsR2").selectAll("#advance")
-            .attr("onclick", "avancarAlg()");
+            .attr("onclick", "advanceAlg()");
     }
 }
 // bloquear o botão para não ter bugs 
@@ -367,7 +368,7 @@ function isVisible(el) {
 var comboboxOptions = document.getElementById("combobox");
 function createComboBox() {
     for (let i = 0; i < n1; i++) {
-        comboboxOptions.options[comboboxOptions.options.length] = new Option(arrayNodes[i].id, i);
+        comboboxOptions.options[comboboxOptions.options.length] = new Option('Processo ' + arrayNodes[i].id,  i);
     }
 }
 // quando o usuário cliclar volta para o topo
@@ -442,6 +443,7 @@ function drawExample() {
 function showCentral() {
     d3.select("#firstsvg").selectAll(".central")
         .transition()
+        .duration(400)
         .on("start", function repeat() {
             d3.active(this)
                 .transition()

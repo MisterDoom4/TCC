@@ -1,9 +1,10 @@
 var multicast = d3.select("#multicastsvg")
     .append("svg")
-    .attr("width", 540)
-    .attr("height", 300)
-var x0 = 0, y0 = 10, tx = 97, ty = 30;
+    .attr("width", 400)
+    .attr("height", 250)
+var x0 = 20, y0 = 10, tx = 97, ty = 30;
 var p;
+var red = '#D60000';
 var arrayNodes = [];
 var mess = "RELEASED";
 var clock = 0;
@@ -14,6 +15,7 @@ function desenhoinitPart() {
     p = 0; // nome do processo //
     for (let i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
+        x0 = 20;
         for (let j = 0; j < 2; j++) {
             clockRandom();
             x0 = x0 + j * 250;
@@ -1123,6 +1125,37 @@ function scrollFunction() {
         document.getElementById("buttons").style.display = "none";
     }
 }
+
+function showQueue() {
+    d3.select("#firstsvg").selectAll(".filaMensagem")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowQueue() {
+    d3.select("#firstsvg").selectAll(".filaMensagem")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
 function reset() {
     ini = -1;
     d3.select("#multicastsvg").selectAll(".bloco").remove();
@@ -1157,14 +1190,108 @@ function reset() {
 
     }
 }
+
+function showId() {
+    d3.select("#firstsvg").selectAll(".blocoNome")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowId() {
+    d3.select("#firstsvg").selectAll(".blocoNome")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
+function showState() {
+    d3.select("#firstsvg").selectAll(".blocoMensagem")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowState() {
+    d3.select("#firstsvg").selectAll(".blocoMensagem")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
+function showMessage() {
+    d3.select("#firstsvg").selectAll(".teste")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowMessage() {
+    d3.select("#firstsvg").selectAll(".teste")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
 var example = d3.select("#firstsvg")
     .append("svg")
-    .attr("width", 540)
-    .attr("height", 300)
+    .attr("width", 400)
+    .attr("height", 80)
 // desenho da legenda //
 function desenhoinitPart0() {
-    y0 = 0;
-    x0 = 0;
+    y0 = 10;
+    x0 = 30;
     p = 0;
     for (let i = 0; i < 2; i++) {
         x0 = x0 + i * 250;
@@ -1216,6 +1343,7 @@ function desenhoinitPart0() {
             .attr("font-size", "17px")
             .attr("fill", "#000000");
         example.append("rect")
+            .attr("class", "filaMensagem")
             .attr("style", "fill:#7B7B7B")
             .attr("stroke", "#000")
             .attr("x", x0 + 96)
@@ -1239,7 +1367,6 @@ function desenhoinitPart0() {
     example.append("text")
         .attr("x", x0 - 82)
         .attr("y", y0 + 18)
-        .attr("class", "teste")
         .text("P0" + "   -11")
         .attr("font-family", "sans-serif")
         .attr("font-size", "17px")
@@ -1247,9 +1374,9 @@ function desenhoinitPart0() {
     example.append("defs").append("marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr("class", "teste")
         .attr("refX", 8)
         .attr("refY", 0)
+
         .attr("markerWidth", 5)
         .attr("markerHeight", 10)
         .attr("orient", "auto-start-reverse")
@@ -1260,7 +1387,7 @@ function desenhoinitPart0() {
         .attr("y1", y0 + 30)
         .attr("x2", x0 - 128)
         .attr("y2", y0 + 30)
-        .attr("class", "teste")
+
         .attr("stroke", "#000")
         .attr("stroke-width", 3)
         .attr("marker-start", "url(#arrow)");

@@ -57,9 +57,9 @@
                             participantes da computação, cada processo P<sub>i</sub> que deseja acessar
                             a seção critica deve obter o token de acesso. Neste modelo o token fica sendo
                             transmitido infinitamente de um processo para o outro no "laço". O processo
-                            pode acessar a sessão crítica quando o token passar por ele. Ao acessar a sessão crítica, a
-                            transmissão do token fica bloqueada no processo até ele terminar de acessa-la. Na imagem
-                            logo abaixo vc consegue acompanhar quais componentes fazem parte deste algoritmo.
+                            pode acessar a seção crítica quando o token passar por ele. Ao acessar a seção crítica, a
+                            transmissão do token fica bloqueada no processo até ele terminar de acessá-la. Na imagem
+                            abaixo você consegue acompanhar quais componentes fazem parte deste algoritmo.
                     </p>
 
                     <div>
@@ -67,106 +67,107 @@
                             <div class="firstAlgContent">
                                 <div class="alg" id="firstsvg"></div>
                                 <div class="interaction">
+
                                     <div>
-                                        <p>
-                                            Os processos tem seu estado representado por cores:
-                                            <ul>
-                                                <li>
-                                                    <span id="normal" style="color:cornflowerblue">Azul </span>quando
-                                                    não
-                                                    deseja acessar a sessão
-                                                    crítica.
-                                                </li>
-                                                <li>
-                                                    <span id="pedindo" style="color:yellowgreen">Verde </span>quando
-                                                    deseja
-                                                    acessar a sessão
-                                                    crítica.
-                                                </li>
-                                                <li>
-                                                    <span id="usando" style="color:orange">Amarelo </span>quando está
-                                                    acessando a sessão
-                                                    crítica e o token está com sua movimentação
-                                                    bloqueada
-                                                </li>
-                                            </ul>
+                                        Os processos tem seu estado representado por cores:
+                                        <ul>
+                                            <li>
+                                                <span id="normal" style="color:cornflowerblue">Azul </span>quando
+                                                não
+                                                deseja acessar a seção
+                                                crítica.
+                                            </li>
+                                            <li>
+                                                <span id="pedindo" style="color:yellowgreen">Verde </span>quando
+                                                deseja
+                                                acessar a seção
+                                                crítica.
+                                            </li>
+                                            <li>
+                                                <span id="usando" style="color:orange">Amarelo </span>quando está
+                                                acessando a seção
+                                                crítica e o token está com sua movimentação
+                                                bloqueada
+                                            </li>
+                                        </ul>
                                         </p>
+
+                                        <div class="sliderArea">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            Para o funcionamento do Algoritmo em Anel acompanhe a imagem abaixo. Os processos
+                            solicitam acesso á seção crítica
+                            aleatória enquanto o
+                            token é transmitido pelos canais de comunicação. Nela você consegue acompanhar todas as
+                            etapas
+                            do gerenciamento de token do algoritmo em anel. Aperte AVANÇAR para
+                            executa-lo iterativamente
+                        </p>
+                        <p>A cada vez que apertar <b> AVANÇAR</b> o token será enviado para o processo seguinte. Neste
+                            modelo, não foi levado em consideração o tempo que o token permanece bloqueado no processo,
+                            pois a representação desse bloqueio não afetaria a dinâmica da animação. Logo, ao clicar em
+                            Avançar o algoritmo considera o momento onde o processo finaliza o acesso à seção crítica e
+                            libera o token para circular novamente.
+                        </p>
+                    </div>
+
+                    <div class="container2">
+                        <div class="gridSet">
+                            <div class="textSection">
+
+                                <div class="text">
+                                    <div class="blankSpace"></div>
+                                    <p>
+                                        <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
+                                    </p>
+                                    <p>
+                                        No modelo seguinte, experimente modificar o algoritmo:
+                                        <ul>
+                                            <li>
+                                                Selecione um processo para solicitar acesso à seção crítica, ou cancelar
+                                                o acesso.
+                                            </li>
+                                        </ul>
+
+                                    </p>
+                                </div>
+                                <b id="customIMG"></b>
+                            </div>
+                        </div>
+
+                        <div class="algSection">
+                            <div class="algContent">
+                                <div class="instruction">
+                                    <div id="buttonsR2">
+                                        <button onclick="playAlg()" type="button"
+                                            class="btn btn-rounded btn-light btn-sm">Avançar</button>
+                                    </div>
+                                </div>
+                                <div class="alg" id="anelsvg"></div>
+                                <div class="interaction">
+                                    <div id="buttons">
+                                        <select id="combobox"></select>
+                                        <button onclick="pedirToken()" type="button"
+                                            class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
+                                        <button onclick="cancelarToken()" type="button"
+                                            class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
                                     </div>
                                     <div class="sliderArea">
-
+                                        <input class="slider" type="range" min="3" max="8" step="1" value="3"
+                                            id="sliderNodePart"></input>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <p>
-                        Para o funcionamento do Algoritmo em Anel acompanhe a imagem abaixo. Os processos
-                        solicitam acesso á seção crítica
-                        aleatória enquanto o
-                        token é transmitido pelos canais de comunicação. Nela você consegue acompanhar todas as etapas
-                        do gerenciamento de token do algoritmo em anel. Aperte AVANÇAR para
-                        executa-lo iterativamente
-                    </p>
-                    <p>A cada vez que apertar <b> AVANÇAR</b> o token será enviado para o processo seguinte. Neste
-                        modelo, não foi levado em consideração o tempo que o token permanesse bloqueado no processo,
-                        pois a representação desse bloqueio não afetaria a dinamica da animação. Logo, ao clicar em
-                        Avançar o algoritmo considera o momento onde o processo finaliza o acesso a seção crítica e
-                        libera o token para circular novamente.
-                    </p>
                 </div>
-            </div>
-            <div class="container">
-                <div class="gridSet">
-                    <div class="textSection">
 
-                        <div class="text">
-                            <div class="blankSpace"></div>
-                            <p>
-                                <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
-                            </p>
-                            <p>
-                                No modelo seguinte, experimente modificar o algoritmo:
-                                <ul>
-                                    <li>
-                                        Selecione um processo para solicitar acesso á sessão crítica, ou cancelar sua
-                                        solicitação.
-                                    </li>
-                                </ul>
-
-                            </p>
-                        </div>
-                        <b id="customIMG"></b>
-                    </div>
-                </div>
-                <div class="algSection">
-                    <div class="algContent">
-                        <div class="instruction">
-                            <div id="buttonsR2">
-                                <button onclick="playAlg()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Avançar</button>
-                            </div>
-                        </div>
-                        <div class="alg" id="anelsvg"></div>
-                        <div class="interaction">
-                            <div id="buttons">
-                                <select id="combobox"></select>
-                                <button onclick="pedirToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
-                                <button onclick="cancelarToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
-
-                            </div>
-                            <div class="sliderArea">
-                                <input class="slider" type="range" min="3" max="8" step="1" value="3"
-                                    id="sliderNodePart"></input>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
             </div>
         </section>
 

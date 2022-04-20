@@ -46,18 +46,17 @@
                     <h1>Algoritmo do Servidor Central</h1>
                     <p>
                         Em um sistema distríbuido que possui recursos compartilhados é necessário efetuar a distribuição
-                        e coordenação de acesso à eles, de forma a evitar inconsistência de dados, erros de
+                        e coordenação de acesso à eles, de forma a evitar inconsistências de dados, erros de
                         processamento e
-                        bloqueio de recursos
-                        . Os recursos compartilhados também são chamados de seção crítica ou região crítica. Dentre os
-                        algoritmos este é
+                        bloqueios de recursos
+                        . Os recursos compartilhados também são chamados de seção crítica ou região crítica. Este é
                         o mais simples
                         para se obter exclusão mútua em um sistema distríbuido. Ele utiliza um Servidor Central
                         para gerenciar e coordenar os acessos à seção critica.
-                        Todo processo P que quiser acessar a sessão crítica deverá solicitar um token
+                        Todo processo P que quiser acessar a seção crítica deverá solicitar um token
                         ao servidor
                         central. O gerenciamento desse token
-                        é feito pelo servidor central através de troca de mensagens com os processos.
+                        é feito pelo servidor central através da troca de mensagens com os processos.
                     </p>
                     <p>
                         A troca de mensagens é centralizada no servidor, ou seja, ele recebe e responde
@@ -73,8 +72,7 @@
                             </li>
                             <li>
                                 As mensagens tem em sua composição um
-                                <button onmouseover="showProcessos()" onmouseout="unshowProcessos()" type="button"
-                                    class="btn btn-light btn-xs">identificador de processo (P<sub>i</sub>)</button>
+                                identificador de processo (P<sub>i</sub>)
                                 e o conteúdo da mensagem, que pode ser:
                                 solicitação ou liberação da seção crítica.
 
@@ -82,15 +80,13 @@
                         </ul>
                     </p>
                     <p>
-                        Todo processo que receber resposta do servidor central irá receber o <button
+                        Todo processo que receber resposta do servidor central recebe o <button
                             onmouseover="showToken()" onmouseout="unshowToken()" type="button"
                             class="btn btn-light btn-xs">token</button> e tem automaticamente liberação para
-                        acessar a sessão crítica. É necessário uma administração dessas respostas para
-                        garantir a exclusão mútua. Para isso, o servidor central tem uma <button
-                            onmouseover="showFila()" onmouseout="unshowFila()" type="button"
-                            class="btn btn-light btn-xs">fila</button> para armazenar as
+                        acessar a seção crítica. É necessário uma administração dessas respostas para
+                        garantir a exclusão mútua. Para isso, o servidor central tem uma fila para armazenar as
                         requisições dos
-                        processos que utiliza a lógica do "Primeiro a Entrar - Primeiro a Sair" (FIFO - First in
+                        processos, ela utiliza a lógica do "Primeiro a Entrar - Primeiro a Sair" (FIFO - First in
                         First out).
                     </p>
                     <p>
@@ -108,11 +104,11 @@
                                 </div>
                                 <div class="alg" id="firstsvg"></div>
                                 <div class="interaction">
-                                    <div>
+                                    <div id="buttons2">
                                         <button onmouseover="showCentral()" onmouseout="unshowCentral()" type="button"
                                             class="btn btn-rounded btn-server btn-sm">Servidor Central</button>
-                                        <button onmouseover="showProcess()" onmouseout="unshowProcess()"
-                                            type="button" class="btn btn-rounded btn-process btn-sm">Processos</button>
+                                        <button onmouseover="showProcess()" onmouseout="unshowProcess()" type="button"
+                                            class="btn btn-rounded btn-process btn-sm">Processos</button>
                                         <button onmouseover="showToken()" onmouseout="unshowToken()" type="button"
                                             class="btn btn-rounded btn-token btn-sm">Token</button>
                                         <button onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
@@ -152,7 +148,7 @@
                             <p>
                                 Este algoritmo satisfaz as propriedades para a exclusão
                                 mútua. Porém, o ponto
-                                negativo é o atraso na resposta de mensagens, pois cada processo pode
+                                negativo é o atraso na resposta de mensagens, onde cada processo pode
                                 ficar
                                 indeterminadamente com o token e assim deixar as requisições muito tempo em
                                 espera.
@@ -161,11 +157,10 @@
                     <p>
                         Abaixo foi construído um modelo para exemplificar o funcionamento do
                         algoritmo. Na barra horizontal você pode selecionar de 3 a 8 processos para
-                        participarem da computação. Para iniciar a simulação aperte PLAY, para avançar
+                        participarem da computação. Para iniciar a simulação aperte PLAY, para avançar iterativamente
                         aperte AVANÇAR e para reiniciar aperte RESET.
                     </p>
-                    <p>Ao clicar em RESET, o algoritmo será iniciado e será gerado uma fila aleatória,
-                        que pode conter de 1 a 8 processos.
+                    <p>Ao clicar em RESET, o algoritmo será reiniciado e será gerado uma nova fila aleatória
                     </p>
                 </div>
             </div>
@@ -174,7 +169,6 @@
                     <div class="textSection">
 
                         <div class="text">
-                            <div class="blankSpace"></div>
                             <p>
                                 <!--aqui eu acho q tem q criar uma nova classe ou id, nã tenho certeza se é esse mesmo -->
                             </p>
@@ -186,7 +180,7 @@
                                     </li>
                                     <li>
                                         Apague a fila de processos caso queira fazer uma fila personalizada, senão
-                                        aperte em RESET para gerar uma fila.
+                                        aperte em RESET para gerar uma fila nova.
                                     </li>
                                     <li>
                                         Selecione o processo no campo de seleção.
@@ -245,8 +239,6 @@
             <div>
             </div>
         </section>
-
-
     </div>
     <!-- Footer -->
     <footer id="footer" class="footer-dark ">

@@ -34,7 +34,7 @@ td {
 
 .slider {
     -webkit-appearance: none;
-    width: 400px;
+    width: 300px;
     height: 15px;
     border-radius: 5px;
     background: #bfbdc1;
@@ -620,9 +620,23 @@ h1 {
     align-items: center;
     flex-wrap: wrap;
     max-width: 400px;
+    max-height: 160px;
     grid-area: buttons;
     padding-top: 20px;
 }
+
+#buttons2 {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+   width: 100%;
+    max-height: 160px;
+    grid-area: buttons;
+    padding-top: 20px;
+}
+
+
 
 @media only screen and (max-width: 1320px) {
     #buttons {
