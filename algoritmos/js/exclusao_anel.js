@@ -267,7 +267,7 @@ var nodesZero = [];
 function desenhoinitPart0() {
     for (i0 = 0; i0 < 3; i0++) {
         angle = 2 * Math.PI * i0 / 3;
-        x01 = Math.cos(angle) * 103 + 130;
+        x01 = Math.cos(angle) * 103 + 250;
         y01 = Math.sin(angle) * 103 + 130;
         angle = angle + (Math.PI / 2);
 
@@ -292,7 +292,7 @@ function desenhoinitPart0() {
         }
         teste.append("path")
             .attr("d", arc)
-            .attr("transform", "translate(130, 130)");
+            .attr("transform", "translate(250, 130)");
     }
     for (i0 = 0; i0 < 3; i0++) {
         teste.append("circle")

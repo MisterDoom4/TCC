@@ -489,7 +489,7 @@ body.stretched .container-fullwidth {
 .algSection {
     position: sticky;
     bottom: 0;
-    margin: 0px 40px;
+
     background-color: whitesmoke;
     text-align: center;
     height: 350px;
@@ -619,6 +619,7 @@ h1 {
     align-items: center;
     flex-wrap: wrap;
     max-width: 400px;
+    max-height: 160px;
     grid-area: buttons;
     padding-top: 20px;
 }
