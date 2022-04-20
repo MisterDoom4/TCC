@@ -3764,14 +3764,14 @@ GO TO TOP BUTTON
   position: fixed;
   text-align: center;
   line-height: 12px !important;
-  right: 26px;
-  bottom: 0;
+right: 0px;
+    bottom: 0;
   color: #fff;
   cursor: pointer;
   border-radius: 100px;
   z-index: 999;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background-color: rgba(0, 0, 0, 0.25);
   background-repeat: no-repeat;
   background-position: center;
