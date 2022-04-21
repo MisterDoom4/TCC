@@ -4,7 +4,7 @@ var operation = "SEND";
 var Node = {
     x: x0,
     y: y0,
-    id: p,
+    id: idProcess,
     state: 'RELEASED',
     queue: [],
     clock,
@@ -49,12 +49,12 @@ function acessAnalisys(Node, Group) {
             if (processoDestino.message === "RELEASED" && processoDestino.vote === false) {
                 kVotes++;
                 processoDestino.vote = true;
-                desenharMensagem(Node, processoDestino);
+                drawMessage(Node, processoDestino);
             } else {
                 if (processoDestino.message === "HELD") { 
                     if (arrayNodes[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
                         arrayNodes[i].filaProcesso.push(processoSolicitante.id);
-                        desenharFila(arrayNodes[i]);
+                        drawQueue(arrayNodes[i]);
                     }
 
                 } else {
@@ -62,10 +62,10 @@ function acessAnalisys(Node, Group) {
                         if (processoDestino.clock > Node.clock) {
                             acesso++;
                             processoDestino.vote = true;
-                            desenharMensagem(Node, processoDestino);
+                            drawMessage(Node, processoDestino);
                             if (arrayNodes[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
                                 processoSolicitante.filaProcesso.push(arrayNodes[i].id);
-                                desenharFila(processoSolicitante);
+                                drawQueue(processoSolicitante);
                             }
 
                         } else {
