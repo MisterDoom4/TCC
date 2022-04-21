@@ -11,7 +11,7 @@ var clock = 0;
 var ini = -1;
 var operation = "SEND";
 var lineC = "#000";
-function desenhoinitPart() {
+function drawInit() {
     p = 0; // nome do processo //
     for (let i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
@@ -1136,7 +1136,7 @@ function atualizarClock(p) {
         .text("[" + arrayNodes[p].clock + "]");
 }
 window.onload = function () {
-    desenhoinitPart();
+    drawInit();
     document.getElementById("buttonsR2").style.display = "block";
     tabela();
     desenhoinitPart0();
@@ -1170,7 +1170,11 @@ function scrollFunction() {
         document.getElementById("buttons").style.display = "none";
     }
 }
-
+// quando o usuário cliclar volta para o topo
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
 function showQueue() {
     d3.select("#firstsvg").selectAll(".filaMensagem")
         .transition()

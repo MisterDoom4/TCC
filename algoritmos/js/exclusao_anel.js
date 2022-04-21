@@ -1,112 +1,113 @@
-var first = d3.select("#anelsvg")
+var ring = d3.select("#ringsvg")
     .append("svg")
     .attr("width", 300)
     .attr("height", 300);
 
-var i, radio = 15, angle, n1 = 3, partic = 0, x1, y1, x2, y2;
-var nodesFirst = [];
-var processoToken = -1;
-var color = "#2892D7", line = "RoyalBlue";
-var partColor = "#FF9F1C", nopartColor = "#009933";
+var radio = 15, angle, n1 = 3, x1, y1, x2, y2;
+var arrayNodes = [];
+var tokenProcess = false;
+var normalColor = "#2892D7", line = "RoyalBlue";
+var usingColor = "#FF9F1C", requestColor = "#009933";
 var lineC = "#000000", colorC = "#ffffff";
-var token = 0;
+var positionToken = 0;
 var rand;
 
-function desenhoinitPart() {
-    token = 0;
-    for (i = 0; i < n1; i++) {
+function drawInit() {
+    positionToken = 0;
+    for (let i = 0; i < n1; i++) {
         angle = 2 * Math.PI * i / n1;
         x1 = Math.cos(angle) * 103 + 130;
         y1 = Math.sin(angle) * 103 + 130;
         angle = angle + (Math.PI / 2);
 
-        var newNode = { x: x1, y: y1, id: i, angle, processoToken };
-        nodesFirst.push(newNode);
+        var newNode = { x: x1, y: y1, id: i, angle, tokenProcess: tokenProcess };
+        arrayNodes.push(newNode);
 
     }
-    for (i = 0; i < n1; i++) {
-        if (i === nodesFirst.length - 1) {
+    for (let i = 0; i < n1; i++) {
+        if (i === arrayNodes.length - 1) {
             var arc = d3.arc()
                 .innerRadius(102.5)
                 .outerRadius(103.5)
-                .startAngle(nodesFirst[0].angle + (2 * Math.PI))
-                .endAngle(nodesFirst[i].angle);
+                .startAngle(arrayNodes[0].angle + (2 * Math.PI))
+                .endAngle(arrayNodes[i].angle);
         }
         else {
             var arc = d3.arc()
                 .innerRadius(102.5)
                 .outerRadius(103.5)
-                .startAngle(nodesFirst[i + 1].angle)
-                .endAngle(nodesFirst[i].angle);
+                .startAngle(arrayNodes[i + 1].angle)
+                .endAngle(arrayNodes[i].angle);
         }
-        first.append("path")
+        ring.append("path")
             .attr("d", arc)
             .attr("transform", "translate(130, 130)");
     }
-    for (i = 0; i < n1; i++) {
-        first.append("circle")
-            .attr("cx", nodesFirst[i].x)
-            .attr("cy", nodesFirst[i].y)
+    for (let i = 0; i < n1; i++) {
+        ring.append("circle")
+            .attr("cx", arrayNodes[i].x)
+            .attr("cy", arrayNodes[i].y)
             .attr("r", radio)
             .attr("stroke", line)
             .attr("stroke-width", 1)
-            .attr("fill", color)
+            .attr("fill", normalColor)
             .attr("class", "P" + i);
-        first.append("rect")
-            .attr("x", nodesFirst[i].x - 8)
-            .attr("y", nodesFirst[i].y + 6)
+        ring.append("rect")
+            .attr("x", arrayNodes[i].x - 8)
+            .attr("y", arrayNodes[i].y + 6)
             .attr("width", 16)
             .attr("height", 15)
             .attr("stroke", lineC)
             .attr("stroke-width", 1)
             .attr("fill", colorC);
-        first.append("text")
-            .attr("x", nodesFirst[i].x - 6)
-            .attr("y", nodesFirst[i].y + 17)
+        ring.append("text")
+            .attr("x", arrayNodes[i].x - 6)
+            .attr("y", arrayNodes[i].y + 17)
             .text("P" + i)
             .attr("font-family", "sans-serif")
             .attr("font-size", "10px")
             .attr("fill", lineC);
     }
-    first.append("circle")
+    ring.append("circle")
         .attr("class", "token0")
-        .attr("cx", nodesFirst[0].x)
-        .attr("cy", nodesFirst[0].y)
+        .attr("cx", arrayNodes[0].x)
+        .attr("cy", arrayNodes[0].y)
         .attr('r', 5)
         .attr('fill', colorC)
         .attr("stroke", lineC);
 }
-function playAlg() {
-    d3.select("#anelsvg").selectAll(".token0").remove();
-    if (nodesFirst[token].processoToken === -1) {
 
-        d3.select("#anelsvg").selectAll(".P" + token)
+function playAlg() {
+    d3.select("#ringsvg").selectAll(".token0").remove();
+    if (!arrayNodes[positionToken].processoToken) {
+
+        d3.select("#ringsvg").selectAll(".P" + positionToken)
             .transition()
             .duration(500)
-            .attr("fill", color);
+            .attr("fill", normalColor);
     }
-    if (token === nodesFirst.length - 1) {
+    if (positionToken === arrayNodes.length - 1) {
         var dataArc = [
-            { startAngle: nodesFirst[token].angle, endAngle: nodesFirst[0].angle + (2 * Math.PI) },
+            { startAngle: arrayNodes[positionToken].angle, endAngle: arrayNodes[0].angle + (2 * Math.PI) },
         ];
-        token = 0;
+        positionToken = 0;
     }
     else {
         var dataArc = [
-            { startAngle: nodesFirst[token].angle, endAngle: nodesFirst[token + 1].angle },
+            { startAngle: arrayNodes[positionToken].angle, endAngle: arrayNodes[positionToken + 1].angle },
         ];
-        token++;
+        positionToken++;
     }
 
     var arc = d3.arc().outerRadius(103.5).innerRadius(103.5);
 
-    var path = first.append("g")
+    var path = ring.append("g")
         .selectAll("path.arc")
         .data(dataArc);
 
     path.enter()
         .append('circle')
-        .attr("transform", `translate(${nodesFirst[0].x - 103},${nodesFirst[0].y})`)
+        .attr("transform", `translate(${arrayNodes[0].x - 103},${arrayNodes[0].y})`)
         .attr('opacity', 0)
         .attr("class", "token")
         .attr('r', 5)
@@ -131,108 +132,102 @@ function playAlg() {
                     .attr("cy", cent[1]) // set the cy
             };
         })
-    if (nodesFirst[token].processoToken == 0) {
+    if (arrayNodes[positionToken].processoToken) {
         setTimeout(function () {
-            d3.select("#anelsvg").selectAll(".P" + token)
+            d3.select("#ringsvg").selectAll(".P" + positionToken)
                 .transition()
                 .duration(1000)
-                .attr("fill", partColor); // está usando a seção critica //
+                .attr("fill", usingColor); // está usando a seção critica //
         }, 3000);
-        nodesFirst[token].processoToken = -1;
+        arrayNodes[positionToken].processoToken = false;
     }
     if (estaVisivel(p) == false) {
         setTimeout(callRandom(), 3000);
     }
 }
-function pedirToken() {
+
+function callRandom() {
+    rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
+    for (let i = 0; i < rand; i++) {
+        rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
+        if (rand == positionToken || arrayNodes[rand].processoToken == true) {
+        }
+        else {
+            
+            arrayNodes[rand].processoToken = true; // quer entrar na seção critica //
+
+            d3.select("#ringsvg").selectAll(".P" + rand)
+                .transition()
+                .delay(250)
+                .duration(2000)
+                .attr("fill", requestColor);
+        }
+    }
+}
+
+function requestToken() {
     var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
-    if (optionToken == token) {
+    if (optionToken == positionToken) {
         alert("O processo que já está com o token não pode solicitar");
     }
     else {
-        if (nodesFirst[optionToken].processoToken == 0) {
+        if (arrayNodes[optionToken].processoToken) {
             alert("O processo já solicitou");
         }
         else {
-            nodesFirst[optionToken].processoToken = 0;
-            d3.select("#anelsvg").selectAll(".P" + optionToken)
+            arrayNodes[optionToken].processoToken = true;
+            d3.select("#ringsvg").selectAll(".P" + optionToken)
                 .transition()
                 .delay(250)
                 .duration(2000)
-                .attr("fill", nopartColor);
+                .attr("fill", requestColor);
         }
     }
 }
-function cancelarToken() {
+
+function withdrawToken() {
     var optionToken = comboboxOptions.options[comboboxOptions.selectedIndex].value;
-    if (optionToken == token) {
+    if (optionToken == positionToken) {
         alert("O processo que já está com o token não pode ser revogado o acesso");
     }
     else {
-        if (nodesFirst[optionToken].processoToken == -1) {
+        if (!arrayNodes[optionToken].processoToken) {
             alert("Esse processo não solicitou ainda");
         }
         else {
-            nodesFirst[optionToken].processoToken = -1;
-            d3.select("#anelsvg").selectAll(".P" + optionToken)
+            arrayNodes[optionToken].processoToken = false;
+            d3.select("#ringsvg").selectAll(".P" + optionToken)
                 .transition()
                 .delay(250)
                 .duration(2000)
-                .attr("fill", color);
+                .attr("fill", normalColor);
         }
     }
 }
-function callRandom() {
 
-    rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-    for (i = 0; i < rand; i++) {
-        rand = Math.floor(Math.random() * (Math.floor(n1) - Math.ceil(0))) + 0;
-        if (rand == token || nodesFirst[rand].processoToken == 0) {
-        }
-        else {
-            nodesFirst[rand].processoToken = 0; // quer entrar na seção critica //
-
-            d3.select("#anelsvg").selectAll(".P" + rand)
-                .transition()
-                .delay(250)
-                .duration(2000)
-                .attr("fill", nopartColor);
-        }
-    }
-}
-function reset() {
-    d3.select("#anelsvg").selectAll("circle").remove();
-    d3.select("#anelsvg").selectAll("text").remove();
-    d3.select("#anelsvg").selectAll("rect").remove();
-    d3.select("#anelsvg").selectAll("line").remove();
-    d3.select("#anelsvg").selectAll(".token").remove();
-}
 var slider1 = document.getElementById("sliderNodePart");
 slider1.oninput = function () {
-    nodesFirst.splice(0, 10);
+    arrayNodes.splice(0, 10);
     n1 = this.value;
     reset();
-    desenhoinitPart();
+    drawInit();
 }
-window.onload = function () {
-    desenhoinitPart();
-    document.getElementById("buttonsR2").style.display = "block";
-    desenhoinitPart0();
-}
-window.onscroll = function () { scrollFunction() };
-const p = document.querySelector("#customIMG");
-// detectar o ultimo desenho //
-function estaVisivel(el) {
-    const posicoes = el.getBoundingClientRect();
-    const inicio = posicoes.top;
-    const fim = posicoes.bottom;
-    let estaVisivel = false
 
-    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
-        estaVisivel = true;
-    }
-    return estaVisivel;
+function reset() {
+    d3.select("#ringsvg").selectAll("circle").remove();
+    d3.select("#ringsvg").selectAll("text").remove();
+    d3.select("#ringsvg").selectAll("rect").remove();
+    d3.select("#ringsvg").selectAll("line").remove();
+    d3.select("#ringsvg").selectAll(".token").remove();
 }
+
+window.onload = function () {
+    drawInit();
+    document.getElementById("buttonsR2").style.display = "block";
+    drawExample();
+}
+
+window.onscroll = function () { scrollFunction() };
 function scrollFunction() {
 
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -251,75 +246,95 @@ function scrollFunction() {
         document.getElementById("buttons").style.display = "none";
     }
 }
+
+const p = document.querySelector("#transition");
+function estaVisivel(el) {
+    const posicoes = el.getBoundingClientRect();
+    const inicio = posicoes.top;
+    const fim = posicoes.bottom;
+    let estaVisivel = false
+
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
+        estaVisivel = true;
+    }
+    return estaVisivel;
+}
+// quando o usuário cliclar volta para o topo
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
 var comboboxOptions = document.getElementById("combobox");
 function criarComboBox() {
-    for (i = 0; i < n1; i++) {
-        comboboxOptions.options[comboboxOptions.options.length] = new Option(nodesFirst[i].id, i);
+    for (let i = 0; i < n1; i++) {
+        comboboxOptions.options[comboboxOptions.options.length] = new Option(arrayNodes[i].id, i);
     }
 }
-var teste = d3.select("#firstsvg")
+
+var example = d3.select("#firstsvg")
     .append("svg")
     .attr("width", 500)
     .attr("height", 300);
-var i0, x01, y01;
+var x01, y01;
 var colorToken = "#4B0082", colorProcesso = "#e13138"
 var nodesZero = [];
-function desenhoinitPart0() {
-    for (i0 = 0; i0 < 3; i0++) {
-        angle = 2 * Math.PI * i0 / 3;
+function drawExample() {
+    for (let i = 0; i < 3; i++) {
+        angle = 2 * Math.PI * i / 3;
         x01 = Math.cos(angle) * 103 + 250;
         y01 = Math.sin(angle) * 103 + 130;
         angle = angle + (Math.PI / 2);
 
-        var newNode = { x: x01, y: y01, id: i0, angle };
+        var newNode = { x: x01, y: y01, id: i, angle };
         nodesZero.push(newNode);
 
     }
-    for (i0 = 0; i0 < 3; i0++) {
-        if (i0 === nodesZero.length - 1) {
+    for (let i = 0; i < 3; i++) {
+        if (i === nodesZero.length - 1) {
             var arc = d3.arc()
                 .innerRadius(102.5)
                 .outerRadius(103.5)
                 .startAngle(nodesZero[0].angle + (2 * Math.PI))
-                .endAngle(nodesZero[i0].angle);
+                .endAngle(nodesZero[i].angle);
         }
         else {
             var arc = d3.arc()
                 .innerRadius(102.5)
                 .outerRadius(103.5)
-                .startAngle(nodesZero[i0 + 1].angle)
-                .endAngle(nodesZero[i0].angle);
+                .startAngle(nodesZero[i + 1].angle)
+                .endAngle(nodesZero[i].angle);
         }
-        teste.append("path")
+        example.append("path")
             .attr("d", arc)
             .attr("transform", "translate(250, 130)");
     }
-    for (i0 = 0; i0 < 3; i0++) {
-        teste.append("circle")
-            .attr("cx", nodesZero[i0].x)
-            .attr("cy", nodesZero[i0].y)
+    for (let i = 0; i < 3; i++) {
+        example.append("circle")
+            .attr("cx", nodesZero[i].x)
+            .attr("cy", nodesZero[i].y)
             .attr("r", radio)
             .attr("stroke", line)
             .attr("stroke-width", 1)
-            .attr("fill", color)
-        teste.append("rect")
-            .attr("x", nodesZero[i0].x - 8)
-            .attr("y", nodesZero[i0].y + 6)
+            .attr("fill", normalColor)
+        example.append("rect")
+            .attr("x", nodesZero[i].x - 8)
+            .attr("y", nodesZero[i].y + 6)
             .attr("width", 16)
             .attr("height", 15)
             .attr("stroke", lineC)
             .attr("stroke-width", 1)
             .attr("fill", colorC);
 
-        teste.append("text")
-            .attr("x", nodesZero[i0].x - 6)
-            .attr("y", nodesZero[i0].y + 17)
-            .text("P" + i0)
+        example.append("text")
+            .attr("x", nodesZero[i].x - 6)
+            .attr("y", nodesZero[i].y + 17)
+            .text("P" + i)
             .attr("font-family", "sans-serif")
             .attr("font-size", "10px")
             .attr("fill", lineC);
     }
-    teste.append("circle")
+    example.append("circle")
         .attr("cx", nodesZero[0].x)
         .attr("cy", nodesZero[0].y)
         .attr('r', 5)
@@ -330,11 +345,11 @@ var normal = d3.select("#normal")
     .append("svg")
     .attr("width", 49)
     .attr("height", 30);
-var pedindo = d3.select("#pedindo")
+var request = d3.select("#request")
     .append("svg")
     .attr("width", 39)
     .attr("height", 30);
-var usando = d3.select("#usando")
+var using = d3.select("#using")
     .append("svg")
     .attr("width", 21)
     .attr("height", 30);
@@ -344,18 +359,18 @@ normal.append("circle")
     .attr("r", 7)
     .attr("stroke", line)
     .attr("stroke-width", 1)
-    .attr("fill", color)
-pedindo.append("circle")
+    .attr("fill", normalColor)
+request.append("circle")
     .attr("cx", 27)
     .attr("cy", 22.5)
     .attr("r", 7)
     .attr("stroke", line)
     .attr("stroke-width", 1)
-    .attr("fill", nopartColor)
-usando.append("circle")
+    .attr("fill", requestColor)
+using.append("circle")
     .attr("cx", 10)
     .attr("cy", 22.5)
     .attr("r", 7)
     .attr("stroke", line)
     .attr("stroke-width", 1)
-    .attr("fill", partColor)
+    .attr("fill", usingColor)

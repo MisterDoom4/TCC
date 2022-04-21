@@ -12,7 +12,7 @@ var Node = {
 };
 arrayNodes.push(newNode);
 var newVote = [bool, id]
-var Grups = [];
+var electionGrups = [];
 
 //broadcast para o grupo que ele recebeu voto 
 function sendLiberation(id) {
@@ -51,7 +51,7 @@ function acessAnalisys(Node, Group) {
                 processoDestino.vote = true;
                 desenharMensagem(Node, processoDestino);
             } else {
-                if (processoDestino.message === "HELD") { // n entendi a notação, aqui tem q enfileirar Node
+                if (processoDestino.message === "HELD") { 
                     if (arrayNodes[i].filaProcesso.find(element => element == processoSolicitante.id) == undefined) {
                         arrayNodes[i].filaProcesso.push(processoSolicitante.id);
                         desenharFila(arrayNodes[i]);
@@ -79,7 +79,12 @@ function acessAnalisys(Node, Group) {
             }
     
         }
-    }
+    })
+}
+// quando o usuário cliclar volta para o topo
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
 
 function requireAcess(Node) {
@@ -89,10 +94,8 @@ function requireAcess(Node) {
     sendMessage(Groups[index]);           //envia menssagem a todos os processos daquele grupo
     kVotes = acessAnalisys(Groups[index]);            //analisa as resposta de cada elemento do grupo
  
-    if (kVotes === Grups[index].length - 1) {
+    if (kVotes === electionGrups[index].length - 1) {
         Node.state = 'HELD';
         Node.vote.id = index;
     }
-
-    
 }
