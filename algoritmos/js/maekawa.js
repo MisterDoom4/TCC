@@ -180,6 +180,8 @@ function playRand2(e) {
             chooseHeld = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
             chooseP = chooseHeld;
             arrayNodes[chooseHeld].message = messageData[2];
+            arrayNodes[chooseHeld].group = findGroup(arrayNodes[chooseHeld]);
+            randVote(arrayNodes[chooseHeld]);
             d3.select("#maekawasvg").selectAll(".M" + chooseHeld)
                 .transition()
                 .delay(250)
@@ -219,6 +221,12 @@ function playRand2(e) {
     }
     ini = 0;
     operation = "SEND";
+}
+function randVote(process){
+    for (let i = 0; i< electionGrups[process.group].length; i++) {
+        let index = electionGrups[process.group][i];
+        arrayNodes[index].vote = true;
+    }
 }
 
 function reset() {
@@ -565,7 +573,6 @@ function updateStatus(idProcess) {
         .delay(1000)
         .text(arrayNodes[idProcess].message);
 }
-
 
 function groupBroadcast(requesterProcess) {
     let group = requesterProcess.group;
