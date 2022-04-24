@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" />
     <meta charset="utf-8" />
-    <title>Algoritmo do Servidor Central</title>
+    <title>Algoritmo de Maekawa</title>
     <meta name="author" content="Julio Sandro e Vinícius Barbosa" />
     <meta name="description" content="Ensinando exclusão mútua de forma simples" />
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
@@ -51,11 +51,11 @@
                         permissão dos outros processos, não todos, através da troca de mensagem. Maekawa propõe
                         que é necessário uma
                         quantidade k de permisões, onde <b> k < N</b> e <b>N</b> é o numero total de processos, de um
-                        dos
-                        subconjuntos dos processos para então ingressar na sessão crítica. Esse subconjunto dos
-                        processos deve conter o processos requisitante, ou seja, nas k permisões necessárias,
-                        uma é a resposta dele mesmo. Neste algoritmo o processo que deseja acesso á sessão
-                        crítica é chamado de "candidato" e precisa de k "votos" para acessa-la. </p>
+                                dos
+                                subconjuntos dos processos para então ingressar na sessão crítica. Esse subconjunto dos
+                                processos deve conter o processos requisitante, ou seja, nas k permisões necessárias,
+                                uma é a resposta dele mesmo. Neste algoritmo o processo que deseja acesso á sessão
+                                crítica é chamado de "candidato" e precisa de k "votos" para acessa-la. </p>
                     <p>
                         Dado um conjunto com N processos, é construído N subconjuntos com &radic;N processos em cada. O
                         ideal é que cada subconjunto tenha o máximo de diversificade posível e que um processo esteja em
@@ -133,17 +133,18 @@
                         é a váriavel de estado do processo e seu voto, pois eles são os fatores que vão orientar as
                         decisões do processo. A variável de estado diz sua intenção em relação a sessão crítica, sendo
                         de
-                        3 tipos: <ul>
-                            <li>
-                                <B>RELEASED</B>, o processo está fora dela e não deseja acessá-la.
-                            </li>
-                            <li>
-                                <b>WANTED</b>, o processo deseja acesso.
-                            </li>
-                            <li>
-                                <b>HELD</b>, o processo está acessando.
-                            </li>
-                        </ul>
+                        3 tipos:
+                    <ul>
+                        <li>
+                            <B>RELEASED</B>, o processo está fora dela e não deseja acessá-la.
+                        </li>
+                        <li>
+                            <b>WANTED</b>, o processo deseja acesso.
+                        </li>
+                        <li>
+                            <b>HELD</b>, o processo está acessando.
+                        </li>
+                    </ul>
                     </p>
                     <p>
                         O processo P<sub>i</sub> que deseja entrar na
@@ -189,17 +190,17 @@
                             </p>
                             <p>
                                 No modelo seguinte, experimente modificar o algoritmo:
-                                <ul>
-                                    <li>
-                                        Edite as informações de cada processo antes de executar
-                                    </li>
-                                    <li>
-                                        Gere composições randomicas para observar o funcionamento.
-                                    </li>
-                                    <li>
-                                        Altere os relógios lógicos.
-                                    </li>
-                                </ul>
+                            <ul>
+                                <li>
+                                    Edite as informações de cada processo antes de executar
+                                </li>
+                                <li>
+                                    Gere composições randomicas para observar o funcionamento.
+                                </li>
+                                <li>
+                                    Altere os relógios lógicos.
+                                </li>
+                            </ul>
 
                             </p>
                         </div>
@@ -212,9 +213,15 @@
                             <div id="buttonsR2">
                                 <button onclick="playAlg()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Avançar</button>
+                                <button onclick="playRand()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Cenário 1</button>
+                                <button onclick="playRand2(0)" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Cenário 2</button>
+                                <button onclick="reset()" type="button"
+                                    class="btn btn-rounded btn-light btn-sm">Reset</button>
                             </div>
                         </div>
-                        <div class="alg" id="anelsvg"></div>
+                        <div class="alg" id="maekawasvg"></div>
                         <div class="interaction">
                             <div id="buttons">
                                 <select id="combobox"></select>
@@ -223,10 +230,6 @@
                                 <button onclick="cancelarToken()" type="button"
                                     class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
 
-                            </div>
-                            <div class="sliderArea">
-                                <input class="slider" type="range" min="3" max="8" step="1" value="3"
-                                    id="sliderNodePart"></input>
                             </div>
                         </div>
                     </div>
@@ -252,7 +255,7 @@
     <!-- Go to top button -->
     <a id="goToTop"><i class="fa fa-angle-up top-icon"></i><i class="fa fa-angle-up"></i></a>
 
-    <script type="text/javascript" src="./js/exclusao_anel.js"></script>
+    <script type="text/javascript" src="./js/maekawa.js"></script>
     <script type="text/javascript" src="../plugin/d3.js"></script>
 
 

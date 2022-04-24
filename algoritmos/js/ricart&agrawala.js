@@ -4,13 +4,14 @@ var multicast = d3.select("#multicastsvg")
     .attr("height", 250)
 var x0 = 20, y0 = 10, tx = 97, ty = 30;
 var idProcess;
-var red = '#D60000';
+var red = "#D60000";
+var lineC = "#000";
 var arrayNodes = [];
 var messageData = ["RELEASED", "WANTED", "HELD"];
 var clock = 0;
 var ini = -1;
 var operation = "SEND";
-var lineC = "#000";
+
 function drawInit() {
     idProcess = 0; 
     for (let i = 0; i < 2; i++) {
@@ -78,7 +79,7 @@ function drawInit() {
                 .attr("height", ty + ty + 0.2);
 
             var queue = [];
-            var newNode = { id: idProcess, x: x0, y: y0, message: messageData[0], filaProcesso: queue, clock };
+            var newNode = { id: idProcess, x: x0, y: y0, message: messageData[0], processQueue: queue, clock };
             arrayNodes.push(newNode);
             idProcess++;
         }
@@ -232,7 +233,7 @@ function reset() {
         clockRandom();
         arrayNodes[i].clock = clock;
         arrayNodes[i].message = messageData[0];
-        arrayNodes[i].filaProcesso.splice(0, 10);
+        arrayNodes[i].processQueue.splice(0, 10);
         multicast.append("text")
             .attr("x", arrayNodes[i].x + 50)
             .attr("y", arrayNodes[i].y + 22)
@@ -264,7 +265,7 @@ function playAlg() {
         alert("Precisa escolher um cenario antes de avançar");
     }
     else {
-        // TODO : mostrar(ini);
+        // TODO: mostrar(ini);
         if (operation == "RESP" && arrayNodes[ini].message == messageData[1]) {
             if (analyzeAccess(arrayNodes[ini]) == 3) {
                 arrayNodes[ini].message = messageData[2];
@@ -303,8 +304,8 @@ function analyzeAccess(requesterProcess) {
                 drawMessage(arrayNodes[i], requesterProcess);
             } else {
                 if (arrayNodes[i].message == messageData[2]) {
-                    if (arrayNodes[i].filaProcesso.find(element => element == requesterProcess.id) == undefined) {
-                        arrayNodes[i].filaProcesso.push(requesterProcess.id);
+                    if (arrayNodes[i].processQueue.find(element => element == requesterProcess.id) == undefined) {
+                        arrayNodes[i].processQueue.push(requesterProcess.id);
                         drawQueue(arrayNodes[i]);
                     }
 
@@ -313,8 +314,8 @@ function analyzeAccess(requesterProcess) {
                         if (arrayNodes[i].clock > requesterProcess.clock) {
                             access++;
                             drawMessage(arrayNodes[i], requesterProcess);
-                            if (arrayNodes[i].filaProcesso.find(element => element == requesterProcess.id) == undefined) {
-                                requesterProcess.filaProcesso.push(arrayNodes[i].id);
+                            if (arrayNodes[i].processQueue.find(element => element == requesterProcess.id) == undefined) {
+                                requesterProcess.processQueue.push(arrayNodes[i].id);
                                 drawQueue(requesterProcess);
                             }
 
@@ -510,7 +511,7 @@ function drawMessage(process1, process2) {
 function drawQueue(process) {
     d3.select("#multicastsvg").selectAll(".filaprocesso" + process.id).remove();
     var disty = process.y + 2 * ty;
-    for (let i = 0; i < process.filaProcesso.length; i++) {
+    for (let i = 0; i < process.processQueue.length; i++) {
         disty -= 1.2 + 20;
         multicast.append("rect")
             .attr("class", "filaprocesso" + process.id)
@@ -524,7 +525,7 @@ function drawQueue(process) {
             .attr("class", "filaprocesso" + process.id)
             .attr("x", process.x + tx + 2)
             .attr("y", disty + 16)
-            .text("P" + process.filaProcesso[i])
+            .text("P" + process.processQueue[i])
             .attr("font-family", "sans-serif")
             .attr("font-size", "12px")
             .attr("fill", lineC);
@@ -1027,22 +1028,22 @@ function broadcast(requesterProcess) {
 // função que retorna mensagem para quem solicitou 
 function heldBroadcast(process) {
     d3.select("#multicastsvg").selectAll(".bloco").remove();
-    for (let index = 0; index < process.filaProcesso.length; index++) {
-        drawMessage(process, arrayNodes[process.filaProcesso[index]]);
+    for (let index = 0; index < process.processQueue.length; index++) {
+        drawMessage(process, arrayNodes[process.processQueue[index]]);
     }
 }
 //FUNÇÃO PARA ATUALIZAR OS PROCESSOS COM AS MENSAGENS DE LIBERAÇÃO DO PROCESSO HELD 
 function unlockAccess(process) {
     let index = 0
-    while (process.filaProcesso[index] != null) {
+    while (process.processQueue[index] != null) {
         //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
-        if (reviewAccess(arrayNodes[process.filaProcesso[index]]) === 3) {
+        if (reviewAccess(arrayNodes[process.processQueue[index]]) === 3) {
 
-            arrayNodes[process.filaProcesso[index]].message = messageData[2];
-            updateStatus(process.filaProcesso[index]);
+            arrayNodes[process.processQueue[index]].message = messageData[2];
+            updateStatus(process.processQueue[index]);
             //atualizar desenho do status
         }
-        process.filaProcesso.splice(0, 1);
+        process.processQueue.splice(0, 1);
         drawQueue(process);
     }
 }
