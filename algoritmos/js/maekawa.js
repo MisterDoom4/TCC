@@ -7,7 +7,7 @@ var idProcess;
 var red = '#D60000';
 var lineC = "#000";
 var arrayNodes = [];
-var electionGrups = [[0, 1], [0, 2], [1, 3], [2, 3]];
+var electionGrups = [[0, 1], [1, 2], [1, 3]];
 var messageData = ["RELEASED", "WANTED", "HELD"];
 var clock = 0;
 var ini = -1;
@@ -81,7 +81,7 @@ function drawInit() {
                 .attr("height", ty + ty + 0.2);
 
             var queue = [];
-            var newNode = { id: idProcess, x: x0, y: y0, message: messageData[0], processQueue: queue, clock, vote: false, group};
+            var newNode = { id: idProcess, x: x0, y: y0, message: messageData[0], processQueue: queue, clock, vote: false, group };
             arrayNodes.push(newNode);
             idProcess++;
         }
@@ -222,8 +222,8 @@ function playRand2(e) {
     ini = 0;
     operation = "SEND";
 }
-function randVote(process){
-    for (let i = 0; i< electionGrups[process.group].length; i++) {
+function randVote(process) {
+    for (let i = 0; i < electionGrups[process.group].length; i++) {
         let index = electionGrups[process.group][i];
         arrayNodes[index].vote = true;
     }
@@ -267,7 +267,6 @@ function reset() {
 }
 
 function playAlg() {
-    let group;
     if (ini == 4) {
         ini = 0;
     }
@@ -278,10 +277,9 @@ function playAlg() {
         alert("Precisa escolher um cenario antes de avançar");
     }
     else {
-       if(arrayNodes[ini].group == -1){
-        arrayNodes[ini].group = findGroup(arrayNodes[ini]);
-        console.log(arrayNodes[ini].group);
-       }
+        if (arrayNodes[ini].group == -1) {
+            arrayNodes[ini].group = findGroup(arrayNodes[ini]);
+        }
         // TODO: mostrar(ini);
         if (operation == "RESP" && arrayNodes[ini].message == messageData[1]) {
             if (analyzeAccess(arrayNodes[ini]) == 1) {
@@ -328,9 +326,11 @@ function analyzeAccess(requesterProcess) {
         let voterIDProcess = process;
         if (process != requesterProcess.id) {
             if (arrayNodes[voterIDProcess].message === messageData[0] && arrayNodes[voterIDProcess].vote === false) {
+                arrayNodes[voterIDProcess].processQueue.splice(0, 1);
+                drawQueue(arrayNodes[voterIDProcess]);
                 kVotes++;
                 arrayNodes[voterIDProcess].vote = true;
-                drawMessage(arrayNodes[voterIDProcess],requesterProcess);
+                drawMessage(arrayNodes[voterIDProcess], requesterProcess);
             } else {
                 if (voterIDProcess.message === messageData[2]) {
                     if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
@@ -343,7 +343,7 @@ function analyzeAccess(requesterProcess) {
                         if (arrayNodes[voterIDProcess].clock > requesterProcess.clock) {
                             kVotes++;
                             arrayNodes[voterIDProcess].vote = true;
-                            drawMessage(arrayNodes[voterIDProcess],requesterProcess);
+                            drawMessage(arrayNodes[voterIDProcess], requesterProcess);
                             if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
                                 requesterProcess.processQueue.push(arrayNodes[voterIDProcess].id);
                                 drawQueue(requesterProcess);
@@ -908,13 +908,13 @@ function groupBroadcast(requesterProcess) {
 
 //broadcast para o grupo que ele recebeu voto 
 function sendLiberation(process) {
-    for (let i = 0; i< electionGrups[process.group].length; i++) {
+    for (let i = 0; i < electionGrups[process.group].length; i++) {
         let index = electionGrups[process.group][i];
-        drawMessage(process,arrayNodes[index]);
+        drawMessage(process, arrayNodes[index]);
     }
 }
 
-function unlockAccess(process){
+function unlockAccess(process) {
     let index = 0
     while (process.processQueue[index] != null) {
         //chama verificação daquele processo para verificar se ele pode acessar a sessão crítica
@@ -956,10 +956,137 @@ function reviewAccess(requesterProcess) {
 }
 //reseta os votos do grupo de um processo que sai de HELD
 function resetVoteGroup(process) {
-    for (let i = 0; i< electionGrups[process.group].length; i++) {
+    for (let i = 0; i < electionGrups[process.group].length; i++) {
         let index = electionGrups[process.group][i];
         arrayNodes[index].vote = false;
     }
+}
+
+function drawTable() {
+    for (let i = 0; i < arrayNodes.length; i++) {
+        d3.select("#table2").append("tr").attr("class", "linha" + i)
+            .attr("align", "center")
+            .append("td").text(arrayNodes[i].id);
+        d3.select("#table2").select(".linha" + i).append("td") // colocar o relogio //
+            .append("input")
+            .attr("type", "number")
+            .attr("step", "1")
+            .attr("min", "1")
+            .attr("max", "100")
+            .attr("class", "form")
+            .attr("id", "relogio" + i)
+            .attr("value", arrayNodes[i].clock)
+            .attr("oninput", "checkClocks(" + i + ")");
+        d3.select("#table2").select(".linha" + i).append("td") // select da mensagem //
+            .append("select")
+            .attr("class", "combobox" + i)
+        d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).selectAll("option")
+            .data(messageData).enter()
+            .append("option")
+            .text(function (d) { return d; });
+    }
+}
+
+function checkClocks(id) {
+    var clock = document.getElementById("relogio" + id).value;
+    if (clock == 0) {
+        alert("Atenção! Relógios não podem ficar vazios ou serem zero!");
+        document.getElementById("relogio" + id).value = arrayNodes[id].clock;
+    }
+    if (isEqualClock(clock)) {
+        alert("Atenção! Relógios devem ser únicos!");
+        document.getElementById("relogio" + id).value = arrayNodes[id].clock;
+    }
+}
+
+function isEqualClock(clock) {
+    for (let i = 0; i < arrayNodes.length; i++) {
+        if (clock == arrayNodes[i].clock) {
+            return true;
+        }
+    }
+    return false;
+}
+// função para inserir valores que vieram da tabela //
+function playCustom() {
+    ini = 0;
+    if (checkMessage()) {
+        alert("Atenção! Só pode ter um processo com HELD!");
+
+    }
+    else {
+        for (let i = 0; i < arrayNodes.length; i++) {
+            arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+            updateStatus(i);
+            arrayNodes[i].clock = document.getElementById("relogio" + i).value;
+            updateClock(i);
+        }
+    }
+}
+
+function checkMessage() {
+    var messageHeld;
+    for (let i = 0; i < arrayNodes.length; i++) {
+        messageHeld = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
+        if (messageHeld == messageData[2]) {
+            arrayNodes[i].group = findGroup(arrayNodes[i]);
+            randVote(arrayNodes[i]);
+            for (let index = 0; index < arrayNodes.length; index++) {
+                if (index != i) {
+                    var messageTable = d3.select("#table2").select(".linha" + index).selectAll(".combobox" + index).property("value");
+                    if (messageHeld == messageTable) {
+                        resetVoteGroup(arrayNodes[index]);
+                        resetVoteGroup(arrayNodes[i]);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+// mudança do desenho do relogio //
+function updateClock(p) {
+    d3.select("#multicastsvg").selectAll(".P" + p)
+        .transition()
+        .delay(1000)
+        .text("[" + arrayNodes[p].clock + "]");
+}
+
+window.onload = function () {
+    drawInit();
+    document.getElementById("buttonsR2").style.display = "block";
+    drawTable();
+    drawExample();
+}
+const d = document.querySelector("#transition");
+window.onscroll = function () { scrollFunction() };
+function scrollFunction() {
+
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+    // troca de desenho //
+    if (isVisible(d) == true) {
+        document.getElementById("buttons").style.display = "flex";
+    }
+    else {
+        document.getElementById("buttons").style.display = "none";
+    }
+}
+// detectar o ultimo desenho //
+function isVisible(el) {
+    const posicoes = el.getBoundingClientRect();
+    const inicio = posicoes.top;
+    const fim = posicoes.bottom;
+    let estaVisivel = false
+
+    if ((inicio >= 0) && (fim <= (window.innerHeight) - 200)) {
+        estaVisivel = true;
+    }
+    return estaVisivel;
 }
 // quando o usuário cliclar volta para o topo
 function topFunction() {
@@ -967,8 +1094,288 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
-window.onload = function () {
-    drawInit();
-    document.getElementById("buttonsR2").style.display = "block";
-    // TODO: drawExample();
+var example = d3.select("#firstsvg")
+    .append("svg")
+    .attr("width", 650)
+    .attr("height", 300)
+// desenho da legenda //
+function drawExample() {
+    y0 = 10;
+    x0 = 30;
+    let clock;
+    idProcess = 0;
+    for (let i = 0; i < 2; i++) {
+        if (i < 2) {
+            y0 = y0 + i * 160;
+        }
+        else {
+            y0 = y0 + 160;
+        }
+        x0 = 20;
+        clock = i;
+        for (let j = 0; j < 3; j++) {
+            clock += 2 + 2 * j;
+            if (j < 2) {
+                x0 = x0 + j * 250;
+            }
+            else {
+                x0 = x0 + 250;
+            }
+            example.append("rect")
+                .attr("class", "legenda" + idProcess)
+                .attr("style", "fill:#fff")
+                .attr("stroke", "#000")
+                .attr("x", x0)
+                .attr("y", y0)
+                .attr("width", tx + 24)
+                .attr("height", ty + ty + 0.2);
+          
+            example.append("rect")
+                .attr("style", "fill:pink")
+                .attr("class", "blocoNome")
+                .attr("x", x0)
+                .attr("y", y0)
+                .attr("width", tx)
+                .attr("height", ty)
+                .attr("stroke", "#000");
+            example.append("text")
+                .attr("x", x0 + 30)
+                .attr("y", y0 + 22)
+                .text("P" + idProcess)
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "17px")
+                .attr("fill", "#000");
+            example.append("text")
+                .attr("x", x0 + 50)
+                .attr("y", y0 + 22)
+                .text("[" + clock + "]")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "17px")
+                .attr("fill", "#000");
+        
+            example.append("rect")
+                .attr("style", "fill:#2892D7")
+                .attr("class", "blocoMensagem")
+                .attr("x", x0)
+                .attr("y", y0 + 30.2)
+                .attr("width", tx)
+                .attr("height", ty)
+                .attr("stroke", "#000");
+            example.append("text")
+                .attr("x", x0 + 2)
+                .attr("y", y0 + 52)
+                .text(messageData[0])
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "17px")
+                .attr("fill", "#000000");
+           
+            example.append("rect")
+                .attr("style", "fill:#7B7B7B")
+                .attr("class", "filaMensagem")
+                .attr("stroke", "#000")
+                .attr("x", x0 + 96)
+                .attr("y", y0)
+                .attr("width", 25)
+                .attr("height", ty + ty + 0.2);
+
+            idProcess++;
+        }
+        x0 = 0;
+    }
+    x0 = 270;
+    example.append("rect")
+        .attr("x", 520 - 75)
+        .attr("y", y0 - 40)
+        .attr("class", "teste")
+        .attr("rx", 10)
+        .attr("ry", 10)
+        .attr("width", 54)
+        .attr("height", 22)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1)
+        .attr("fill", "#6EB960");
+    example.append("text")
+        .attr("x",  520 - 72)
+        .attr("y", y0 - 24)
+        .text("P4" + "   -7")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "17px")
+        .attr("fill", "#000000");
+    example.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 5)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    example.append("line")
+        .attr("x1", 520)
+        .attr("y1", 10 + 2*ty)
+        .attr("x2", x0 + tx +25)
+        .attr("y2", y0)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 3)
+        .attr("marker-start", "url(#arrow)");
+
+        example.append("rect")
+        .attr("x", 20+tx + 25)
+        .attr("y", y0 - 50)
+        .attr("class", "teste")
+        .attr("rx", 10)
+        .attr("ry", 10)
+        .attr("width", 54)
+        .attr("height", 22)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1)
+        .attr("fill", "#6EB960");
+    example.append("text")
+        .attr("x",  20 +tx + 28)
+        .attr("y", y0 - 34)
+        .text("P4" + "   -7")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "17px")
+        .attr("fill", "#000000");
+    example.append("defs").append("marker")
+        .attr("id", "arrow")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 8)
+        .attr("refY", 0)
+        .attr("markerWidth", 5)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto-start-reverse")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5");
+    example.append("line")
+        .attr("x1", 20+tx + 25)
+        .attr("y1", 10 + 2*ty)
+        .attr("x2", x0)
+        .attr("y2", y0)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 3)
+        .attr("marker-start", "url(#arrow)");
+}
+
+function showId() {
+    d3.select("#firstsvg").selectAll(".blocoNome")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowId() {
+    d3.select("#firstsvg").selectAll(".blocoNome")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
+function showMessage() {
+    d3.select("#firstsvg").selectAll(".teste")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowMessage() {
+    d3.select("#firstsvg").selectAll(".teste")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
+function showQueue() {
+    d3.select("#firstsvg").selectAll(".filaMensagem")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowQueue() {
+    d3.select("#firstsvg").selectAll(".filaMensagem")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
+}
+
+function showState() {
+    d3.select("#firstsvg").selectAll(".blocoMensagem")
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", red)
+                .style("stroke-width", 4)
+                .on("start", repeat);
+        })
+}
+function unshowState() {
+    d3.select("#firstsvg").selectAll(".blocoMensagem")
+        .transition()
+        .duration(700)
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", lineC)
+                .style("stroke-width", 1)
+                .on("start", repeat);
+        })
+    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }

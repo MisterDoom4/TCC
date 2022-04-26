@@ -10,7 +10,7 @@
     <meta name="keywords" content="sistemas distribuídos, algoritmos, servidor central" />
     <meta name="Resource-type" content="Document" />
 
-    <link rel="stylesheet" type="text/css" href="css/fullpage-exclusao_anel.css" />
+    <link rel="stylesheet" type="text/css" href="css/fullpage-ricart&agrawala.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="plugins.css" />
@@ -71,31 +71,25 @@
                     </p>
                     <ul>
                         <li>
-                            Um <button onmouseover="showProcess()" onmouseout="unshowProcess()" type="button" class="btn btn-light
-                            btn-xs">Identificador de Processo</button>
-                        </li>
-                        <li>
-                            Um <button onmouseover="showRelogio()" onmouseout="unshowRelogio()" type="button"
+                            Um <button onmouseover="showId()" onmouseout="unshowId()" type="button"
                                 class="btn btn-light btn-xs">relógio lógico</button> de lamport, que vai fixado
                             ao
                             identificador de processo no envio de
                             mensagem, na forma < Pi, T>
                         </li>
                         <li>
-                            Uma <button onmouseover="showEstado()" onmouseout="unshowEstado()" type="button" class="btn btn-light
+                            Uma <button onmouseover="showState()" onmouseout="unshowState()" type="button" class="btn btn-light
                                     btn-xs">variável de estado</button>, que diz a ação do processo com relação
                             a sessão crítica.
                         </li>
                         <li>
-                            Um <button onmouseover="showFila()" onmouseout="unshowFila()" type="button"
+                            Um <button onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
                                 class="btn btn-light btn-xs">fila local
                             </button> para guardar mensagens de acesso, que segue a lógica FIFO (First-in
                             First-out)
                         </li>
                         <li>
-                            Uma <button onmouseover="showVoto()" onmouseout="unshowVoto()" type="button"
-                                class="btn btn-light btn-xs">variável de voto
-                            </button>, booleana: True(já votou) e False(n votou)
+                            Uma variável de voto, booleana: True(já votou) e False(n votou)
                         </li>
                         <b>Passe o indicador do mouse sobre cada botão acima para verificar na imagem seu respectivo
                             componente</b>
@@ -110,7 +104,6 @@
                                 </div>
                                 <div class="interaction">
                                     <div>
-                                        Imagem dos subgrupos que vamos usar para o algoritmo
                                     </div>
                                     <div class="sliderArea">
                                     </div>
@@ -204,7 +197,7 @@
 
                             </p>
                         </div>
-                        <b id="customIMG"></b>
+                        <b id="transition"></b>
                     </div>
                 </div>
                 <div class="algSection">
@@ -224,12 +217,19 @@
                         <div class="alg" id="maekawasvg"></div>
                         <div class="interaction">
                             <div id="buttons">
-                                <select id="combobox"></select>
-                                <button onclick="pedirToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Pedir acesso</button>
-                                <button onclick="cancelarToken()" type="button"
-                                    class="btn btn-rounded btn-light btn-sm">Remover acesso</button>
-
+                                <table id="table2" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Processo</td>
+                                            <td>Relógios</td>
+                                            <td>Mensagem</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <button onclick="playCustom()" type="button"
+                                        class="btn btn-rounded btn-light btn-sm">Salvar</button>
+                                </div>
                             </div>
                         </div>
                     </div>

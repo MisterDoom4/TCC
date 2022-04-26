@@ -13,7 +13,7 @@ var ini = -1;
 var operation = "SEND";
 
 function drawInit() {
-    idProcess = 0; 
+    idProcess = 0;
     for (let i = 0; i < 2; i++) {
         y0 = y0 + i * 160;
         x0 = 20;
@@ -112,8 +112,8 @@ function clockRandom() {
 // colocar pelo menos 1 wanted nos processos 
 function playRand() {
     reset();
-    var chooseP; 
-    let countReleased = 0;  
+    var chooseP;
+    let countReleased = 0;
     for (let i = 0; i < 4; i++) {
         if (i == 0) {
             chooseP = Math.floor(Math.random() * (Math.floor(4) - Math.ceil(0))) + 0;
@@ -1233,6 +1233,7 @@ function drawExample() {
             .attr("y", y0)
             .attr("width", tx + 24)
             .attr("height", ty + ty + 0.2);
+
         example.append("rect")
             .attr("style", "fill:pink")
             .attr("class", "blocoNome")
@@ -1241,7 +1242,6 @@ function drawExample() {
             .attr("width", tx)
             .attr("height", ty)
             .attr("stroke", "#000");
-
         example.append("text")
             .attr("x", x0 + 30)
             .attr("y", y0 + 22)
@@ -1272,6 +1272,7 @@ function drawExample() {
             .attr("font-family", "sans-serif")
             .attr("font-size", "17px")
             .attr("fill", "#000000");
+
         example.append("rect")
             .attr("class", "filaMensagem")
             .attr("style", "fill:#7B7B7B")
@@ -1306,7 +1307,6 @@ function drawExample() {
         .attr("viewBox", "0 -5 10 10")
         .attr("refX", 8)
         .attr("refY", 0)
-
         .attr("markerWidth", 5)
         .attr("markerHeight", 10)
         .attr("orient", "auto-start-reverse")
@@ -1317,7 +1317,6 @@ function drawExample() {
         .attr("y1", y0 + 30)
         .attr("x2", x0 - 128)
         .attr("y2", y0 + 30)
-
         .attr("stroke", "#000")
         .attr("stroke-width", 3)
         .attr("marker-start", "url(#arrow)");
@@ -1330,7 +1329,6 @@ function showId() {
         .delay(function (d, i) { return i * 50; })
         .on("start", function repeat() {
             d3.active(this)
-                
                 .transition()
                 .style("stroke", red)
                 .style("stroke-width", 1)
@@ -1351,7 +1349,6 @@ function unshowId() {
                 .style("stroke-width", 1)
                 .on("start", repeat);
         })
-    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 
 function showMessage() {
@@ -1361,7 +1358,6 @@ function showMessage() {
         .delay(function (d, i) { return i * 50; })
         .on("start", function repeat() {
             d3.active(this)
-                
                 .transition()
                 .style("stroke", red)
                 .style("stroke-width", 1)
@@ -1382,7 +1378,6 @@ function unshowMessage() {
                 .style("stroke-width", 1)
                 .on("start", repeat);
         })
-    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 
 function showQueue() {
@@ -1392,7 +1387,6 @@ function showQueue() {
         .delay(function (d, i) { return i * 50; })
         .on("start", function repeat() {
             d3.active(this)
-                
                 .transition()
                 .style("stroke", red)
                 .style("stroke-width", 1)
@@ -1413,7 +1407,6 @@ function unshowQueue() {
                 .style("stroke-width", 1)
                 .on("start", repeat);
         })
-    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
 
 function showState() {
@@ -1423,7 +1416,6 @@ function showState() {
         .delay(function (d, i) { return i * 50; })
         .on("start", function repeat() {
             d3.active(this)
-                
                 .transition()
                 .style("stroke", red)
                 .style("stroke-width", 1)
@@ -1444,5 +1436,4 @@ function unshowState() {
                 .style("stroke-width", 1)
                 .on("start", repeat);
         })
-    d3.select("#firstsvg").selectAll(".ajuda").remove();
 }
