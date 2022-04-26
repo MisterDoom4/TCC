@@ -330,7 +330,7 @@ function analyzeAccess(requesterProcess) {
             if (arrayNodes[voterIDProcess].message === messageData[0] && arrayNodes[voterIDProcess].vote === false) {
                 kVotes++;
                 arrayNodes[voterIDProcess].vote = true;
-                drawMessage(requesterProcess, arrayNodes[voterIDProcess]);
+                drawMessage(arrayNodes[voterIDProcess],requesterProcess);
             } else {
                 if (voterIDProcess.message === messageData[2]) {
                     if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
@@ -343,7 +343,7 @@ function analyzeAccess(requesterProcess) {
                         if (arrayNodes[voterIDProcess].clock > requesterProcess.clock) {
                             kVotes++;
                             arrayNodes[voterIDProcess].vote = true;
-                            drawMessage(requesterProcess, arrayNodes[voterIDProcess]);
+                            drawMessage(arrayNodes[voterIDProcess],requesterProcess);
                             if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
                                 requesterProcess.processQueue.push(arrayNodes[voterIDProcess].id);
                                 drawQueue(requesterProcess);
