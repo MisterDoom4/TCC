@@ -255,6 +255,7 @@ function reset() {
 }
 
 function playAlg() {
+  
     if (ini == 4) {
         ini = 0;
     }
@@ -262,10 +263,12 @@ function playAlg() {
     d3.select("#multicastsvg").selectAll(".mensagem").remove();
     // primeiro apertar//
     if (ini == -1) {
-        alert("Precisa escolher um cenario antes de avançar");
+        alert("É preciso escolher um CENÁRIO antes de AVANÇAR");
     }
     else {
-        // TODO: mostrar(ini);
+        if (ini == 0) unShowLastProcess(3);
+        unShowLastProcess(ini - 1)
+        showCurrentProcess(ini);
         if (operation == "RESP" && arrayNodes[ini].message == messageData[1]) {
             if (analyzeAccess(arrayNodes[ini]) == 3) {
                 arrayNodes[ini].message = messageData[2];
@@ -1068,6 +1071,18 @@ function reviewAccess(requesterProcess) {
     }
     return access;
 }
+function unShowLastProcess(e) {
+    d3.select("#multicastsvg").selectAll(".posicao" + e)
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", "#000")
+                .style("stroke-width", 1)
+        })
+}
 // função para mostrar que processo está processando //
 function showCurrentProcess(e) {
     d3.select("#multicastsvg").selectAll(".posicao" + e)
@@ -1080,7 +1095,7 @@ function showCurrentProcess(e) {
                 .style("stroke", "#000")
                 .style("stroke-width", 1)
                 .transition()
-                .style("stroke", "#e222")
+                .style("stroke", "#00B125")
                 .style("stroke-width", 10)
                 .on("start", repeat);
         })

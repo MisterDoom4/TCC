@@ -229,7 +229,39 @@ function randVote(process) {
     }
 }
 
+
+function unShowLastProcess(e) {
+    d3.select("#maekawasvg").selectAll(".posicao" + e)
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", "#000")
+                .style("stroke-width", 1)
+        })
+}
+// função para mostrar que processo está processando //
+function showCurrentProcess(e) {
+    d3.select("#maekawasvg").selectAll(".posicao" + e)
+        .transition()
+        .duration(400)
+        .delay(function (d, i) { return i * 50; })
+        .on("start", function repeat() {
+            d3.active(this)
+                .transition()
+                .style("stroke", "#000")
+                .style("stroke-width", 1)
+                .transition()
+                .style("stroke", "#00B125")
+                .style("stroke-width", 10)
+                .on("start", repeat);
+        })
+}
+
 function reset() {
+    idProcess = 3;
     ini = -1;
     d3.select("#maekawasvg").selectAll(".bloco").remove();
     d3.select("#maekawasvg").selectAll(".mensagem").remove();
@@ -238,6 +270,8 @@ function reset() {
         d3.select("#maekawasvg").selectAll(".P" + i).remove();
         d3.select("#maekawasvg").selectAll(".M" + i).remove();
         d3.select("#maekawasvg").selectAll(".filaprocesso" + i).remove();
+        unShowLastProcess(i);
+
     }
     for (let i = 0; i < arrayNodes.length; i++) {
         clockRandom();
@@ -277,6 +311,9 @@ function playAlg() {
         alert("Precisa escolher um cenario antes de avançar");
     }
     else {
+                if (ini == 0) unShowLastProcess(3);
+        unShowLastProcess(ini - 1)
+        showCurrentProcess(ini);
         if (arrayNodes[ini].group == -1) {
             arrayNodes[ini].group = findGroup(arrayNodes[ini]);
         }

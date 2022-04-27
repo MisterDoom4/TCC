@@ -83,6 +83,17 @@ button.hover {
     cursor: pointer;
 }
 
+.firstTable{
+    padding: 40px;
+    
+}
+@media only screen and (max-width: 1320px) {
+    .firstTable {
+        padding: 0;
+        padding-left: 225px;
+    }
+}
+
 button.hover:hover {
     border-color: hsl(241, 20%, 15%);
     background: #1c1f33;
@@ -534,7 +545,7 @@ body.stretched .container-fullwidth {
 
 @media only screen and (max-width: 1320px) {
     .firstAlgSection {
-        height: 400px;
+        height: 600px;
     }
 }
 
@@ -554,6 +565,27 @@ body.stretched .container-fullwidth {
 @media only screen and (max-width: 1320px) {
     .firstAlgContent {
         grid-template-rows: 0px auto 150px;
+        grid-template-areas: 'instruction instruction'
+            'alg alg'
+            'interaction interaction';
+    }
+}
+
+.firstAlgContent1 {
+    padding-top: 23px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 0px auto 0px;
+    grid-template-areas: 'instruction instruction'
+        'alg interaction'
+        'extra extra';
+
+}
+
+@media only screen and (max-width: 1320px) {
+    .firstAlgContent1 {
+        grid-template-rows: 0px auto 300px;
         grid-template-areas: 'instruction instruction'
             'alg alg'
             'interaction interaction';
@@ -638,6 +670,11 @@ h1 {
     align-items: center;
     padding-bottom: 40px;
     grid-area: slider;
+}
+@media only screen and (max-width: 1320px) {
+    .sliderArea {
+        padding-bottom: 0px;
+    }
 }
 
 .interaction {
