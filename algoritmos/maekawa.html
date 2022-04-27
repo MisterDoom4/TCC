@@ -48,11 +48,11 @@
                     <p>
                         Para Maekawa, assim como para <a href="../algoritmos/ricart_agrawala.html">Ricart &
                             Agrawala</a>, um processo que deseja entrar na seção crítica deve obter
-                        permissão dos outros processos, não todos, através da troca de mensagem. Maekawa propõe
+                        permissão dos outros processos, mas não todos, através da troca de mensagem. Maekawa propõe
                         que é necessário uma
-                        quantidade k de permisões, onde <b> k < N</b> e <b>N</b> é o numero total de processos, de um
-                        dos
-                        subconjuntos dos processos para ingressar na seção crítica. Esse subconjunto dos
+                        quantidade k de permisões, onde <b> k < N</b> e <b>N</b> é o número total de processos, de um
+
+                        subconjunto dos processos para ingressar na seção crítica. Esse subconjunto dos
                         processos deve conter o processos requisitante, ou seja, nas k permisões necessárias,
                         uma é a resposta dele mesmo. Neste algoritmo o processo que deseja acesso á seção
                         crítica é chamado de "candidato" e precisa de k "votos" para acessá-la. </p>
@@ -60,44 +60,63 @@
                         Dado um conjunto com N processos, é construído N subconjuntos com &radic;N processos em cada. O
                         ideal é que cada subconjunto tenha o máximo de diversificade posível e que um processo esteja em
                         pelo menos 2, ou idealmente em &radic;N, subconjuntos. A interseção entre 2 subconjutos de
-                        processos não pode ser vazia. Cada processo só pode votar uma vez para um canditato
-                        acessar a seção crítica, o voto é reiniciado segundo uma lógica descrita mais a baixo, e seu
-                        voto é vísivel a todos os processos de seus subconjutos. Deste modo todas as propriedades de
+                        processos não pode ser vazia. Cada processo tem um voto e só pode votar uma vez para um processo
+                        candidato acessar a seção crítica.
+                        O estado do voto
+                        é vísivel a todos os processos de seus subconjutos, o voto é reiniciado segundo uma lógica
+                        descrita mais a baixo. Deste modo todas as propriedades de
                         exclusão
                         mútua são atendida.
                     </p>
                     <p>
-                        Cada processo deve possuir
+                        Na imagem abaixo é ilustrado um cenário para exemplificar como funciona a construção dos grupos.
+                        Existem 6 processos que participam da computação
+                        distribuída e são possíveis candidatos a acessar a seção crítica.
+                        O número de subgrupos N vai ser igual ao total de processos existentes, ou seja, serão 6 grupos.
+                        Para a quantidade de processo em cada grupo é utilizado o teto de &radic;N, que vai ser 3.
+                        Com intuito de manter os grupos o mais diversificado possível, de forma que sempre a interseção
+                        entre quaisquer 2 grupos seja 1 processo, foi contruídos os grupos que aparecem na tabela da
+                        imagem.
+                    </p>
+                    <p>Na imagem, o processo 4 quer acessar a sesão crítica, então ele vai selecionar um dos 6 subgrupos
+                        que tenha ele como participante. O grupo selecionado para exemplo foi o G4(0, 2, 4). Logo, o
+                        Processo 4 deve mandar mensagem para os processos 0 e 2 para ganhar permisão de acesso a seção
+                        crítica.
+                        A lógica de resposta e manutenção do voto, é explicada numa seção mais abaixo.
+                    </p>
+                    <p>
+                        Cada processo possui
                         a seguinte estrutura:
                     </p>
                     <div>
                         <ul>
                             <li>
                                 Um <button onmouseover="showId()" onmouseout="unshowId()" type="button"
-                                    class="btn btn-light btn-xs">relógio lógico</button> de lamport, que vai fixado
+                                    class="btn btn-light btn-xs">relógio lógico</button> de lamport que vai fixado
                                 ao
                                 identificador de processo no envio de
-                                mensagem, na forma < Pi, T>
+                                mensagem, na forma < Pi, T>;
                             </li>
                             <li>
                                 Uma <button onmouseover="showState()" onmouseout="unshowState()" type="button" class="btn btn-light
                                     btn-xs">variável de estado</button>, que diz a ação do processo com relação
-                                a seção crítica.
+                                a seção crítica;
                             </li>
                             <li>
                                 Um <button onmouseover="showQueue()" onmouseout="unshowQueue()" type="button"
                                     class="btn btn-light btn-xs">fila local
                                 </button> para guardar mensagens de acesso, que segue a lógica FIFO (First-in
-                                First-out)
+                                First-out);
                             </li>
                             <li>
-                                Uma variável de voto, booleana: True(já votou) e False(n votou)
+                                Uma variável de voto, que pode ser: <b>TRUE</b>(já votou) ou <b>FALSE</b>(não votou);
                             </li>
                             <p><b>Passe o indicador do mouse sobre cada botão acima para verificar na imagem seu
                                     respectivo
-                                    componente</b>
+                                    componente;</b>
                             </p>
                         </ul>
+
                     </div>
                     <div>
                         <div class="firstAlgSection">
@@ -152,7 +171,7 @@
                             para os processos
                             de um dos subconjuntos que ele pertença, para isso presume-se que cada processo tenha um
                             canal de comunicação com os outros processos. Tendo todas as k respostas do multicast,
-                            todos os votos dos processos pertencentes aquele subconjunto, ele poderá
+                            todos os votos dos processos pertencentes àquele subconjunto, ele poderá
                             acessar a seção crítica.
                     </p>
                     <p>
@@ -201,8 +220,19 @@
                     </ul>
 
                     <p>
-                        Teste o algoritmo abaixo, para iniciar a simulação aperte <b>PLAY</b>, para executar
-                        iterativamente aperte <b>AVANÇAR</b> e para reiniciar aperte <b>RESET</b>.
+                        No algoritmo abaixo os processos PO, P1, P2 e P3 possuem os seguintes subgrupos: <b> G1[P0, P1],
+                            G2[P1, P2] e G3[P1, P3]</b>. Para testar escolha um dos dois cenários iniciais para
+                        executar o algoritmo e depois aperte <b>PLAY</b>, para executar
+                        iterativamente, para avançar no algoritmo aperte <b>AVANÇAR</b> e para reiniciar aperte
+                        <b>RESET</b>.
+
+
+                        <ul>
+                            <li><b>Cenário 1:</b> Pelo menos 1 processo com estado WANTED e o restante com RELEASED;
+                            </li>
+                            <li><b>Cenário 2:</b> Pelo menos 1 processo com estado HELD e o restante, ou com WANTED, ou
+                                com RELEASED; </li>
+                        </ul>
                     </p>
                 </div>
             </div>
@@ -219,13 +249,17 @@
                                 No modelo seguinte, experimente modificar o algoritmo:
                                 <ul>
                                     <li>
-                                        Edite as informações de cada processo antes de executar
+                                        Edite as informações de cada processo antes de executar;
                                     </li>
                                     <li>
-                                        Gere composições randomicas para observar o funcionamento.
+                                        Gere composições randômicas, clicando nos botões de cenários, para observar o
+                                        funcionamento;
                                     </li>
                                     <li>
-                                        Altere os relógios lógicos.
+                                        Altere os relógios lógicos;
+                                    </li>
+                                    <li>
+                                        <b>Não esqueça, os grupos são G1[P0, P1], G2[P1, P2] e G3[P1, P3];</b>
                                     </li>
                                 </ul>
 
