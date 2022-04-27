@@ -311,7 +311,7 @@ function playAlg() {
         alert("Precisa escolher um cenario antes de avançar");
     }
     else {
-                if (ini == 0) unShowLastProcess(3);
+        if (ini == 0) unShowLastProcess(3);
         unShowLastProcess(ini - 1)
         showCurrentProcess(ini);
         if (arrayNodes[ini].group == -1) {
@@ -1158,6 +1158,7 @@ function drawExample() {
             else {
                 x0 = x0 + 250;
             }
+
             example.append("rect")
                 .attr("class", "legenda" + idProcess)
                 .attr("style", "fill:#fff")
@@ -1166,7 +1167,7 @@ function drawExample() {
                 .attr("y", y0)
                 .attr("width", tx + 24)
                 .attr("height", ty + ty + 0.2);
-          
+
             example.append("rect")
                 .attr("style", "fill:pink")
                 .attr("class", "blocoNome")
@@ -1189,7 +1190,7 @@ function drawExample() {
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "17px")
                 .attr("fill", "#000");
-        
+
             example.append("rect")
                 .attr("style", "fill:#2892D7")
                 .attr("class", "blocoMensagem")
@@ -1198,14 +1199,25 @@ function drawExample() {
                 .attr("width", tx)
                 .attr("height", ty)
                 .attr("stroke", "#000");
-            example.append("text")
-                .attr("x", x0 + 2)
-                .attr("y", y0 + 52)
-                .text(messageData[0])
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "17px")
-                .attr("fill", "#000000");
-           
+            if (idProcess == 4) {
+                example.append("text")
+                    .attr("x", x0 + 2)
+                    .attr("y", y0 + 52)
+                    .text(messageData[1])
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "17px")
+                    .attr("fill", "#000000");
+            }
+            else {
+                example.append("text")
+                    .attr("x", x0 + 2)
+                    .attr("y", y0 + 52)
+                    .text(messageData[0])
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "17px")
+                    .attr("fill", "#000000");
+            }
+
             example.append("rect")
                 .attr("style", "fill:#7B7B7B")
                 .attr("class", "filaMensagem")
@@ -1232,7 +1244,7 @@ function drawExample() {
         .attr("stroke-width", 1)
         .attr("fill", "#6EB960");
     example.append("text")
-        .attr("x",  520 - 72)
+        .attr("x", 520 - 72)
         .attr("y", y0 - 24)
         .text("P4" + "   -7")
         .attr("font-family", "sans-serif")
@@ -1250,15 +1262,15 @@ function drawExample() {
         .attr("d", "M0,-5L10,0L0,5");
     example.append("line")
         .attr("x1", 520)
-        .attr("y1", 10 + 2*ty)
-        .attr("x2", x0 + tx +25)
+        .attr("y1", 10 + 2 * ty)
+        .attr("x2", x0 + tx + 25)
         .attr("y2", y0)
         .attr("stroke", "#000")
         .attr("stroke-width", 3)
         .attr("marker-start", "url(#arrow)");
 
-        example.append("rect")
-        .attr("x", 20+tx + 25)
+    example.append("rect")
+        .attr("x", 20 + tx + 25)
         .attr("y", y0 - 50)
         .attr("class", "teste")
         .attr("rx", 10)
@@ -1269,7 +1281,7 @@ function drawExample() {
         .attr("stroke-width", 1)
         .attr("fill", "#6EB960");
     example.append("text")
-        .attr("x",  20 +tx + 28)
+        .attr("x", 20 + tx + 28)
         .attr("y", y0 - 34)
         .text("P4" + "   -7")
         .attr("font-family", "sans-serif")
@@ -1286,8 +1298,8 @@ function drawExample() {
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
     example.append("line")
-        .attr("x1", 20+tx + 25)
-        .attr("y1", 10 + 2*ty)
+        .attr("x1", 20 + tx + 25)
+        .attr("y1", 10 + 2 * ty)
         .attr("x2", x0)
         .attr("y2", y0)
         .attr("stroke", "#000")
