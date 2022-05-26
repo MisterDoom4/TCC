@@ -228,12 +228,14 @@ function reset() {
         d3.select("#multicastsvg").selectAll(".P" + i).remove();
         d3.select("#multicastsvg").selectAll(".M" + i).remove();
         d3.select("#multicastsvg").selectAll(".filaprocesso" + i).remove();
+        unShowLastProcess(i);
     }
     for (let i = 0; i < arrayNodes.length; i++) {
         clockRandom();
         arrayNodes[i].clock = clock;
         arrayNodes[i].message = messageData[0];
         arrayNodes[i].processQueue.splice(0, 10);
+        document.getElementById("relogio" + i).value = arrayNodes[i].clock;
         multicast.append("text")
             .attr("x", arrayNodes[i].x + 50)
             .attr("y", arrayNodes[i].y + 22)
@@ -317,11 +319,6 @@ function analyzeAccess(requesterProcess) {
                         if (arrayNodes[i].clock > requesterProcess.clock) {
                             access++;
                             drawMessage(arrayNodes[i], requesterProcess);
-                            if (arrayNodes[i].processQueue.find(element => element == requesterProcess.id) == undefined) {
-                                requesterProcess.processQueue.push(arrayNodes[i].id);
-                                drawQueue(requesterProcess);
-                            }
-
                         }
                     }
                 }
@@ -1156,7 +1153,7 @@ function playCustom() {
         for (let i = 0; i < arrayNodes.length; i++) {
             arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
             updateStatus(i);
-            arrayNodes[i].clock = document.getElementById("relogio" + i).value;
+            arrayNodes[i].clock =  parseInt(document.getElementById("relogio" + i).value,10);
             updateClock(i);
         }
     }

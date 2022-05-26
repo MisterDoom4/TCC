@@ -280,6 +280,7 @@ function reset() {
         arrayNodes[i].vote = false;
         arrayNodes[i].group = -1;
         arrayNodes[i].processQueue.splice(0, 10);
+        document.getElementById("relogio" + i).value = arrayNodes[i].clock;
         maekawa.append("text")
             .attr("x", arrayNodes[i].x + 50)
             .attr("y", arrayNodes[i].y + 22)
@@ -317,7 +318,6 @@ function playAlg() {
         if (arrayNodes[ini].group == -1) {
             arrayNodes[ini].group = findGroup(arrayNodes[ini]);
         }
-        // TODO: mostrar(ini);
         if (operation == "RESP" && arrayNodes[ini].message == messageData[1]) {
             if (analyzeAccess(arrayNodes[ini]) == 1) {
                 arrayNodes[ini].message = messageData[2];
@@ -381,9 +381,12 @@ function analyzeAccess(requesterProcess) {
                             kVotes++;
                             arrayNodes[voterIDProcess].vote = true;
                             drawMessage(arrayNodes[voterIDProcess], requesterProcess);
-                            if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
-                                requesterProcess.processQueue.push(arrayNodes[voterIDProcess].id);
-                                drawQueue(requesterProcess);
+                           
+                        }
+                        else{
+                             if (arrayNodes[voterIDProcess].processQueue.find(element => element == requesterProcess.id) == undefined) {
+                                arrayNodes[voterIDProcess].processQueue.push(requesterProcess.id);
+                                drawQueue(arrayNodes[voterIDProcess]);
                             }
                         }
                     }
@@ -1046,6 +1049,7 @@ function isEqualClock(clock) {
 }
 // função para inserir valores que vieram da tabela //
 function playCustom() {
+    
     ini = 0;
     if (checkMessage()) {
         alert("Atenção! Só pode ter um processo com HELD!");
@@ -1055,7 +1059,7 @@ function playCustom() {
         for (let i = 0; i < arrayNodes.length; i++) {
             arrayNodes[i].message = d3.select("#table2").select(".linha" + i).selectAll(".combobox" + i).property("value");
             updateStatus(i);
-            arrayNodes[i].clock = document.getElementById("relogio" + i).value;
+            arrayNodes[i].clock =  parseInt(document.getElementById("relogio" + i).value,10);
             updateClock(i);
         }
     }
@@ -1084,7 +1088,7 @@ function checkMessage() {
 }
 // mudança do desenho do relogio //
 function updateClock(p) {
-    d3.select("#multicastsvg").selectAll(".P" + p)
+    d3.select("#maekawasvg").selectAll(".P" + p)
         .transition()
         .delay(1000)
         .text("[" + arrayNodes[p].clock + "]");
