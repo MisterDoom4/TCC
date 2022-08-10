@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" />
     <meta charset="utf-8" />
-    <title>Explorando Sistemas</title>
-    <meta name="author" content="Gabriele Paloma Vieira Rodrigues & Thays Resende Achucarro" />
+    <title>Pagina Inicial para o TCC</title>
+    <meta name="author" content="Vinícius Barbosa Mourão" />
     <meta name="description" content="Ensinando conceitos de Sistemas Distribuídos de forma simples" />
     <meta name="keywords" content="sistemas distribuídos, algoritmos, anel, bully" />
     <meta name="Resource-type" content="Document" />
@@ -31,173 +31,147 @@
             <div id="fullpage">
                 <div class="section" id="section0">
                     <div class="intro">
-                        <h1>Explorando Sistemas</h1>
-                        <p>Um guia prático para ensinar conceitos de computação distribuída.</p>
+                        <h1>Exclusão Mutua</h1>
+                        <p> Página Web para Ensino-Aprendizagem de Algoritmos de Exclusão Mútua Utilizando Explorable
+                            Explanations para Sistemas Distribuídos</p>
                     </div>
                 </div>
                 <div class="section " id="section1">
                     <div class="slide" id="slide1"><br><br>
                         <div class="myContent-nav">
-                            <h1>Eleição de Líder</h1>
-                            <div class="col_half">
-                                <p>Um líder é necessário em muitos sistemas distribuídos, porque os algoritmos
-                                    normalmente
-                                    não são completamente simétricos e algum processo precisa tomar a iniciativa
-                                    de iniciar o algoritmo ou é necessário eleger um único processo para desempenhar
-                                    uma função específica.
+                            <h1>Exclusão Mútua</h1>
+                            <div class="col_five_sixth">
+                                <p>
+                                    Em um sistema distríbuido é necessário a coordenação das atividades dos
+                                    processos, através da troca de mensagens, devido a existência de recursos
+                                    compartilhados. 
+                                    </p>
+                                    <p><b>A Exclusão Mútua</b> garante que os processos acessem
+                                    a Seção Crítica (recursos compartilhados), efetuem
+                                    suas operações e saiam da mesma de forma a não compremeter dados ou recursos
+                                    comuns ao sistema, liberando-a para acesso de outros
+                                    processos.
+                                    A Exclusão Mútua deve respeitar 3 propriedades fundamentais:
                                 </p>
-                                <p> Os algoritmos de eleição de líder são utilizados para auxiliar
-                                    na escolha desse processo que será considerado o novo líder.
-                                    É importante lembrar que todos os processos precisam estar em consenso
-                                    sobre a escolha do novo líder.
+                                <ul>
+                                    <li> <span style="font-size: 18px"><b>Segurança:</b> No máximo um processo
+                                            por vez
+                                            pode ser executado na
+                                            sessão crítica;</span>
+                                    </li>
+                                    <li><span style="font-size: 18px"><b>Subsistência:</b> As requisições para
+                                            entrar e sair da seção
+                                            crítica
+                                            devem ter sucesso;</span>
+                                    </li>
+                                    <li><span style="font-size: 18px"><b>Ordenação:</b> Se uma requisição para
+                                            entrar na seção aconteceu
+                                            antes
+                                            de outra, então a entrada na seção crítica é garantida nessa
+                                            ordem;</span>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <b>Algoritmos de Exclusão Mútua</b> usam técnicas de trocas de
+                                    mensagens
+                                    para
+                                    efetuar a coordenação desses acessos obedecendo as propriedades descritas.
                                 </p>
                             </div>
-                            <div class="col_half col_last">
-                                <a href="algoritmos/anel.html">
-                                    <div class="nav-unit sec1">
-                                        <div id="canvasR">
-                                            <span> Algoritmo em Anel </span>
-                                            <br>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="algoritmos/bully.html">
-                                    <div class="nav-unit sec2">
-                                        <div id="canvasB">
-                                            <span> Algoritmo Bully </span>
-                                            <br>
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide" id="slide2">
-                        <div class="myContent-nav">
-                            <div class="left">
-                                <h1>Tempos Lógicos</h1>
-                                <p>EM DESENVOLVIMENTO.</p>
-
-                            </div>
-                            <div class="right">
-                                <div>
-                                    <a href="algoritmos/relogio_logico.html">
-                                        <div class="nav-unit sec1">
-                                            <span class="nav-unit-sect"> Relógio Lógicos </span>
-                                        </div>
-                                    </a>
-                                    <a href="algoritmos/relogio_vetorial.html">
-                                        <div class="nav-unit sec2">
-                                            <span class="nav-unit-sect"> Relógios Vetoriais </span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="section " id="section1">
                         <div class="slide" id="slide1"><br><br>
                             <div class="myContent-nav">
-                                <h1>Algoritmos de Exclusão Mútua</h1>
-                                <div class="col_half">
-                                    <p>
-                                        Em um sistema distríbuido é necessário a coordenação das atividades dos
-                                        processos, através da troca de mensagens, devido a existência de recursos
-                                        compartilhados. <b>A Exclusão Mútua</b> garante que os processos acessem
-                                        a Seção Crítica (recursos compartilhados), efetuem
-                                        suas operações e saiam da mesma de forma a não compremeter dados ou recursos
-                                        comuns ao sistema, liberando-a para acesso de outros
-                                        processos.
-                                        A Exclusão Mútua deve respeitar 3 propriedades fundamentais:
+                                <h1>Servidor Central</h1>
+                                <div class="col_full">
+                                    <p>Todo processo P que quiser acessar a seção crítica deverá
+                                        solicitar um token ao servidor central. O gerenciamento desse token é feito
+                                        pelo servidor central através da troca de mensagens com os processos.
                                     </p>
-                                    <ul>
-                                        <li> <span style="font-size: 18px"><b>Segurança:</b> No máximo um processo
-                                                por vez
-                                                pode ser executado na
-                                                sessão crítica;</span>
-                                        </li>
-                                        <li><span style="font-size: 18px"><b>Subsistência:</b> As requisições para
-                                                entrar e sair da seção
-                                                crítica
-                                                devem ter sucesso;</span>
-                                        </li>
-                                        <li><span style="font-size: 18px"><b>Ordenação:</b> Se uma requisição para
-                                                entrar na seção aconteceu
-                                                antes
-                                                de outra, então a entrada na seção crítica é garantida nessa
-                                                ordem;</span>
-                                        </li>
-                                    </ul>
-                                    <p>
-                                        <b>Algoritmos de Exclusão Mútua</b> usam técnicas de trocas de
-                                        mensagens
-                                        para
-                                        efetuar a coordenação desses acessos obedecendo as propriedades descritas.
-                                    </p>
-
-                                </div>
-                                <div class="col_half col_last">
                                     <a href="algoritmos/servidor_central.html">
                                         <div class="nav-unit sec1">
-                                            <div id="canvas1">
+                                            <div id="canvasSC">
                                                 <span style="font-size: 18px"> Servidor Central </span>
                                                 <br>
                                             </div>
-                                        </div>
-                                    </a>
-                                    <a href="algoritmos/exclusao_anel.html">
-                                        <div class="nav-unit sec2">
-                                            <div id="canvas2">
-                                                <span style="font-size: 18px"> Anel </span>
-                                                <br>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="algoritmos/ricart_agrawala.html">
-                                        <div class="nav-unit sec4">
-                                            <div id="canvas4">
-                                                <span style="font-size: 18px"> Ricart & Agrawala </span>
-                                                <br>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="algoritmos/maekawa.html">
-                                        <div class="nav-unit sec3">
-                                            <div id="canvas3">
-                                                <span style="font-size: 18px"> Maekawa </span>
-                                                <br>
-                                            </div>
+
                                         </div>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="slide" id="slide3">
-                        <div class="myContent-nav">
-                            <div class="left">
-                                <h1>Protocolos de Checkpointing</h1>
-                                <p>
-                                    Uma técnica amplamente utilizada na computação distribuída para fornecer tolerância
-                                    a falhas é o uso de <i>Checkpointing</i>.
-                                    Esta técnica consiste em agrupar estados locais dos processos para formar uma linha
-                                    de recuperação consistente,
-                                    a qual pode ser utilizada para recuperar a computação após uma falha.
-                                </p>
-
-                            </div>
-                            <div class="right">
-                                <div>
-                                    <a href="algoritmos/chkptalgs.html">
+                    <div class="section " id="section1">
+                        <div class="slide" id="slide1"><br><br>
+                            <div class="myContent-nav">
+                                <h1>Anel</h1>
+                                <div class="col_full">
+                                    <p>Este algoritmo é o mais simples para garantir a exclusão mútua em um sistema distríbuido. 
+                                        Ele utiliza a topologia em Anel, onde cada processo P participante da computação precisa 
+                                        somente de um canal de <br>comunicação com o processo seguinte.
+                                        <br>Deste modo, os processos formam 
+                                        um "laço" circular de comunicação, onde as mensagens são transmitidas de maneira unidirecional.
+                                    </p>
+                                    <a href="algoritmos/exclusao_anel.html">
                                         <div class="nav-unit sec1">
-                                            <span class="nav-unit-sect"> Algoritmos</span>
+                                            <div id="canvasA">
+                                                <span style="font-size: 18px"> Anel </span>
+                                                <br>
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
+                                </div>
                             </div>
-
+                        </div>
+                        <div class="section " id="section1">
+                            <div class="slide" id="slide1"><br><br>
+                                <div class="myContent-nav">
+                                    <h1>Ricart e Agrawala</h1>
+                                    <div class="col_full">
+                                        <p>Este algoritmo é usado para garantir exclusão mútua entre N processos pares em um sistema distríbuido. 
+                                            Muito similar aos algoritmos de eleição de líder, um vez que um processo P que deseje entrar na 
+                                            seção crítica <br>deve enviar uma mensagem para todos os processos, um Multicast. <br>Para isso presume-se 
+                                            que cada processo tenha um canal de comunicação com os outros processos. Tendo todas as respostas do 
+                                            multicast ele poderá acessar a seção crítica. Ou seja, um processo só acessa a <br>seção crítica quando 
+                                            todos "permitirem", respondendo a mensagem do requisitante.
+                                        </p>
+                                        <a href="algoritmos/ricart_agrawala.html">
+                                            <div class="nav-unit sec1">
+                                                <div id="canvasRA">
+                                                    <span style="font-size: 18px"> Ricart e Agrawala </span>
+                                                    <br>
+                                                </div>
+    
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section " id="section1">
+                            <div class="slide" id="slide1"><br><br>
+                                <div class="myContent-nav">
+                                    <h1>Maekawa</h1>
+                                    <div class="col_full">
+                                        <p>Maekawa propõe que é necessário uma quantidade k de permisões, onde k < N e N é o número total de processos, 
+                                            de um subconjunto dos processos para ingressar na seção crítica. Esse subconjunto dos processos <br>deve conter o 
+                                            processos requisitante, ou seja, nas k permisões necessárias, uma é a resposta dele mesmo. Neste algoritmo o 
+                                            processo que deseja acesso á seção crítica é chamado de "candidato" e precisa de k <br>"votos" para acessá-la.
+                                        </p>
+                                        <a href="algoritmos/maekawa.html">
+                                            <div class="nav-unit sec1">
+                                                <div id="canvasMA">
+                                                    <span style="font-size: 18px"> Maekawa</span>
+                                                    <br>
+                                                </div>
+    
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,19 +184,11 @@
                             imagens, simulações, animações, etc., de forma que um aprendiz possa ler um texto e
                             interagir ao mesmo tempo.
                             Nosso projeto contém um conjunto de EEs abordando conceitos/algoritmos relacionados à
-                            disciplinas de Sistemas Distribuídos.
-                            O projeto ainda está em desenvolvimento mas, atualmente, já conta com a descrição de dois
-                            algoritmos distribuídos de "eleição" de líder.
+                            disciplinas de Sistemas Distribuídos, nessa pagina só está os algoritmos de exclusão mútua.
                         </p>
                     </div>
                     <!-- Footer -->
                     <footer id="footer" class="footer-light">
-                        <div class="copyright-content">
-                            <div class="container">
-                                <div class="copyright-text text-center">&copy; 2018 - Explorando Sistemas. Todos os
-                                    direitos reservados. </div>
-                            </div>
-                        </div>
                     </footer>
                     <!-- end: Footer -->
                 </div>
@@ -239,7 +205,6 @@
             verticalCentered: true,
             anchors: ['home', 'sections', 'about'],
             menu: '#menu',
-            //sectionsColor: ['#40B7E3', '#0798ec', '#0487B6', '#0DAFEA']
             sectionsColor: ['#1c1f33', , '#1c1f33']
         });
     </script>
